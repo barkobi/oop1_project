@@ -1,4 +1,9 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
+#include "ResourcesManager.h"
+#include "SettingsScreen.h"
+
 #include "../include/ResourcesManager.h"
 #include "signal.h"
 
