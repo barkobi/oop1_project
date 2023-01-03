@@ -20,6 +20,6 @@ sf::Texture *ResourcesManager::getTexture(const int loc) {
     return &m_textures[loc];
 }
 
-sf::SoundBuffer ResourcesManager::getSound(const int index) {
-    return m_sounds[index];
+sf::SoundBuffer* ResourcesManager::getSound(const int index) {
+    return &m_sounds[index];
 }

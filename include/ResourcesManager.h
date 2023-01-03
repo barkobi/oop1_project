@@ -7,12 +7,11 @@ public:
     static ResourcesManager& instance();
     sf::Font getFont();
     sf::Texture* getTexture(const int loc);
-    sf::SoundBuffer getSound(const int index);
+    sf::SoundBuffer* getSound(const int index);
 
 private:
     ResourcesManager();
     sf::Font m_font;
-    sf::Sound m_sound;
     sf::SoundBuffer m_sounds[NUMBER_OF_SOUNDS];
     sf::Texture m_textures[NUMBER_OF_TEXTURES];
     std::string m_buttonString[NUMBER_OF_TEXTURES] = {"PlayButton","LeaderBoardButton","AddStageButton",

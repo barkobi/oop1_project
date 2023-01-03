@@ -12,6 +12,7 @@ const int MENU_BUTTONS = 6;
 const int NUMBER_OF_SOUNDS = 1;
 const int NUMBER_OF_TEXTURES = 6;
 
+
 enum Characters {
     PACMAN,
     GHOST,

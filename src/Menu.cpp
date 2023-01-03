@@ -1,8 +1,14 @@
 #include <../include/Menu.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "../include/GameController.h"
+
+int Menu::m_lastClick = -1;
 
 Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT),
                             "Pacman",sf::Style::Close | sf::Style::Titlebar){
-
+    setSignal();
     float menu_h = WINDOW_HEIGHT*0.7;
     float btn_h = (menu_h/MENU_BUTTONS) * 0.75;
     btn_h += (btn_h*0.25)/(MENU_BUTTONS-1);
@@ -61,27 +67,42 @@ void Menu::eventGetter() {
 }
 
 void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
-    static sf::Sound sound;
-    sound.setLoop(false);
-    sound.setBuffer(ResourcesManager::instance().getSound(0));
-    sound.setVolume(100);
-    sound.stop();
-    sound.play();
 
     for(int i = 0;i < MENU_BUTTONS;i++)
     {
         if(m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({clickevent.x,clickevent.y})))
         {
+            if(m_lastClick == i)
+                break;
             switch (i) {
-                case PLAY:
+                case PLAY:{
+                    m_menuWindow.clear(sf::Color(10,0,12,200));
+                    m_menuWindow.display();
+                    auto controller = GameController(m_menuWindow);
+                    controller.run();
+                    }
                     break;
                 case LEADERBOARD:
                     break;
-                case ADDSTAGE:
-                    break;
+                case ADDSTAGE:{
+                    m_lastClick = i;
+                    pid_t status;
+                    status = fork();
+                    if(status == 0)
+                    {
+                        if (execvp("./oop1_ex04",0) != 0)
+                        {
+                            perror("execvp() failed");
+                            exit(EXIT_FAILURE);
+                        }
+
+                        exit(EXIT_SUCCESS);
+                    }
+                    break;}
                 case HELP:
                     break;
                 case SETTINGS:
+                    m_sound.play();
                     break;
                 case QUIT:
                     m_menuWindow.close();
@@ -92,11 +113,6 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
 }
 
 void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent){
-    static sf::Sound sound;
-    sound.setLoop(false);
-    sound.setBuffer(ResourcesManager::instance().getSound(0));
-    sound.setVolume(100);
-
     static int lastHovered = 0;
     m_buttons[lastHovered].setScale(m_scaleWidth,m_scaleHeight);
 
@@ -105,13 +121,16 @@ void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent){
         if(m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({moveevent.x,moveevent.y}))){
             lastHovered = i;
             m_buttons[i].setScale(m_scaleWidth*1.1,m_scaleHeight*1.1);
-            if(sound.getStatus() != sf::SoundSource::Playing){
-                sound.setPlayingOffset(sf::microseconds(0.f));
-                sound.play();
             }
         }
     }
+
+void Menu::setSignal() {
+    signal(SIGUSR1, Menu::myHandler);
 }
 
-
+void Menu::myHandler(int signum) {
+    signal(SIGUSR1, Menu::myHandler);
+    m_lastClick = -1;
+}
 
