@@ -61,19 +61,13 @@ void Menu::eventGetter() {
 }
 
 void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
-    static sf::Sound sound;
-    sound.setLoop(false);
-    sound.setBuffer(ResourcesManager::instance().getSound(0));
-    sound.setVolume(100);
-    sound.stop();
-    sound.play();
-
     for(int i = 0;i < MENU_BUTTONS;i++)
     {
         if(m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({clickevent.x,clickevent.y})))
         {
             switch (i) {
                 case PLAY:
+                    ResourcesManager::instance().playSound(START_GAME);
                     break;
                 case LEADERBOARD:
                     break;
@@ -81,8 +75,10 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                     break;
                 case HELP:
                     break;
-                case SETTINGS:
+                case SETTINGS:{
+                    SettingsScreen settingsScreen = SettingsScreen(m_menuWindow);
                     break;
+                }
                 case QUIT:
                     m_menuWindow.close();
                     break;
@@ -92,25 +88,25 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
 }
 
 void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent){
-    static sf::Sound sound;
-    sound.setLoop(false);
-    sound.setBuffer(ResourcesManager::instance().getSound(0));
-    sound.setVolume(100);
-
+    static int btn_sound = -1;
     static int lastHovered = 0;
     m_buttons[lastHovered].setScale(m_scaleWidth,m_scaleHeight);
 
-    for(int i = 0;i < MENU_BUTTONS;i++)
-    {
+    bool onBtn = false;
+    for(int i = 0;i < MENU_BUTTONS;i++){
         if(m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({moveevent.x,moveevent.y}))){
+            onBtn = true;
+            if(btn_sound != i){
+                ResourcesManager::instance().playSound(MENU_HOVER);
+                btn_sound = i;
+            }
             lastHovered = i;
             m_buttons[i].setScale(m_scaleWidth*1.1,m_scaleHeight*1.1);
-            if(sound.getStatus() != sf::SoundSource::Playing){
-                sound.setPlayingOffset(sf::microseconds(0.f));
-                sound.play();
-            }
+            break;
         }
     }
+    if(!onBtn)
+        btn_sound = -1;
 }
 
 

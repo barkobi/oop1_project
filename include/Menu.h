@@ -1,5 +1,8 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
-#include "../include/ResourcesManager.h"
+#include "ResourcesManager.h"
+#include "SettingsScreen.h"
 
 
 const int MENU_BUTTON_WIDTH_ORIGINAL = 500;
