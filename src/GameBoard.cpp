@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "string.h"
 #include "../resources/Consts.h"
+
 /**
  * create a board, open the board file and load the first level.
  */
@@ -13,9 +14,8 @@ GameBoard::GameBoard() {
     auto str = exec("find . -name \"*.txt\"");
     char *cstr = new char[str.length() + 1];
     strcpy(cstr, str.c_str());
-    auto cutStr = strtok(cstr,"\n");
-    while(cutStr != NULL)
-    {
+    auto cutStr = strtok(cstr, "\n");
+    while (cutStr != NULL) {
         m_fileNames.push_back(cutStr);
         cutStr = strtok(NULL, " \n\0");
     }
@@ -26,7 +26,8 @@ GameBoard::GameBoard() {
 //    m_board_file.push_back(file);
     if (!m_level.load_level(file)) {
         std::cerr << "Cannot read Board file\n";
-        exit(EXIT_FAILURE);}
+        exit(EXIT_FAILURE);
+    }
     m_rows = m_level.getRows();
     m_cols = m_level.getCols();
     createBoard();
@@ -37,7 +38,7 @@ std::string GameBoard::exec(std::string command) {
     std::string result = "";
 
     // Open pipe to file
-    FILE* pipe = popen(command.c_str(), "r");
+    FILE *pipe = popen(command.c_str(), "r");
     if (!pipe) {
         return "popen failed!";
     }
@@ -53,6 +54,7 @@ std::string GameBoard::exec(std::string command) {
     pclose(pipe);
     return result;
 }
+
 /**
  * close the board file
  */
@@ -72,21 +74,19 @@ void GameBoard::createBoard() {
     m_board.clear();
     // calculate tile size with window vars.
     float tileSize = ((WINDOW_WIDTH - MENU_WIDTH) / (std::max(m_cols, m_rows)) / 1.8);
-    float startPoint = ((WINDOW_WIDTH - MENU_WIDTH) / 2) - ((tileSize * m_cols)/ 2);
+    float startPoint = ((WINDOW_WIDTH - MENU_WIDTH) / 2) - ((tileSize * m_cols) / 2);
     m_matrixStart = (WINDOW_HEIGHT / 2) - (tileSize * m_rows) / 1.85;
 
     // create the rectangle matrix.
-    for(int row = 0;row < m_rows;row++)
-    {
+    for (int row = 0; row < m_rows; row++) {
         auto spec_line = std::vector<sf::RectangleShape>();
-        for(int col = 0;col < m_cols;col++)
-        {
+        for (int col = 0; col < m_cols; col++) {
             auto r = sf::RectangleShape();
             r.setOutlineThickness(1);
             r.setSize(sf::Vector2f(tileSize - 1, tileSize - 1));
             r.setPosition(float(col * (tileSize + 1) + startPoint), float(row * (tileSize + 1) + m_matrixStart));
-            r.setFillColor(sf::Color(100,190,190));
-            r.setOutlineColor(sf::Color(100,190,190));
+            r.setFillColor(sf::Color(100, 190, 190));
+            r.setOutlineColor(sf::Color(100, 190, 190));
             spec_line.push_back(r);
         }
         m_board.push_back(spec_line);

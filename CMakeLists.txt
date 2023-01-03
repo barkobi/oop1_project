@@ -18,7 +18,7 @@ endif ()
 
 if(APPLE)
 
-    add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/Settings.cpp include/Settings.h src/GameLevel.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h)
+    add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/GameLevel.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h)
 
     add_subdirectory (include)
     add_subdirectory (src)

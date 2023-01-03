@@ -3,14 +3,21 @@
 #include "fstream"
 #include <vector>
 #include "filesystem"
-class GameBoard{
+
+class GameBoard {
 public:
     GameBoard();
+
     ~GameBoard();
+
     std::string exec(std::string command);
+
     void createBoard();
+
     sf::RectangleShape getTile(int row, int col) const;
+
     int getRows();
+
     int getCols();
 /*
     // getters / setters:
@@ -28,7 +35,7 @@ private:
     std::vector<std::ifstream> m_board_file;
     std::vector<std::vector<sf::RectangleShape>> m_board;
     std::vector<std::string> m_fileNames;
-    int m_rows,m_cols;
+    int m_rows, m_cols;
     float m_matrixStart;
 
 };
