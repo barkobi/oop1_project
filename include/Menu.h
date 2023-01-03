@@ -2,11 +2,8 @@
 #include "../include/ResourcesManager.h"
 
 
-const int MENU_BUTTON_WIDTH = 500;
-const int MENU_BUTTON_HEIGHT = 130;
-const int MENU_BUTTON_W_INC = 550;
-const int MENU_BUTTON_H_INC = 170;
-
+const int MENU_BUTTON_WIDTH_ORIGINAL = 500;
+const int MENU_BUTTON_HEIGHT_ORIGINAL = 130;
 
 enum Menu_buttons_t{
     PLAY,
@@ -19,14 +16,13 @@ enum Menu_buttons_t{
 class Menu {
 public:
     Menu();
-    void EventGetter();
+    void eventGetter();
     void printWindow();
-    void HandleClick(const sf::Event::MouseButtonEvent &clickevent);
-    void HandleMove(const sf::Event::MouseMoveEvent &moveevent);
-    void ButtonAnimation(sf::RectangleShape &rect);
+    void handleClick(const sf::Event::MouseButtonEvent &clickevent);
+    void handleMove(const sf::Event::MouseMoveEvent &moveevent);
 private:
     sf::RenderWindow m_menuWindow;
     sf::Sprite m_buttons[MENU_BUTTONS];
 
-    int m_lastMove;
+    float m_scaleHeight, m_scaleWidth;
 };

@@ -1,15 +1,32 @@
 #include <../include/Menu.h>
-#include <iostream>
-Menu::Menu() : m_menuWindow(sf::VideoMode(sf::VideoMode::getDesktopMode().width / 1.3,sf::VideoMode::getDesktopMode().height / 1.3),
-                            "Pacman",sf::Style::Close | sf::Style::Titlebar),m_lastMove(0){
-    for(int i = 0;i < MENU_BUTTONS;i++)
-    {
-        m_buttons[i].setPosition(float(WINDOW_WIDTH / 2),float(i * (MENU_BUTTON_HEIGHT + MENU_BUTTON_HEIGHT / 2) + MENU_START + 90));
-        m_buttons[i].setTexture(*ResourcesManager::instance().getTexture(i));
-        m_buttons[i].setOrigin(sf::Vector2f(MENU_BUTTON_WIDTH / 2,
-                                            MENU_BUTTON_HEIGHT / 2));
 
+Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT),
+                            "Pacman",sf::Style::Close | sf::Style::Titlebar){
+
+    float menu_h = WINDOW_HEIGHT*0.7;
+    float btn_h = (menu_h/MENU_BUTTONS) * 0.75;
+    btn_h += (btn_h*0.25)/(MENU_BUTTONS-1);
+
+    float proportion = MENU_BUTTON_WIDTH_ORIGINAL/MENU_BUTTON_HEIGHT_ORIGINAL;
+    float btn_w = btn_h * proportion;
+
+    m_scaleHeight = btn_h/MENU_BUTTON_HEIGHT_ORIGINAL;
+    m_scaleWidth = btn_w/MENU_BUTTON_WIDTH_ORIGINAL;
+
+    float menu_top_y = (WINDOW_HEIGHT*0.15) + btn_h/2;
+    float menu_x = (float)WINDOW_WIDTH/2;
+
+    for(int i = 0;i < MENU_BUTTONS;i++){
+        m_buttons[i].setPosition(menu_x,menu_top_y);
+        m_buttons[i].setTexture(*ResourcesManager::instance().getTexture(i));
+        m_buttons[i].setOrigin(sf::Vector2f(MENU_BUTTON_WIDTH_ORIGINAL/2,
+                                            MENU_BUTTON_HEIGHT_ORIGINAL/2));
+        m_buttons[i].setScale(m_scaleWidth,m_scaleHeight);
+
+        menu_top_y+=btn_h + btn_h*0.25;
     }
+
+    eventGetter();
 }
 
 void Menu::printWindow() {
@@ -20,12 +37,9 @@ void Menu::printWindow() {
     }
 
     m_menuWindow.display();
-
-
 }
 
-void Menu::EventGetter() {
-
+void Menu::eventGetter() {
     printWindow();
     while(m_menuWindow.isOpen())
     {
@@ -35,10 +49,10 @@ void Menu::EventGetter() {
                     m_menuWindow.close();
                     break;
                 case sf::Event::MouseMoved:
-                    HandleMove(event.mouseMove);
+                    handleMove(event.mouseMove);
                     break;
                 case sf::Event::MouseButtonReleased:
-                    HandleClick(event.mouseButton);
+                    handleClick(event.mouseButton);
             }
         }
         printWindow();
@@ -46,7 +60,13 @@ void Menu::EventGetter() {
 
 }
 
-void Menu::HandleClick(const sf::Event::MouseButtonEvent &clickevent) {
+void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
+    static sf::Sound sound;
+    sound.setLoop(false);
+    sound.setBuffer(ResourcesManager::instance().getSound(0));
+    sound.setVolume(100);
+    sound.stop();
+    sound.play();
 
     for(int i = 0;i < MENU_BUTTONS;i++)
     {
@@ -54,15 +74,15 @@ void Menu::HandleClick(const sf::Event::MouseButtonEvent &clickevent) {
         {
             switch (i) {
                 case PLAY:
-                    ;
+                    break;
                 case LEADERBOARD:
-                    ;
+                    break;
                 case ADDSTAGE:
-                    ;
+                    break;
                 case HELP:
-                    ;
+                    break;
                 case SETTINGS:
-                    ;
+                    break;
                 case QUIT:
                     m_menuWindow.close();
                     break;
@@ -71,15 +91,24 @@ void Menu::HandleClick(const sf::Event::MouseButtonEvent &clickevent) {
     }
 }
 
-void Menu::HandleMove(const sf::Event::MouseMoveEvent &moveevent) {
-    m_buttons[m_lastMove].setScale(1,1);
+void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent){
+    static sf::Sound sound;
+    sound.setLoop(false);
+    sound.setBuffer(ResourcesManager::instance().getSound(0));
+    sound.setVolume(100);
+
+    static int lastHovered = 0;
+    m_buttons[lastHovered].setScale(m_scaleWidth,m_scaleHeight);
 
     for(int i = 0;i < MENU_BUTTONS;i++)
     {
         if(m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({moveevent.x,moveevent.y}))){
-            m_lastMove = i;
-            m_buttons[i].setScale(1.1f,1.1f);
-            sf::sleep(sf::microseconds(80));
+            lastHovered = i;
+            m_buttons[i].setScale(m_scaleWidth*1.1,m_scaleHeight*1.1);
+            if(sound.getStatus() != sf::SoundSource::Playing){
+                sound.setPlayingOffset(sf::microseconds(0.f));
+                sound.play();
+            }
         }
     }
 }
