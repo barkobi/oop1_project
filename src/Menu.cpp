@@ -114,12 +114,13 @@ void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent) {
     m_buttons[lastHovered].setScale(m_scaleWidth, m_scaleHeight);
     bool onBtn = false;
     for (int i = 0; i < MENU_BUTTONS; i++) {
-        onBtn = true;
-        if (btn_sound != i) {
-            ResourcesManager::instance().playSound(MENU_HOVER);
-            btn_sound = i;
-        }
+
         if (m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({moveevent.x, moveevent.y}))) {
+            if (btn_sound != i) {
+                ResourcesManager::instance().playSound(MENU_HOVER);
+                btn_sound = i;
+            }
+            onBtn = true;
             lastHovered = i;
             m_buttons[i].setScale(m_scaleWidth * 1.1, m_scaleHeight * 1.1);
             break;

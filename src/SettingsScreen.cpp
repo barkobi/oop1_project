@@ -5,15 +5,15 @@ SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
 }
 
 void SettingsScreen::display() {
-
-    while (m_window.isOpen()){
+    bool exit = false;
+    while (m_window.isOpen() && !exit){
         if (auto event = sf::Event{}; m_window.pollEvent(event)) {
             switch (event.type) {
                 case sf::Event::MouseButtonReleased:
                     if(m_checkBox.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y))
                         SettingsManager::instance().flipSoundSwitch();
                     else
-                        return;
+                        exit = true;
                     break;
             }
         }
@@ -45,5 +45,5 @@ void SettingsScreen::display() {
         m_window.draw(m_sound_text);
         m_window.display();
     }
-
+    SettingsManager::instance().save_settings();
 }

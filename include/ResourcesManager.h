@@ -4,6 +4,8 @@
 #include <SFML/Audio.hpp>
 #include "../resources/Consts.h"
 #include <string.h>
+#include "SettingsManager.h"
+
 
 class ResourcesManager {
 public:
