@@ -6,11 +6,7 @@
 #include "string.h"
 #include "../resources/Consts.h"
 
-/**
- * create a board, open the board file and load the first level.
- */
-GameBoard::GameBoard() {
-    m_level = GameLevel();
+GameBoard::GameBoard() : m_index(0), m_cols(0), m_rows(0) {
     auto str = exec("find . -name \"*.txt\"");
     char *cstr = new char[str.length() + 1];
     strcpy(cstr, str.c_str());
@@ -19,41 +15,9 @@ GameBoard::GameBoard() {
         m_fileNames.push_back(cutStr);
         cutStr = strtok(NULL, " \n\0");
     }
-
-
-    std::ifstream file;
-    file.open(m_fileNames[0]);
-//    m_board_file.push_back(file);
-    if (!m_level.load_level(file)) {
-        std::cerr << "Cannot read Board file\n";
-        exit(EXIT_FAILURE);
-    }
-    m_rows = m_level.getRows();
-    m_cols = m_level.getCols();
-    createBoard();
+    LoadLevel();
 }
 
-std::string GameBoard::exec(std::string command) {
-    char buffer[128];
-    std::string result = "";
-
-    // Open pipe to file
-    FILE *pipe = popen(command.c_str(), "r");
-    if (!pipe) {
-        return "popen failed!";
-    }
-
-    // read till end of process:
-    while (!feof(pipe)) {
-
-        // use buffer to read and add to result
-        if (fgets(buffer, 128, pipe) != NULL)
-            result += buffer;
-    }
-
-    pclose(pipe);
-    return result;
-}
 
 /**
  * close the board file
@@ -66,9 +30,9 @@ GameBoard::~GameBoard() {
 }
 
 void GameBoard::createBoard() {
-//    m_objArr = new Objects*[m_rows];
-//    for(int row = 0;row < m_rows;row++)
-//        m_objArr[row] = new Objects[m_cols];
+    m_objArr = new Objects *[m_rows];
+    for (int row = 0; row < m_rows; row++)
+        m_objArr[row] = new Objects[m_cols];
 
 //    m_num_keys = m_num_doors = m_pacBoard = m_last_i = m_last_j = 0;
     m_board.clear();
@@ -105,6 +69,47 @@ int GameBoard::getCols() {
     return m_cols;
 }
 
+void GameBoard::LoadLevel() {
+    std::ifstream board_file;
+    board_file.open(m_fileNames[m_index]);
+    board_file >> m_rows >> m_cols;
+    createBoard();
+    char c;
+    for (int row = 0; row < m_rows; row++) {
+        c = char(board_file.get());
+        for (int col = 0; col < m_cols; col++) {
+            c = char(board_file.get());
+            if (c != ' ') {
+                sf::Texture *objectTexture = charToTexture(c); // convert char to texture.
+                m_objArr[row][col].setTexture(objectTexture); // set on board
+                m_objArr[row][col].setPosition(m_board[row][col].getPosition(), c); // set position.
+            }
+
+        }
+    }
+    //validateLevel();
+}
+
+sf::Texture *GameBoard::charToTexture(const char c) {
+    switch (c) {
+        case 'a':
+            return ResourcesManager::instance().getObjectTexture(PACMAN);
+        case '%':
+            return ResourcesManager::instance().getObjectTexture(KEY);
+        case '&':
+            return ResourcesManager::instance().getObjectTexture(GHOST);
+        case 'D':
+            return ResourcesManager::instance().getObjectTexture(DOOR);
+        case '#':
+            return ResourcesManager::instance().getObjectTexture(WALL);
+        case '*':
+            return ResourcesManager::instance().getObjectTexture(COOKIE);
+        case '$':
+            return ResourcesManager::instance().getObjectTexture(GIFT);
+        default:
+            break;
+    }
+}
 
 /**
  * load the next level.
@@ -168,3 +173,35 @@ void Board::levelDetails(int score,int life , int remain_cookie, int superPacMov
         std::cout << "Super Pacman Moves Left : " << superPacMov << std::endl;
     std::cout << "Current Score : " << score << " " << "Remaining Life : " << life << std::endl;
 }*/
+std::string GameBoard::exec(std::string command) {
+    char buffer[128];
+    std::string result = "";
+
+    // Open pipe to file
+    FILE *pipe = popen(command.c_str(), "r");
+    if (!pipe) {
+        return "popen failed!";
+    }
+
+    // read till end of process:
+    while (!feof(pipe)) {
+
+        // use buffer to read and add to result
+        if (fgets(buffer, 128, pipe) != NULL)
+            result += buffer;
+    }
+
+    pclose(pipe);
+    return result;
+}
+
+void GameBoard::draw(sf::RenderWindow *window) const {
+    // draw objects on board
+    int maxV = std::max(m_rows, m_cols);
+    for (int i = 0; i < m_rows; i++)
+        for (int j = 0; j < m_cols; j++) {
+            if (m_objArr[i][j].getText() != nullptr)
+                m_objArr[i][j].draw(window, maxV);
+        }
+}
+

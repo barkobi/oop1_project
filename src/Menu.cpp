@@ -24,7 +24,7 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
 
     for (int i = 0; i < MENU_BUTTONS; i++) {
         m_buttons[i].setPosition(menu_x, menu_top_y);
-        m_buttons[i].setTexture(*ResourcesManager::instance().getTexture(i));
+        m_buttons[i].setTexture(*ResourcesManager::instance().getMenuTexture(i));
         m_buttons[i].setOrigin(sf::Vector2f(MENU_BUTTON_WIDTH_ORIGINAL / 2,
                                             MENU_BUTTON_HEIGHT_ORIGINAL / 2));
         m_buttons[i].setScale(m_scaleWidth, m_scaleHeight);

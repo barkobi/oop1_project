@@ -28,5 +28,6 @@ void GameController::print() {
             m_window->draw(m_board.getTile(i,j));
         }
     }
+    m_board.draw(m_window);
     m_window->display();
 }

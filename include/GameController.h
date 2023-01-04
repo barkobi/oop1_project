@@ -8,4 +8,5 @@ public:
 private:
     sf::RenderWindow *m_window;
     GameBoard m_board;
+    sf::Clock m_clock;
 };
