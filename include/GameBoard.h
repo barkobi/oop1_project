@@ -3,7 +3,7 @@
 #include <vector>
 #include "filesystem"
 #include "ResourcesManager.h"
-#include "Objects.h"
+#include "Object.h"
 
 class GameBoard {
 public:
@@ -38,6 +38,6 @@ private:
     int m_rows, m_cols;
     int m_index;
     float m_matrixStart;
-    Objects **m_objArr;
+    Object **m_objArr;
 
 };

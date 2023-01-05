@@ -2,16 +2,15 @@
 #include <SFML/Graphics.hpp>
 
 
-class Objects{
+class Object{
 public:
     // C-tor
-    Objects(int maxV);
+    Object();
+    Object(sf::Texture *texture, sf::Vector2f position);
     // Public Funcs
 
-    char getType() const;
-    sf::Texture* getText() const;
+    sf::Texture* getTexture() const;
     void draw(sf::RenderWindow *window) const;
-    void setTexture(sf::Texture *texture);
 
 private:
     // private members

@@ -30,9 +30,9 @@ GameBoard::~GameBoard() {
 }
 
 void GameBoard::createBoard() {
-    m_objArr = new Objects *[m_rows];
+    m_objArr = new Object *[m_rows];
     for (int row = 0; row < m_rows; row++)
-        m_objArr[row] = new Objects[m_cols];
+        m_objArr[row] = new Object[m_cols];
 
 //    m_num_keys = m_num_doors = m_pacBoard = m_last_i = m_last_j = 0;
     m_board.clear();
@@ -81,8 +81,7 @@ void GameBoard::LoadLevel() {
             c = char(board_file.get());
             if (c != ' ') {
                 sf::Texture *objectTexture = charToTexture(c); // convert char to texture.
-                m_objArr[row][col].setTexture(objectTexture); // set on board
-                m_objArr[row][col].setPosition(m_board[row][col].getPosition(), c); // set position.
+                m_objArr[row][col] = Object(objectTexture , sf::Vector2f(row,col));
             }
 
         }
@@ -200,8 +199,8 @@ void GameBoard::draw(sf::RenderWindow *window) const {
     int maxV = std::max(m_rows, m_cols);
     for (int i = 0; i < m_rows; i++)
         for (int j = 0; j < m_cols; j++) {
-            if (m_objArr[i][j].getText() != nullptr)
-                m_objArr[i][j].draw(window, maxV);
+            if (m_objArr[i][j].getTexture() != nullptr)
+                m_objArr[i][j].draw(window);
         }
 }
 
