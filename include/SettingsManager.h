@@ -11,6 +11,7 @@ public:
     const int getVolume() const;
     const bool getSoundSwitch() const;
     void flipSoundSwitch();
+    void setVolume(const int volume);
     void save_settings();
 
 private:

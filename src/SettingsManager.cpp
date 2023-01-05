@@ -27,7 +27,6 @@ void SettingsManager::load_settings() {
 
 void SettingsManager::save_settings(){
     std::ofstream settings_file;
-//    std::error_code ec;
 
     std::filesystem::remove("../../../settings.txt");
     settings_file.open("../../../settings.txt");
@@ -37,7 +36,6 @@ void SettingsManager::save_settings(){
         exit(EXIT_FAILURE);
     }
     settings_file.seekp(0);
-    std::cout << m_sound << " " << m_volume << std::endl;
     settings_file << m_sound << " " << m_volume;
     settings_file.close();
 }
@@ -48,4 +46,8 @@ const int SettingsManager::getVolume() const {return m_volume;}
 
 void SettingsManager::flipSoundSwitch() {
     m_sound = !m_sound;
+}
+
+void SettingsManager::setVolume(const int volume) {
+    m_volume = volume;
 }

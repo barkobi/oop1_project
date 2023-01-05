@@ -61,7 +61,6 @@ void Menu::eventGetter() {
         }
         printWindow();
     }
-
 }
 
 void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
