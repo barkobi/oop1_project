@@ -28,9 +28,11 @@ sf::Texture *ResourcesManager::getMenuTexture(const int loc) {
 }
 
 void ResourcesManager::playSound(const int index) {
+    if(!SettingsManager::instance().getSoundSwitch())
+        return;
     m_sounds[index].setBuffer(m_sounds_buffs[index]);
     m_sounds[index].setLoop(false);
-    m_sounds[index].setVolume(100);
+    m_sounds[index].setVolume(SettingsManager::instance().getVolume());
     m_sounds[index].play();
 }
 

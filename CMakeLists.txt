@@ -18,7 +18,7 @@ endif ()
 
 if(APPLE)
 
-    add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h src/Objects.cpp)
+    add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h src/GameObject.cpp)
 
     add_subdirectory (include)
     add_subdirectory (src)
@@ -40,7 +40,7 @@ endif()
 
 if(WIN32)
 
-    add_executable (${CMAKE_PROJECT_NAME} include/Objects.h include/Window.h include/Board.h resources/Consts.h include/ResourcesManager.h src/SettingsScreen.cpp include/SettingsScreen.h include/Objects.h)
+    add_executable (${CMAKE_PROJECT_NAME} include/GameObject.h include/Window.h include/Board.h resources/Consts.h include/ResourcesManager.h src/SettingsScreen.cpp include/SettingsScreen.h include/GameObject.h src/Level.cpp include/Level.h)
 
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
 
