@@ -14,6 +14,8 @@ const int MENU_BUTTONS = 6;
 const int NUMBER_OF_SOUNDS = 2;
 const int NUMBER_OF_TEXTURES = 7;
 
+const int IMAGE_DIMENSIONS = 512;
+
 
 enum Characters {
     PACMAN,
