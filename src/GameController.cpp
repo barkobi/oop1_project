@@ -11,8 +11,8 @@ void GameController::run() {
         if (auto event = sf::Event{}; m_window->pollEvent(event)){
             switch (event.type) {
                 case sf::Event::Closed:
-                    return;
-
+                    m_window->close();
+                    break;
             }
         }
         print();
