@@ -2,11 +2,10 @@
 
 GameBoard::GameBoard() {
     load_levels_files();
-    if (!m_level.load_level(m_current_level)){
-        std::cerr << "Cannot read from Board.txt";
-        exit(EXIT_FAILURE);
+    if(m_total_levels>0){
+        m_level.load_level(m_current_level);
+        createBoard();
     }
-    createBoard();
 }
 
 Level &GameBoard::getLevel() { return m_level; }

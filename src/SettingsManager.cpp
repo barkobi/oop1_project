@@ -11,6 +11,12 @@ SettingsManager& SettingsManager::instance(){
 }
 
 void SettingsManager::load_settings() {
+    if(!std::filesystem::exists("../../../settings.txt")){
+        m_sound = true;
+        m_volume = 100;
+        return;
+    }
+
     std::ifstream settings_file;
     settings_file.open("../../../settings.txt");
 
@@ -28,7 +34,9 @@ void SettingsManager::load_settings() {
 void SettingsManager::save_settings(){
     std::ofstream settings_file;
 
-    std::filesystem::remove("../../../settings.txt");
+    if(std::filesystem::exists("../../../settings.txt")){
+        std::filesystem::remove("../../../settings.txt");
+    }
     settings_file.open("../../../settings.txt");
 
     if(!settings_file.is_open()){

@@ -8,7 +8,6 @@
 class GameBoard {
 public:
     GameBoard();
-    ~GameBoard();
 
     Level &getLevel();
 
