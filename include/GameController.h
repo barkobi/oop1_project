@@ -19,7 +19,7 @@ public:
 private:
     // functions:
     void ModifyBoard();
-    std::unique_ptr<GameObject> charHanlder(char type,int row,int col);
+    std::unique_ptr<GameObject> charHandler(char type,int row,int col);
 
     // members
     std::vector<std::unique_ptr<GameObject>> m_objects;
