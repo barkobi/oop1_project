@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "../values/symbols.h"
+#include "fstream"
 
 class Level {
 public:
@@ -15,14 +16,11 @@ public:
     //getters / setters
     int getWidth() const;
     int getHeight() const;
-    std::string getMapRow(int row) const;
     std::vector<std::string> getMap() const;
-    char getChar(int row, int col) const;
 
     // functions:
-    bool load_level(std::ifstream *board_file);
-    void validateLevel();
-    void removeChar(int row, int col);
+    bool load_level(int current_level);
+    bool validateLevel();
 
 private:
     // members

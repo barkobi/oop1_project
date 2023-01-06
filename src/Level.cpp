@@ -13,12 +13,6 @@ int Level::getWidth() const { return m_width;}
 int Level::getHeight() const{return m_height;}
 
 /**
- * get specific row from the map
- * @param row the row to get
- * @return
- */
-std::string Level::getMapRow(int row) const {return m_map[row];}
-/**
  * @return get the map.
  */
 std::vector<std::string> Level::getMap() const {return m_map;}
@@ -28,13 +22,18 @@ std::vector<std::string> Level::getMap() const {return m_map;}
  * @param board_file the file to load from
  * @return is the level loaded successfully
  */
-bool Level::load_level(std::ifstream *board_file) {
+bool Level::load_level(int current_level) {
+    std::ifstream file;
+//    std::string f_name = "lvl_" + std::to_string(current_level) + ".txt";
+    file.open("lvl_" + std::to_string(current_level) + ".txt");
+    if(!file.is_open())
+        return false;
     m_map.clear();
-    *board_file >> m_height >> m_width;
-    (*board_file).get();
+    file >> m_height >> m_width;
+    file.get();
     for(int row=0 ; row<m_height ; row++){
         std::string new_row;
-        if(!std::getline(*board_file, new_row)){
+        if(!std::getline(file, new_row)){
             return false;
         }
         if(new_row.length() != m_width){
@@ -44,8 +43,8 @@ bool Level::load_level(std::ifstream *board_file) {
         m_map.push_back(new_row);
         new_row.clear();
     }
-    validateLevel();
-    return true;
+    file.close();
+    return validateLevel();
 }
 
 /**
@@ -56,7 +55,7 @@ bool Level::load_level(std::ifstream *board_file) {
  * at least 1 cookie
  * equal number of doors and keys
  */
-void Level::validateLevel(){
+bool Level::validateLevel(){
     int cookies=0, doors=0, keys=0 ,pacman = 0, super_pm = 0;
 
     for(int row=0 ; row<m_height ; row++){
@@ -81,24 +80,7 @@ void Level::validateLevel(){
         }
     }
     if (cookies < 1 || (doors != keys) || (super_pm != 0) || (pacman != 1) ){
-        std::cerr << "Board file is not valid\n";
-        exit(EXIT_FAILURE);
+        return false;
     }
-}
-
-/**
- * remove char from the map, insert space in the location
- * @param location the location of the char to remove
- */
-void Level::removeChar(int row, int col) {
-        m_map[row][col] = ' ';
-}
-
-/**
- * get the char in location
- * @param location the location to look at
- * @return the founded char
- */
-char Level::getChar(int row, int col) const{
-    return m_map[row][col];
+    return true;
 }

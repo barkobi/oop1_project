@@ -6,7 +6,7 @@ public:
     void run();
     void print();
 private:
-    sf::RenderWindow *m_window;
+    sf::RenderWindow &m_window;
     GameBoard m_board;
     sf::Clock m_clock;
 };
