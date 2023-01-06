@@ -19,10 +19,11 @@ public:
 private:
     // functions:
     void ModifyBoard();
-    std::unique_ptr<GameObject> charHandler(char type,int row,int col);
+    void charHandler(char type,int row,int col);
 
     // members
-    std::vector<std::unique_ptr<GameObject>> m_objects;
+    std::vector<std::unique_ptr<StaticObject>> m_staticObj;
+    std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
     sf::RenderWindow &m_window;
     GameBoard m_board;
     sf::Clock m_clock;

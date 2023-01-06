@@ -13,9 +13,11 @@ ResourcesManager::ResourcesManager() {
     {
         m_pictures[i].loadFromFile("../../../" + m_picturesString[i] + ".png");
     }
+
+    m_font.loadFromFile("../../../PressStart2P.ttf");
 }
 
-sf::Font ResourcesManager::getFont() {
+sf::Font& ResourcesManager::getFont() {
     return m_font;
 }
 

@@ -12,6 +12,7 @@ public:
     void draw(sf::RenderWindow *window) const;
     sf::Sprite &getSprite() ;
 
-private:
+protected:
     sf::Sprite m_sprite;
+
 };

@@ -11,7 +11,7 @@ class ResourcesManager {
 public:
     static ResourcesManager &instance();
 
-    sf::Font getFont();
+    sf::Font &getFont();
 
     sf::Texture *getMenuTexture(const int loc);
     sf::Texture *getObjectTexture(const int loc);

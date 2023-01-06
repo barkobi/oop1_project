@@ -9,12 +9,11 @@ public:
 
 private:
     sf::RenderWindow& m_window;
-    sf::Font m_font;
     sf::Text m_volume_text;
     sf::Text m_sound_text;
     sf::CircleShape m_volume_drag;
     sf::RectangleShape m_volume_line;
-    sf::RectangleShape m_backBtn;
+    sf::Text m_backBtn;
 
     sf::RectangleShape m_checkBox;
     bool m_volume_clicked = false;

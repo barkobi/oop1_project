@@ -2,20 +2,19 @@
 
 SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
 
-    m_font.loadFromFile("/Library/Fonts/ArialUnicode.ttf");
     auto volume = SettingsManager::instance().getVolume();
     std::string str = "volume: ";
     m_volume_text.setString(str + std::to_string(volume));
     m_volume_text.setPosition(WINDOW_WIDTH/2 , WINDOW_HEIGHT/2);
     m_volume_text.setFillColor(sf::Color::White);
-    m_volume_text.setFont(m_font);
+    m_volume_text.setFont(ResourcesManager::instance().getFont());
 
     m_sound_text.setString("sound: ");
     m_sound_text.setPosition(WINDOW_WIDTH/2 , (WINDOW_HEIGHT/2)-50);
     m_sound_text.setFillColor(sf::Color::White);
-    m_sound_text.setFont(m_font);
+    m_sound_text.setFont(ResourcesManager::instance().getFont());
 
-    m_checkBox.setPosition(m_sound_text.getPosition().x + m_sound_text.getLocalBounds().width ,m_sound_text.getPosition().y + m_sound_text.getLocalBounds().height/2);
+    m_checkBox.setPosition(m_sound_text.getPosition().x + m_sound_text.getLocalBounds().width + 20 ,m_sound_text.getPosition().y);
     m_checkBox.setSize(sf::Vector2f(m_sound_text.getLocalBounds().height,m_sound_text.getLocalBounds().height));
     m_checkBox.setOutlineColor(sf::Color::White);
     m_checkBox.setFillColor(SettingsManager::instance().getSoundSwitch() ? sf::Color::White : sf::Color::Transparent);
@@ -23,16 +22,19 @@ SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
 
     m_volume_line.setSize(sf::Vector2f((WINDOW_WIDTH - (m_volume_text.getPosition().x + m_volume_text.getGlobalBounds().width))*0.5,5));
     m_volume_line.setFillColor(sf::Color::White);
-    m_volume_line.setPosition(m_volume_text.getPosition().x+m_volume_text.getGlobalBounds().width*1.3, m_volume_text.getPosition().y+m_volume_text.getGlobalBounds().height);
+    m_volume_line.setPosition(m_volume_text.getPosition().x+m_volume_text.getGlobalBounds().width*1.3, m_volume_text.getPosition().y+(m_volume_text.getGlobalBounds().height/2)-5);
 
     m_volume_drag.setRadius(20);
     m_volume_drag.setPosition(m_volume_line.getPosition().x + ((m_volume_line.getGlobalBounds().width)* volume/100) ,m_volume_line.getPosition().y-m_volume_line.getSize().y);
     m_volume_drag.setOrigin(m_volume_drag.getRadius()/2,m_volume_drag.getRadius()/2);
     m_volume_drag.setFillColor(sf::Color::White);
 
-    m_backBtn.setSize(sf::Vector2f(50,WINDOW_WIDTH*0.05));
+    m_backBtn.setString("<-");
+    m_backBtn.setFont(ResourcesManager::instance().getFont());
+    m_backBtn.setCharacterSize(40);
     m_backBtn.setPosition(WINDOW_WIDTH*0.05,WINDOW_WIDTH*0.05);
     m_backBtn.setFillColor(sf::Color::White);
+
     display();
 }
 
