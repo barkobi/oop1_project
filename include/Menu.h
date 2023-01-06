@@ -36,4 +36,5 @@ private:
     sf::Sound m_sound;
     float m_scaleHeight, m_scaleWidth;
     static int m_lastClick;
+    static bool canPlay;
 };

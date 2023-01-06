@@ -5,10 +5,14 @@
 #include "../include/GameController.h"
 
 int Menu::m_lastClick = -1;
+bool Menu::canPlay;
 
 Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
                             "Pacman", sf::Style::Close | sf::Style::Titlebar) {
     setSignal();
+
+    canPlay = std::filesystem::exists("lvl_1.txt");
+
     float menu_h = WINDOW_HEIGHT * 0.7;
     float btn_h = (menu_h / MENU_BUTTONS) * 0.75;
     btn_h += (btn_h * 0.25) / (MENU_BUTTONS - 1);
@@ -38,6 +42,8 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
 void Menu::printWindow() {
     m_menuWindow.clear(sf::Color(10, 0, 12, 200));
     for (int i = 0; i < MENU_BUTTONS; i++) {
+        if(i == PLAY && !canPlay)
+            continue;
         m_menuWindow.draw(m_buttons[i]);
     }
 
@@ -71,6 +77,8 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                 break;
             switch (i) {
                 case PLAY: {
+                    if(!canPlay)
+                        break;
                     m_menuWindow.clear(sf::Color(10, 0, 12, 200));
                     m_menuWindow.display();
                     auto controller = GameController(m_menuWindow);
@@ -88,7 +96,6 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                             perror("execvp() failed");
                             exit(EXIT_FAILURE);
                         }
-
                         exit(EXIT_SUCCESS);
                     }
                     break;
@@ -113,7 +120,8 @@ void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent) {
     m_buttons[lastHovered].setScale(m_scaleWidth, m_scaleHeight);
     bool onBtn = false;
     for (int i = 0; i < MENU_BUTTONS; i++) {
-
+        if(i==PLAY && !canPlay)
+            continue;
         if (m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({moveevent.x, moveevent.y}))) {
             if (btn_sound != i) {
                 ResourcesManager::instance().playSound(MENU_HOVER);
@@ -136,5 +144,7 @@ void Menu::setSignal() {
 void Menu::myHandler(int signum) {
     signal(SIGUSR1, Menu::myHandler);
     m_lastClick = -1;
+    canPlay = std::filesystem::exists("lvl_1.txt");
+
 }
 
