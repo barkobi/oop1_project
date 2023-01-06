@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include "fstream"
 #include <vector>
 #include "filesystem"
 #include "ResourcesManager.h"
@@ -15,17 +14,20 @@ public:
 
     sf::RectangleShape getTile(int row, int col) const;
 
-    void draw(sf::RenderWindow* window) const;
+    void draw(sf::RenderWindow &window) const;
 
     // functions:
-    void loadNextLevel();
-    void restartGame();
+    bool loadNextLevel();
+    bool restartGame();
 
 
 private:
-    std::ifstream m_board_file;
     std::vector<std::vector<sf::RectangleShape>> m_matrix;
     Level m_level;
+    int m_current_level = 1;
+    int m_total_levels;
 
     void createBoard();
+    void load_levels_files();
+    std::string read_files(std::string command);
 };
