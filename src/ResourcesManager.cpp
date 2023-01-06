@@ -39,3 +39,4 @@ void ResourcesManager::playSound(const int index) {
 sf::Texture *ResourcesManager::getObjectTexture(const int loc) {
     return &m_pictures[loc];
 }
+

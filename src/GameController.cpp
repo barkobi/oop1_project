@@ -21,9 +21,9 @@ void GameController::run() {
 
 void GameController::print() {
     m_window->clear();
-    for(int i = 0;i < m_board.getRows();i++)
+    for(int i = 0;i < m_board.getLevel().getHeight();i++)
     {
-        for(int j =0;j < m_board.getCols();j++)
+        for(int j =0;j < m_board.getLevel().getWidth();j++)
         {
             m_window->draw(m_board.getTile(i,j));
         }
