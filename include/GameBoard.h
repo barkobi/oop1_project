@@ -2,7 +2,7 @@
 #include <vector>
 #include "filesystem"
 #include "ResourcesManager.h"
-#include "GameObject.h"
+#include "objects/GameObject.h"
 #include "Level.h"
 
 class GameBoard {
@@ -21,11 +21,13 @@ public:
 
 
 private:
+    // members
     std::vector<std::vector<sf::RectangleShape>> m_matrix;
     Level m_level;
     int m_current_level = 1;
     int m_total_levels;
 
+    // function
     void createBoard();
     void load_levels_files();
     std::string read_files(std::string command);

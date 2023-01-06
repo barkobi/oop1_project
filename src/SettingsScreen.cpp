@@ -2,7 +2,7 @@
 
 SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
 
-    m_font.loadFromFile("/Library/Fonts/Arial Unicode.ttf");
+    m_font.loadFromFile("/Library/Fonts/ArialUnicode.ttf");
     auto volume = SettingsManager::instance().getVolume();
     std::string str = "volume: ";
     m_volume_text.setString(str + std::to_string(volume));
@@ -52,6 +52,10 @@ void SettingsScreen::display() {
                     if(m_volume_clicked)
                         handleMouseMove(event.mouseMove);
                     break;
+                case sf::Event::Closed:
+                    m_window.close();
+                    break;
+
             }
         }
 
@@ -76,13 +80,17 @@ void SettingsScreen::display() {
 }
 
 bool SettingsScreen::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
-    if(m_volume_clicked){
+    if (m_volume_clicked) {
         m_volume_clicked = false;
-        int vol = ((m_volume_drag.getPosition().x - m_volume_line.getPosition().x) /(m_volume_line.getGlobalBounds().width))*100;
+        int vol = ((m_volume_drag.getPosition().x - m_volume_line.getPosition().x) /
+                   (m_volume_line.getGlobalBounds().width)) * 100;
         SettingsManager::instance().setVolume(vol);
+        ResourcesManager::instance().updateMusic();
     }
-    else if(m_checkBox.getGlobalBounds().contains(clickevent.x,clickevent.y))
+    else if (m_checkBox.getGlobalBounds().contains(clickevent.x, clickevent.y)){
         SettingsManager::instance().flipSoundSwitch();
+        ResourcesManager::instance().updateMusic();
+    }
     else if(m_backBtn.getGlobalBounds().contains(clickevent.x,clickevent.y))
         return false;
 

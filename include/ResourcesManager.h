@@ -20,12 +20,16 @@ public:
 //    sf::SoundBuffer *getSound(const int index);
 
     void playSound(const int index);
+    void playBackgroundMusic();
+    void stopBackgroundMusic();
+    void updateMusic();
 
 private:
     ResourcesManager();
 
     sf::Font m_font;
     sf::Sound m_sounds[NUMBER_OF_SOUNDS];
+    sf::Music m_backgroundMusic;
     sf::SoundBuffer m_sounds_buffs[NUMBER_OF_SOUNDS];
     sf::Texture m_menuButtonTxt[MENU_BUTTONS];
     sf::Texture m_pictures[MENU_BUTTONS];

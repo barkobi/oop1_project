@@ -10,7 +10,7 @@ bool Menu::canPlay;
 Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
                             "Pacman", sf::Style::Close | sf::Style::Titlebar) {
     setSignal();
-
+    ResourcesManager::instance().playBackgroundMusic();
     canPlay = std::filesystem::exists("lvl_1.txt");
 
     float menu_h = WINDOW_HEIGHT * 0.7;
@@ -98,6 +98,7 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                         }
                         exit(EXIT_SUCCESS);
                     }
+                    wait(NULL);
                     break;
                 }
                 case HELP:

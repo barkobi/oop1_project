@@ -1,6 +1,7 @@
 #include "../include/ResourcesManager.h"
 
 ResourcesManager::ResourcesManager() {
+    m_backgroundMusic.openFromFile("../../../PacmanBackground.wav");
     for (int i = 0; i < MENU_BUTTONS; i++) {
         m_menuButtonTxt[i].loadFromFile("../../../" + m_buttonString[i] + ".png");
     }
@@ -38,5 +39,27 @@ void ResourcesManager::playSound(const int index) {
 
 sf::Texture *ResourcesManager::getObjectTexture(const int loc) {
     return &m_pictures[loc];
+}
+
+void ResourcesManager::playBackgroundMusic() {
+    if(!SettingsManager::instance().getSoundSwitch())
+        return;
+
+    m_backgroundMusic.setVolume(SettingsManager::instance().getVolume());
+    m_backgroundMusic.play();
+}
+
+void ResourcesManager::stopBackgroundMusic() {m_backgroundMusic.stop();}
+
+void ResourcesManager::updateMusic() {
+    if(!SettingsManager::instance().getSoundSwitch()){
+        m_backgroundMusic.stop();
+        return;
+    }
+
+    if(m_backgroundMusic.getStatus() != sf::Music::Status::Playing)
+        m_backgroundMusic.play();
+
+    m_backgroundMusic.setVolume(SettingsManager::instance().getVolume());
 }
 

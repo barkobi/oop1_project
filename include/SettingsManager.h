@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "ResourcesManager.h"
 
 class SettingsManager {
 public:
