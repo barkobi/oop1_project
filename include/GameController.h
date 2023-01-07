@@ -16,18 +16,16 @@ public:
     GameController(sf::RenderWindow &window);
     void run();
     void print();
-    sf::Keyboard::Key keyHandler();
-    void handleCollision(GameObject& other);
 private:
     // functions:
     void ModifyBoard();
     void charHandler(char type,int row,int col);
+    void handleCollision();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
-    std::unique_ptr<Pacman> m_pacman;
-    std::vector<std::unique_ptr<Ghost>> m_ghosts;
+    std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
     sf::RenderWindow &m_window;
     GameBoard m_board;
-    sf::Clock m_clock;
+    int m_cookies_on_board;
 };

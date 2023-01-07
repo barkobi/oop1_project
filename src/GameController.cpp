@@ -9,21 +9,18 @@ GameController::GameController(sf::RenderWindow &window)
 void GameController::run() {
     sf::Clock clock;
     print();
-    while(m_window.isOpen())
-    {
+    while(m_window.isOpen()){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
             switch (event.type) {
                 case sf::Event::Closed:
                     return;
             }
         }
-        m_pacman->setDirection(keyHandler());
-        const auto deltaTime = clock.restart();
-        m_pacman->move(deltaTime.asSeconds());
-        for(int i=0 ; i<m_ghosts.size() ; i++)
-            m_ghosts[i]->move(deltaTime.asSeconds());
+        const auto deltaTime = clock.restart().asSeconds();
+        for(int i=0 ; i<m_dynamicObj.size() ; i++)
+            m_dynamicObj[i]->move(deltaTime, m_board.getBoardBounds());
 
-        handleCollision(*m_pacman);
+        handleCollision();
         print();
     }
 }
@@ -34,9 +31,8 @@ void GameController::print() {
     for(int obj = 0;obj < m_staticObj.size();obj++){
         m_staticObj[obj]->draw(&m_window);
     }
-    m_pacman->draw(&m_window);
-    for(int obj = 0;obj < m_ghosts.size();obj++){
-        m_ghosts[obj]->draw(&m_window);
+    for(int obj = 0;obj < m_dynamicObj.size();obj++){
+        m_dynamicObj[obj]->draw(&m_window);
     }
     m_window.display();
 }
@@ -54,11 +50,11 @@ void GameController::charHandler(char type,int row,int col) {
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_pacman = std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width - 10);
+            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width - 10));
             break;
         }
         case GHOST_S:{
-            m_ghosts.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width));
+            m_dynamicObj.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width));
             break;
         }
         case KEY_S:{
@@ -84,27 +80,18 @@ void GameController::charHandler(char type,int row,int col) {
     }
 }
 
-sf::Keyboard::Key GameController::keyHandler() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-    {
-        m_window.close();
+void GameController::handleCollision() {
+    for(int dynamicObj=0 ; dynamicObj<m_dynamicObj.size() ; dynamicObj++){
+        for(int otherDynamic=0 ; otherDynamic<m_dynamicObj.size() ; otherDynamic++){
+            if(m_dynamicObj[dynamicObj]->checkCollision(*(m_dynamicObj[otherDynamic])))
+                m_dynamicObj[dynamicObj]->handleCollision(*(m_dynamicObj[otherDynamic]));
+        }
+        for(int staticObj=0 ; staticObj<m_staticObj.size() ; staticObj++){
+            if(m_dynamicObj[dynamicObj]->checkCollision(*(m_staticObj[staticObj])))
+                m_dynamicObj[dynamicObj]->handleCollision(*(m_staticObj[staticObj]));
+        }
     }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        return sf::Keyboard::Left;
-
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        return sf::Keyboard::Right;
-
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        return sf::Keyboard::Down;
-
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        return sf::Keyboard::Up;
-}
-
-void GameController::handleCollision(GameObject& other) {
-
+/*
     if (other.checkCollision(*m_pacman))
         other.handleCollision(*m_pacman);
 
@@ -119,5 +106,6 @@ void GameController::handleCollision(GameObject& other) {
         if (other.checkCollision(*m_staticObj[i]))
             m_staticObj[i]->handleCollision(other);
     }
+    */
 }
 

@@ -3,9 +3,9 @@
 Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor) {}
 
-void Ghost::move(float deltaTime) {
-    m_previousPosition = m_sprite.getPosition();
-    m_sprite.move(m_direction * m_speedPerSecond * deltaTime);
+void Ghost::move(float deltaTime, Bounds boardBounds){
+    std::vector<sf::Vector2f> dirs = {sf::Vector2f(0,1),sf::Vector2f(0,-1),sf::Vector2f(1,0),sf::Vector2f(-1,0)};
+    moveObj(dirs[rand()%4], deltaTime);
 }
 
 void Ghost::handleCollision(GameObject &object) {
@@ -16,29 +16,30 @@ void Ghost::handleCollision(GameObject &object) {
 }
 
 void Ghost::handleCollision(Ghost & ghost) {
-    m_sprite.setPosition(m_previousPosition);
+//    cancelMove();
 }
 
 void Ghost::handleCollision(Key & key) {
-    m_sprite.setPosition(m_previousPosition);
+    cancelMove();
 }
 
 void Ghost::handleCollision(Door & door) {
-    m_sprite.setPosition(m_previousPosition);
+    cancelMove();
 }
 
 void Ghost::handleCollision(Cookie & cookie) {
-    m_sprite.setPosition(m_previousPosition);
+    cancelMove();
 }
 
 void Ghost::handleCollision(Pacman & pacman) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("ghost collision with pacman\n");
+    cancelMove();
 }
 
 void Ghost::handleCollision(Gift & gift) {
-    m_sprite.setPosition(m_previousPosition);
+    cancelMove();
 }
 
 void Ghost::handleCollision(Wall & wall) {
-    m_sprite.setPosition(m_previousPosition);
+    cancelMove();
 }

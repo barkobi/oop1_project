@@ -3,37 +3,27 @@
 DynamicObject::DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position){}
 
-//sf::Vector2f DynamicObject::getPosition() {return GameObject::getSprite().getPosition();}
+sf::Vector2f DynamicObject::getPosition() {return GameObject::getSprite().getPosition();}
 
 void DynamicObject::goToInitialPosition() { GameObject::getSprite().setPosition(m_statPosition);}
 
-void DynamicObject::setDirection(sf::Keyboard::Key key)
-{
-    switch (key)
-    {
-        case sf::Keyboard::Key::Left:
-            m_direction = sf::Vector2f(-1, 0);
-            break;
-
-        case sf::Keyboard::Key::Right:
-            m_direction = sf::Vector2f(1, 0);
-            break;
-
-        case sf::Keyboard::Key::Up:
-            m_direction = sf::Vector2f(0, -1);
-            break;
-
-        case sf::Keyboard::Key::Down:
-            m_direction = sf::Vector2f(0, 1);
-            break;
-
-        default:
-            m_direction = sf::Vector2f(0, 0);
-            break;
-    }
+void DynamicObject::handleCollision(Wall& wall){
+    m_sprite.setPosition(m_previousPosition);
 }
 
-void DynamicObject::handleCollision(Wall& wall)
-{
+void DynamicObject::moveObj(sf::Vector2f offset, float dt) {
+    m_previousPosition = m_sprite.getPosition();
+    m_sprite.move(offset * dt * BASE_SPEED);
+}
+
+void DynamicObject::cancelMove() {
     m_sprite.setPosition(m_previousPosition);
+}
+
+void DynamicObject::setPosition(sf::Vector2f position) {
+    m_sprite.setPosition(position);
+}
+
+sf::Rect<float> DynamicObject::getGlobalBounds() {
+    return m_sprite.getGlobalBounds();
 }

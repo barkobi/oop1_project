@@ -1,9 +1,18 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "filesystem"
 #include "ResourcesManager.h"
 #include "objects/GameObject.h"
 #include "Level.h"
+
+struct Bounds{
+    float topLeftX;
+    float topLeftY;
+    float BottomRightX;
+    float BottomRightY;
+};
 
 class GameBoard {
 public:
@@ -18,6 +27,7 @@ public:
     // functions:
     bool loadNextLevel();
     bool restartGame();
+    Bounds &getBoardBounds();
 
 
 private:
@@ -26,6 +36,7 @@ private:
     Level m_level;
     int m_current_level = 1;
     int m_total_levels;
+    struct Bounds m_bounds;
 
     // function
     void createBoard();

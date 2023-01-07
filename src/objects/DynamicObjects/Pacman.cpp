@@ -3,10 +3,27 @@
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor){}
 
-void Pacman::move(float deltaTime) {
-    m_previousPosition = m_sprite.getPosition();
-
-    m_sprite.move(m_direction * deltaTime * BASE_SPEED);
+void Pacman::move(float deltaTime, Bounds boardBounds){
+    sf::Vector2f offset;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+        offset =sf::Vector2f(0, -1);
+    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+        offset =sf::Vector2f(0, 1);
+    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        offset =sf::Vector2f(1, 0);
+    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+        offset =sf::Vector2f(-1, 0);
+    }
+    moveObj(offset, deltaTime);
+    auto myPosition = getPosition();
+    if(myPosition.x +getGlobalBounds().width >= boardBounds.BottomRightX)
+        setPosition(sf::Vector2f(boardBounds.topLeftX,myPosition.y));
+    if(myPosition.x < boardBounds.topLeftX)
+        setPosition(sf::Vector2f(boardBounds.BottomRightX- getGlobalBounds().width,myPosition.y));
+    if(myPosition.y + getGlobalBounds().height >= boardBounds.BottomRightY)
+        setPosition(sf::Vector2f(myPosition.x,boardBounds.topLeftY));
+    if(myPosition.y < boardBounds.topLeftY)
+        setPosition(sf::Vector2f(myPosition.x,boardBounds.BottomRightY - getGlobalBounds().height));
 }
 
 void Pacman::handleCollision(GameObject &object) {
@@ -17,30 +34,37 @@ void Pacman::handleCollision(GameObject &object) {
 }
 
 void Pacman::handleCollision(Ghost & ghost) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("ghost\n");
+    cancelMove();
 }
 
 void Pacman::handleCollision(Key & key) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("key\n");
+    cancelMove();
 }
 
 void Pacman::handleCollision(Door & door) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("door\n");
+    cancelMove();
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("cookie\n");
+    cancelMove();
 }
 
 void Pacman::handleCollision(Pacman & pacman) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("pacman\n");
+    cancelMove();
 }
 
 void Pacman::handleCollision(Gift & gift) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("gift\n");
+    cancelMove();
 }
 
 void Pacman::handleCollision(Wall & wall) {
-    m_sprite.setPosition(m_previousPosition);
+    printf("wall\n");
+    cancelMove();
 }
 

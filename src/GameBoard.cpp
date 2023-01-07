@@ -53,6 +53,13 @@ void GameBoard::createBoard() {
         }
         m_matrix.push_back(line);
     }
+
+    m_bounds.topLeftX = m_matrix[0][0].getPosition().x;
+    m_bounds.topLeftY = m_matrix[0][0].getPosition().y;
+    auto bottomRightTile = m_matrix[m_level.getHeight()-1][m_level.getWidth()-1];
+    m_bounds.BottomRightX = bottomRightTile.getPosition().x + tileSize;
+    m_bounds.BottomRightY = bottomRightTile.getPosition().y + tileSize;
+
 }
 
 void GameBoard::load_levels_files(){
@@ -85,3 +92,5 @@ std::string GameBoard::read_files(std::string command) {
     pclose(pipe);
     return result;
 }
+
+Bounds &GameBoard::getBoardBounds() {return m_bounds;}
