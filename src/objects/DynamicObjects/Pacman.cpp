@@ -5,6 +5,7 @@ Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
 
 void Pacman::move(float deltaTime) {
     m_previousPosition = m_sprite.getPosition();
+
     m_sprite.move(m_direction * deltaTime * BASE_SPEED);
 }
 

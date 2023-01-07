@@ -1,6 +1,5 @@
 #pragma once
 #include "objects/GameObject.h"
-#include "Wall.h"
 
 enum Direction_t {UP , DOWN , LEFT , RIGHT};
 

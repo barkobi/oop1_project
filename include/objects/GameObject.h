@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include "../../resources/Consts.h"
 
-class Pacman;
 class Wall;
 class Key;
 class Ghost;
 class Door;
 class Cookie;
 class Gift;
+class Pacman;
+
 
 class GameObject{
 public:
