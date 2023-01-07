@@ -1,17 +1,45 @@
-
 #include "Pacman.h"
 
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : DynamicObject(texture, position,scaleFactor) {}
+    : DynamicObject(texture, position,scaleFactor){}
 
-void Pacman::move() {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-        setPosition(getPosition() + sf::Vector2f(0, -1));
-    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-        setPosition(getPosition() + sf::Vector2f(0, 1));
-    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        setPosition(getPosition() + sf::Vector2f(1, 0));
-    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-        setPosition(getPosition() + sf::Vector2f(-1, 0));
-    }
+void Pacman::move(float deltaTime) {
+    m_previousPosition = m_sprite.getPosition();
+    m_sprite.move(m_direction * deltaTime * BASE_SPEED);
 }
+
+void Pacman::handleCollision(GameObject &object) {
+    if (&object == this)
+        return;
+
+    object.handleCollision(*this);
+}
+
+void Pacman::handleCollision(Ghost & ghost) {
+    m_sprite.setPosition(m_previousPosition);
+}
+
+void Pacman::handleCollision(Key & key) {
+    m_sprite.setPosition(m_previousPosition);
+}
+
+void Pacman::handleCollision(Door & door) {
+    m_sprite.setPosition(m_previousPosition);
+}
+
+void Pacman::handleCollision(Cookie & cookie) {
+    m_sprite.setPosition(m_previousPosition);
+}
+
+void Pacman::handleCollision(Pacman & pacman) {
+    m_sprite.setPosition(m_previousPosition);
+}
+
+void Pacman::handleCollision(Gift & gift) {
+    m_sprite.setPosition(m_previousPosition);
+}
+
+void Pacman::handleCollision(Wall & wall) {
+    m_sprite.setPosition(m_previousPosition);
+}
+

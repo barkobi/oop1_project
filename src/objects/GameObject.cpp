@@ -8,6 +8,12 @@ GameObject::GameObject(sf::Texture *texture, sf::Vector2f position, float scaleF
 
 sf::Sprite &GameObject::getSprite() {return m_sprite;}
 
-void GameObject::draw(sf::RenderWindow *window) const {
+void GameObject::draw(sf::RenderWindow *window) {
     window->draw(m_sprite);
+}
+
+bool GameObject::checkCollision(GameObject &obj) {
+    if (&obj == this)
+        return false;
+    return m_sprite.getGlobalBounds().intersects(obj.m_sprite.getGlobalBounds());
 }

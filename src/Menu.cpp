@@ -9,6 +9,7 @@ bool Menu::canPlay;
 
 Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
                             "Pacman", sf::Style::Close | sf::Style::Titlebar) {
+    m_menuWindow.setFramerateLimit(60);
     setSignal();
     ResourcesManager::instance().playBackgroundMusic();
     canPlay = std::filesystem::exists("lvl_1.txt");
