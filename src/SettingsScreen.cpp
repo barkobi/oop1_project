@@ -62,7 +62,11 @@ void SettingsScreen::display() {
         }
 
         m_window.clear();
+        auto background = sf::RectangleShape();
+        background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+        background.setTexture(ResourcesManager::instance().getBackground());
 
+        m_window.draw(background);
         m_checkBox.setFillColor(SettingsManager::instance().getSoundSwitch() ? sf::Color::White : sf::Color::Transparent);
         int vol = ((m_volume_drag.getPosition().x - m_volume_line.getPosition().x) /(m_volume_line.getGlobalBounds().width))*100;
         std::string str = "volume: ";

@@ -1,6 +1,6 @@
 #include "GameBoard.h"
 
-GameBoard::GameBoard() {
+GameBoard::GameBoard() : m_total_levels(0){
     load_levels_files();
     if(m_total_levels>0){
         m_level.load_level(m_current_level);
@@ -38,7 +38,9 @@ void GameBoard::draw(sf::RenderWindow &window) const {
 
 void GameBoard::createBoard() {
     m_matrix.clear();
-    float tileSize = (std::min(WINDOW_WIDTH,WINDOW_HEIGHT) / (std::max(m_level.getWidth(), m_level.getHeight()))) * 0.8;
+    float tileSize = (std::min(WINDOW_WIDTH,WINDOW_HEIGHT) / ((m_level.getWidth() + m_level.getHeight()) / 2));
+    if(m_level.getHeight() == m_level.getWidth())
+        tileSize *= 0.8;
     float topLeftX = (WINDOW_WIDTH / 2) - ((tileSize * m_level.getWidth()) / 2);
     float topLeftY = (WINDOW_HEIGHT / 2) - ((tileSize * m_level.getHeight())/2);
 
@@ -47,7 +49,8 @@ void GameBoard::createBoard() {
         for(int col=0 ; col<m_level.getWidth() ; col++){
             auto r = sf::RectangleShape();
             r.setSize(sf::Vector2f(tileSize , tileSize ));
-            r.setPosition(float(col *tileSize + topLeftX), float(row*tileSize + topLeftY));
+            r.setOrigin(tileSize/2,tileSize/2);
+            r.setPosition(float((col *tileSize + topLeftX)) + tileSize * 0.5, float((row*tileSize + topLeftY)) + tileSize * 0.5);
             r.setFillColor(sf::Color(100, 190, 190));
             line.push_back(r);
         }

@@ -1,5 +1,6 @@
 #pragma once
 #include "objects/GameObject.h"
+#include "iostream"
 
 class StaticObject : public GameObject{
 public:
@@ -8,12 +9,16 @@ public:
 
 
     virtual void handleCollision(GameObject&) = 0;
-    virtual void handleCollision(Pacman&) {};
-    virtual void handleCollision(Ghost&) {};
+    virtual void handleCollision(Pacman&) = 0;
+    virtual void handleCollision(Ghost&) = 0;
     virtual void handleCollision(Wall&){};
     virtual void handleCollision(Key&){};
     virtual void handleCollision(Door&){};
     virtual void handleCollision(Cookie&) {};
     virtual void handleCollision(Gift&) {};
+    bool needToDelete() const;
+    void deleteObject();
+protected:
 private:
+    bool m_delete = false;
 };

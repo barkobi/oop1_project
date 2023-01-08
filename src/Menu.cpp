@@ -14,6 +14,10 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
     ResourcesManager::instance().playBackgroundMusic();
     canPlay = std::filesystem::exists("lvl_1.txt");
 
+    m_title.setTexture(ResourcesManager::instance().getTitle());
+    m_title.setPosition(50,100);
+    m_title.setSize(sf::Vector2f (420,77));
+
     float menu_h = WINDOW_HEIGHT * 0.7;
     float btn_h = (menu_h / MENU_BUTTONS) * 0.75;
     btn_h += (btn_h * 0.25) / (MENU_BUTTONS - 1);
@@ -24,7 +28,7 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
     m_scaleHeight = btn_h / MENU_BUTTON_HEIGHT_ORIGINAL;
     m_scaleWidth = btn_w / MENU_BUTTON_WIDTH_ORIGINAL;
 
-    float menu_top_y = (WINDOW_HEIGHT * 0.15) + btn_h / 2;
+    float menu_top_y = (WINDOW_HEIGHT * 0.08) + btn_h / 2;
     float menu_x = (float) WINDOW_WIDTH / 2;
 
     for (int i = 0; i < MENU_BUTTONS; i++) {
@@ -41,7 +45,14 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
 }
 
 void Menu::printWindow() {
-    m_menuWindow.clear(sf::Color(10, 0, 12, 200));
+
+    m_menuWindow.clear();
+    auto background = sf::RectangleShape();
+    background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+    background.setTexture(ResourcesManager::instance().getBackground());
+
+    m_menuWindow.draw(background);
+    m_menuWindow.draw(m_title);
     for (int i = 0; i < MENU_BUTTONS; i++) {
         if(i == PLAY && !canPlay)
             continue;
@@ -64,6 +75,17 @@ void Menu::eventGetter() {
                     break;
                 case sf::Event::MouseButtonReleased:
                     handleClick(event.mouseButton);
+                    break;
+                case sf::Event::KeyPressed:
+                {
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
+                        SettingsManager::instance().flipSoundSwitch();
+                        ResourcesManager::instance().updateMusic();
+                    }
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                        m_menuWindow.close();
+                    break;
+                }
             }
         }
         printWindow();
@@ -126,7 +148,7 @@ void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent) {
             continue;
         if (m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({moveevent.x, moveevent.y}))) {
             if (btn_sound != i) {
-                ResourcesManager::instance().playSound(MENU_HOVER);
+                ResourcesManager::instance().playSound(MENU_SOUND);
                 btn_sound = i;
             }
             onBtn = true;

@@ -1,5 +1,6 @@
 #include "../include/GameController.h"
 
+typedef void (*controller_change)();
 
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
@@ -8,6 +9,7 @@ GameController::GameController(sf::RenderWindow &window)
 
 void GameController::run() {
     sf::Clock clock;
+    sf::Clock pa;
     print();
     while(m_window.isOpen()){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
@@ -16,9 +18,15 @@ void GameController::run() {
                     return;
             }
         }
-        const auto deltaTime = clock.restart().asSeconds();
+        float deltaTime = clock.restart().asSeconds();
         for(int i=0 ; i<m_dynamicObj.size() ; i++)
+        {
+            if(pa.getElapsedTime().asSeconds() > 0.15){
+                m_dynamicObj[i]->updateAnimation();
+                pa.restart();
+            }
             m_dynamicObj[i]->move(deltaTime, m_board.getBoardBounds());
+        }
 
         handleCollision();
         print();
@@ -50,15 +58,15 @@ void GameController::charHandler(char type,int row,int col) {
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width - 10));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
             break;
         }
         case GHOST_S:{
-            m_dynamicObj.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width));
+            m_dynamicObj.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
             break;
         }
         case KEY_S:{
-            m_staticObj.push_back(std::make_unique<Key>(ResourcesManager::instance().getObjectTexture(KEY),tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Key>(ResourcesManager::instance().getObjectTexture(KEY),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
             break;
         }
         case DOOR_S:{
@@ -70,11 +78,11 @@ void GameController::charHandler(char type,int row,int col) {
             break;
         }
         case GIFT_S:{
-            m_staticObj.push_back(std::make_unique<Gift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Gift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
             break;
         }
         case COOKIE_S:{
-            m_staticObj.push_back(std::make_unique<Cookie>(ResourcesManager::instance().getObjectTexture(COOKIE),tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Cookie>(ResourcesManager::instance().getObjectTexture(COOKIE),tile.getPosition(),tile.getGlobalBounds().width * 0.5));
             break;
         }
     }
@@ -91,21 +99,7 @@ void GameController::handleCollision() {
                 m_dynamicObj[dynamicObj]->handleCollision(*(m_staticObj[staticObj]));
         }
     }
-/*
-    if (other.checkCollision(*m_pacman))
-        other.handleCollision(*m_pacman);
+    std::erase_if(m_staticObj, [](const auto& obj) { return obj->needToDelete();});
 
-    for (int j = 0; j < m_ghosts.size(); ++j)
-    {
-        if (m_pacman->checkCollision(*m_ghosts[j]))
-            m_pacman->handleCollision(*m_ghosts[j]);
-    }
-
-    for (int i = 0; i < m_staticObj.size(); ++i)
-    {
-        if (other.checkCollision(*m_staticObj[i]))
-            m_staticObj[i]->handleCollision(other);
-    }
-    */
 }
 

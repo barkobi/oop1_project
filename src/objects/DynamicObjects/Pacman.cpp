@@ -1,17 +1,21 @@
 #include "Pacman.h"
-
+#include "Cookie.h"
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor){}
 
 void Pacman::move(float deltaTime, Bounds boardBounds){
     sf::Vector2f offset;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+        rotateObject(-90);
         offset =sf::Vector2f(0, -1);
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+        rotateObject(90);
         offset =sf::Vector2f(0, 1);
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        rotateObject(0);
         offset =sf::Vector2f(1, 0);
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+        rotateObject(-180);
         offset =sf::Vector2f(-1, 0);
     }
     moveObj(offset, deltaTime);
@@ -49,8 +53,8 @@ void Pacman::handleCollision(Door & door) {
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
-    printf("cookie\n");
-    cancelMove();
+    cookie.deleteObject();
+    ResourcesManager::instance().playSound(CHEW_SOUND);
 }
 
 void Pacman::handleCollision(Pacman & pacman) {

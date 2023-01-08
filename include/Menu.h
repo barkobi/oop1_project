@@ -31,6 +31,7 @@ public:
 
 private:
     sf::RenderWindow m_menuWindow;
+    sf::RectangleShape m_title;
     sf::Sprite m_buttons[MENU_BUTTONS];
     sf::SoundBuffer m_soundBuffer;
     sf::Sound m_sound;

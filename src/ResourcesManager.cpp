@@ -1,7 +1,7 @@
 #include "../include/ResourcesManager.h"
 
 ResourcesManager::ResourcesManager() {
-    m_backgroundMusic.openFromFile("../../../PacmanBackground.wav");
+    m_backgroundMusic.openFromFile("../../../pacmanBackground.wav");
     for (int i = 0; i < MENU_BUTTONS; i++) {
         m_menuButtonTxt[i].loadFromFile("../../../" + m_buttonString[i] + ".png");
     }
@@ -9,6 +9,9 @@ ResourcesManager::ResourcesManager() {
         m_sounds_buffs[i].loadFromFile("../../../" + m_sound_file_names[i]);
         m_sounds[i].setBuffer(m_sounds_buffs[i]);
     }
+    m_backGround.loadFromFile("../../../backGroundimage.jpg");
+    m_title.loadFromFile("../../../Title.png");
+    m_pacman.loadFromFile("../../../Pacmansheet.png");
     for(int i = 0;i < OBJECTS;i++)
     {
         m_pictures[i].loadFromFile("../../../" + m_picturesString[i] + ".png");
@@ -63,5 +66,17 @@ void ResourcesManager::updateMusic() {
         m_backgroundMusic.play();
 
     m_backgroundMusic.setVolume(SettingsManager::instance().getVolume());
+}
+
+sf::Texture *ResourcesManager::getBackground() {
+    return &m_backGround;
+}
+
+sf::Texture *ResourcesManager::getTitle() {
+    return &m_title;
+}
+
+sf::Texture *ResourcesManager::getPacmanSheet() {
+    return &m_pacman;
 }
 

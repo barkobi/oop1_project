@@ -11,13 +11,18 @@ const int WINDOW_WIDTH = sf::VideoMode::getDesktopMode().width * 0.7;
 const int MENU_WIDTH =  sf::VideoMode::getDesktopMode().width * 0.1;
 const int MENU_START = sf::VideoMode::getDesktopMode().height * 0.1;
 const int MENU_BUTTONS = 6;
-const int NUMBER_OF_SOUNDS = 2;
+const int NUMBER_OF_SOUNDS = 3;
 const int NUMBER_OF_TEXTURES = 7;
 
-const float BASE_SPEED = 130.0;
+const float SPEED = 120.1;
 
 const int IMAGE_DIMENSIONS = 512;
 
+enum Sounds_t{
+    MENU_SOUND,
+    START_SOUND,
+    CHEW_SOUND
+};
 
 enum Characters {
     PACMAN,
@@ -27,9 +32,4 @@ enum Characters {
     WALL,
     COOKIE,
     GIFT
-};
-
-enum Sounds{
-    MENU_HOVER,
-    START_GAME
 };
