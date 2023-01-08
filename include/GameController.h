@@ -10,6 +10,7 @@
 #include "Door.h"
 #include "Gift.h"
 #include "Cookie.h"
+#include "EventLoop.h"
 
 class GameController{
 public:
@@ -21,6 +22,7 @@ private:
     void ModifyBoard();
     void charHandler(char type,int row,int col);
     void handleCollision();
+    void handleEvent();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
@@ -28,4 +30,5 @@ private:
     sf::RenderWindow &m_window;
     GameBoard m_board;
     int m_cookies_on_board;
+    int m_points = 0;
 };

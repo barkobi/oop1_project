@@ -7,7 +7,7 @@ enum Direction_t {UP , DOWN , LEFT , RIGHT};
 class DynamicObject : public GameObject{
 public:
     DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
-    virtual ~DynamicObject() = default;
+//    virtual ~DynamicObject() = default;
 
     void goToInitialPosition();
 

@@ -1,6 +1,3 @@
-//
-// Created by Bar Kobi on 06/01/2023.
-//
 
 #include "Cookie.h"
 

@@ -1,7 +1,5 @@
 #include "../include/GameController.h"
 
-typedef void (*controller_change)();
-
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
     ModifyBoard();
@@ -29,7 +27,34 @@ void GameController::run() {
         }
 
         handleCollision();
+        handleEvent();
         print();
+    }
+}
+
+void GameController::handleEvent() {
+    while(EventLoop::instance().hasEvent()){
+        auto event = EventLoop::instance().popEvent();
+        switch (event.getEventType()){
+            case CollapseWithGhost:
+//                printf("collapse with ghost \n");
+                break;
+            case EatCookie:
+                ResourcesManager::instance().playSound(CHEW_SOUND);
+                m_cookies_on_board--;
+                break;
+            case GotGift:
+                break;
+            case GotKey:
+                break;
+            case GameOver:
+                break;
+            case LevelEnd:
+                break;
+        }
+        m_points+=event.getPoints();
+
+        printf("points: %d" , m_points);
     }
 }
 

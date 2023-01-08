@@ -1,5 +1,6 @@
 #include "Pacman.h"
 #include "Cookie.h"
+
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor){}
 
@@ -38,7 +39,8 @@ void Pacman::handleCollision(GameObject &object) {
 }
 
 void Pacman::handleCollision(Ghost & ghost) {
-    printf("ghost\n");
+    Event event(CollapseWithGhost);
+    EventLoop::instance().addEvent(event);
     cancelMove();
 }
 
@@ -54,7 +56,8 @@ void Pacman::handleCollision(Door & door) {
 
 void Pacman::handleCollision(Cookie & cookie) {
     cookie.deleteObject();
-    ResourcesManager::instance().playSound(CHEW_SOUND);
+    Event event(EatCookie ,5);
+    EventLoop::instance().addEvent(event);
 }
 
 void Pacman::handleCollision(Pacman & pacman) {

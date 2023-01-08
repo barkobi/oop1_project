@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DynamicObject.h"
+#include "eventLoop.h"
 
 class Pacman : public DynamicObject{
 public:
@@ -15,6 +16,7 @@ public:
     virtual void handleCollision(Cookie&);
     virtual void handleCollision(Gift&);
     virtual void handleCollision(Wall& wall);
+
 private:
 
 };

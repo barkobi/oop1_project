@@ -18,7 +18,7 @@ endif ()
 
 if(APPLE)
 
-    add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h src/objects/GameObject.cpp src/objects/DynamicObjects/DynamicObject.cpp src/objects/StaticObjects/StaticObject.cpp src/objects/StaticObjects/Cookie.cpp include/objects/StaticObjects/Cookie.h)
+    add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h src/objects/GameObject.cpp src/objects/DynamicObjects/DynamicObject.cpp src/objects/StaticObjects/StaticObject.cpp src/objects/StaticObjects/Cookie.cpp include/objects/StaticObjects/Cookie.h src/events/Event.cpp include/events/Event.h)
 
     add_subdirectory (include)
     add_subdirectory (src)
@@ -40,7 +40,7 @@ endif()
 
 if(WIN32)
 
-    add_executable (${CMAKE_PROJECT_NAME} include/objects/GameObject.h include/Window.h include/Board.h resources/Consts.h include/ResourcesManager.h src/SettingsScreen.cpp include/SettingsScreen.h include/objects/GameObject.h src/Level.cpp include/Level.h include/objects/StaticObjects/StaticObject.h include/objects/DynamicObjects/DynamicObject.h src/objects/StaticObjects/Door.cpp include/objects/StaticObjects/Door.h src/objects/StaticObjects/Key.cpp include/objects/StaticObjects/Key.h src/objects/StaticObjects/Wall.cpp include/objects/StaticObjects/Wall.h src/objects/StaticObjects/Gift.cpp include/objects/StaticObjects/Gift.h src/objects/DynamicObjects/Pacman.cpp include/objects/DynamicObjects/Pacman.h src/objects/DynamicObjects/Ghost.cpp include/objects/DynamicObjects/Ghost.h)
+    add_executable (${CMAKE_PROJECT_NAME} include/objects/GameObject.h include/Window.h include/Board.h resources/Consts.h include/ResourcesManager.h src/SettingsScreen.cpp include/SettingsScreen.h include/objects/GameObject.h src/Level.cpp include/Level.h include/objects/StaticObjects/StaticObject.h include/objects/DynamicObjects/DynamicObject.h src/objects/StaticObjects/Door.cpp include/objects/StaticObjects/Door.h src/objects/StaticObjects/Key.cpp include/objects/StaticObjects/Key.h src/objects/StaticObjects/Wall.cpp include/objects/StaticObjects/Wall.h src/objects/StaticObjects/Gift.cpp include/objects/StaticObjects/Gift.h src/objects/DynamicObjects/Pacman.cpp include/objects/DynamicObjects/Pacman.h src/objects/DynamicObjects/Ghost.cpp include/objects/DynamicObjects/Ghost.h src/events/eventLoop.cpp include/events/eventLoop.h)
 
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
 
