@@ -3,6 +3,7 @@
 enum EventType_t{
     EatCookie,
     GameOver,
+    GameDone,
     LevelEnd,
     CollapseWithGhost,
     GotGift,

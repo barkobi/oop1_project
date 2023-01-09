@@ -19,10 +19,11 @@ public:
     void print();
 private:
     // functions:
-    void ModifyBoard();
+    void modifyBoard();
     void charHandler(char type,int row,int col);
     void handleCollision();
     void handleEvent();
+    void nextLevel();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;

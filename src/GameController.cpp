@@ -5,27 +5,12 @@ GameController::GameController(sf::RenderWindow &window)
 }
 
 void GameController::run() {
-    m_dynamicObj.clear();
-    m_staticObj.clear();
-    ModifyBoard();
     m_lives = 3;
+    modifyBoard();
     sf::Clock clock;
     sf::Clock pa;
     print();
     while(m_window.isOpen()){
-        if(m_cookies_on_board == 0)
-        {
-            if(!m_board.checkFinishGame())
-            {
-                m_board.loadNextLevel();
-                run();
-            }
-            else
-            {
-                std::cout << "GAME DONE";
-                break;
-            }
-        }
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
             switch (event.type) {
                 case sf::Event::Closed:
@@ -52,13 +37,17 @@ void GameController::handleEvent() {
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
         switch (event.getEventType()){
-            case CollapseWithGhost:{
+            case CollapseWithGhost:
                 m_lives--;
+                if(m_lives == 0)
+                    EventLoop::instance().addEvent(Event(GameOver));
+                //TODO reset level
                 break;
-            }
-            case EatCookie:{
+            case EatCookie:
                 ResourcesManager::instance().playSound(CHEW_SOUND);
-                m_cookies_on_board--;}
+                m_cookies_on_board--;
+                if(m_cookies_on_board == 0)
+                    EventLoop::instance().addEvent(Event(LevelEnd));
                 break;
             case GotGift:
                 break;
@@ -67,11 +56,14 @@ void GameController::handleEvent() {
             case GameOver:
                 break;
             case LevelEnd:
+                nextLevel();
+                break;
+            case GameDone:
+                printf("Game Done!\n");
+                m_window.close();
                 break;
         }
         m_points+=event.getPoints();
-
-        printf("points: %d" , m_points);
     }
 }
 
@@ -87,7 +79,9 @@ void GameController::print() {
     m_window.display();
 }
 
-void GameController::ModifyBoard() {
+void GameController::modifyBoard() {
+    m_dynamicObj.clear();
+    m_staticObj.clear();
     auto map = m_board.getLevel().getMap();
     for(int row = 0;row < map.size();row++){
         for(int col = 0;col < map[row].length();col++)
@@ -144,5 +138,15 @@ void GameController::handleCollision() {
     }
     std::erase_if(m_staticObj, [](const auto& obj) { return obj->needToDelete();});
 
+}
+
+void GameController::nextLevel() {
+    if(m_board.checkFinishGame()){
+        EventLoop::instance().addEvent(Event(GameDone));
+        return;
+    }
+    m_board.loadNextLevel();
+    m_lives = 3;
+    modifyBoard();
 }
 

@@ -168,6 +168,5 @@ void Menu::myHandler(int signum) {
     signal(SIGUSR1, Menu::myHandler);
     m_lastClick = -1;
     canPlay = std::filesystem::exists("lvl_1.txt");
-
 }
 
