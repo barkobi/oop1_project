@@ -30,5 +30,6 @@ private:
     sf::RenderWindow &m_window;
     GameBoard m_board;
     int m_cookies_on_board;
+    int m_lives = 3;
     int m_points = 0;
 };

@@ -121,7 +121,6 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                         }
                         exit(EXIT_SUCCESS);
                     }
-                    wait(NULL);
                     break;
                 }
                 case HELP:

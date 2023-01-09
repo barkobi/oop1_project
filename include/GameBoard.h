@@ -28,6 +28,7 @@ public:
     bool loadNextLevel();
     bool restartGame();
     Bounds &getBoardBounds();
+    bool checkFinishGame();
 
 
 private:

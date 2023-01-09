@@ -1,15 +1,31 @@
 #include "../include/GameController.h"
 
 GameController::GameController(sf::RenderWindow &window)
-    : m_window(window), m_board(GameBoard()){
-    ModifyBoard();
+    : m_window(window), m_board(GameBoard()),m_cookies_on_board(0){
 }
 
 void GameController::run() {
+    m_dynamicObj.clear();
+    m_staticObj.clear();
+    ModifyBoard();
+    m_lives = 3;
     sf::Clock clock;
     sf::Clock pa;
     print();
     while(m_window.isOpen()){
+        if(m_cookies_on_board == 0)
+        {
+            if(!m_board.checkFinishGame())
+            {
+                m_board.loadNextLevel();
+                run();
+            }
+            else
+            {
+                std::cout << "GAME DONE";
+                break;
+            }
+        }
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
             switch (event.type) {
                 case sf::Event::Closed:
@@ -36,12 +52,13 @@ void GameController::handleEvent() {
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
         switch (event.getEventType()){
-            case CollapseWithGhost:
-//                printf("collapse with ghost \n");
+            case CollapseWithGhost:{
+                m_lives--;
                 break;
-            case EatCookie:
+            }
+            case EatCookie:{
                 ResourcesManager::instance().playSound(CHEW_SOUND);
-                m_cookies_on_board--;
+                m_cookies_on_board--;}
                 break;
             case GotGift:
                 break;
@@ -107,6 +124,7 @@ void GameController::charHandler(char type,int row,int col) {
             break;
         }
         case COOKIE_S:{
+            m_cookies_on_board++;
             m_staticObj.push_back(std::make_unique<Cookie>(ResourcesManager::instance().getObjectTexture(COOKIE),tile.getPosition(),tile.getGlobalBounds().width * 0.5));
             break;
         }

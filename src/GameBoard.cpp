@@ -97,3 +97,7 @@ std::string GameBoard::read_files(std::string command) {
 }
 
 Bounds &GameBoard::getBoardBounds() {return m_bounds;}
+
+bool GameBoard::checkFinishGame() {
+    return m_total_levels == m_current_level;
+}
