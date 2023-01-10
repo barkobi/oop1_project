@@ -41,14 +41,14 @@ void Pacman::handleCollision(GameObject &object) {
 
 void Pacman::handleCollision(Ghost & ghost) {
     Event event(CollapseWithGhost);
-    EventLoop::instance().addEvent(event,ghost.getSprite().getPosition());
+    EventLoop::instance().addEvent(event);
     cancelMove();
 }
 
 void Pacman::handleCollision(Key & key) {
     Event event(GotKey ,7);
-    EventLoop::instance().addEvent(event,key.getSprite().getPosition());
-    key.deleteObject(1);
+    EventLoop::instance().addEvent(event);
+    key.deleteObject();
 }
 
 void Pacman::handleCollision(Door & door) {
@@ -56,9 +56,9 @@ void Pacman::handleCollision(Door & door) {
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
-    cookie.deleteObject(1);
+    cookie.deleteObject();
     Event event(EatCookie ,5);
-    EventLoop::instance().addEvent(event,cookie.getSprite().getPosition());
+    EventLoop::instance().addEvent(event);
 }
 
 void Pacman::handleCollision(Pacman & pacman) {
@@ -72,7 +72,6 @@ void Pacman::handleCollision(Gift & gift) {
 }
 
 void Pacman::handleCollision(Wall & wall) {
-    printf("wall\n");
     cancelMove();
 }
 
