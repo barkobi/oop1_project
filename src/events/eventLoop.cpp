@@ -9,12 +9,12 @@ EventLoop &EventLoop::instance() {
 
 bool EventLoop::hasEvent() {return !events.empty();}
 
-Event EventLoop::popEvent() {
+std::pair<Event,sf::Vector2f> EventLoop::popEvent() {
     auto popRes = events.front();
     events.pop();
     return popRes;
 }
 
-void EventLoop::addEvent(Event event) {
-    events.push(event);
+void EventLoop::addEvent(Event event,sf::Vector2f position) {
+    events.push(std::make_pair(event,position));
 }

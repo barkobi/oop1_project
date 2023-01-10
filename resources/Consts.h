@@ -4,8 +4,8 @@
 #include <string.h>
 
 const int OBJECTS = 7;
-const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height * 0.7;
-const int WINDOW_WIDTH = sf::VideoMode::getDesktopMode().width * 0.7;
+const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height * 0.85;
+const int WINDOW_WIDTH = sf::VideoMode::getDesktopMode().width * 0.85;
 
 // level editor sidebar size
 const int MENU_WIDTH =  sf::VideoMode::getDesktopMode().width * 0.1;

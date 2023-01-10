@@ -1,23 +1,22 @@
 #include "../include/ResourcesManager.h"
 
 ResourcesManager::ResourcesManager() {
-    m_backgroundMusic.openFromFile("../../../pacmanBackground.wav");
+    m_backgroundMusic.openFromFile("pacmanBackground.wav");
     for (int i = 0; i < MENU_BUTTONS; i++) {
-        m_menuButtonTxt[i].loadFromFile("../../../" + m_buttonString[i] + ".png");
+        m_menuButtonTxt[i].loadFromFile(m_buttonString[i] + ".png");
     }
     for (int i = 0; i < NUMBER_OF_SOUNDS; i++) {
-        m_sounds_buffs[i].loadFromFile("../../../" + m_sound_file_names[i]);
+        m_sounds_buffs[i].loadFromFile(m_sound_file_names[i]);
         m_sounds[i].setBuffer(m_sounds_buffs[i]);
     }
-    m_backGround.loadFromFile("../../../backGroundimage.jpg");
-    m_title.loadFromFile("../../../Title.png");
-    m_pacman.loadFromFile("../../../Pacmansheet.png");
+    m_backGround.loadFromFile("backGroundimage.jpg");
+    m_title.loadFromFile("Title.png");
     for(int i = 0;i < OBJECTS;i++)
     {
-        m_pictures[i].loadFromFile("../../../" + m_picturesString[i] + ".png");
+        m_pictures[i].loadFromFile(m_picturesString[i] + ".png");
     }
 
-    m_font.loadFromFile("../../../PressStart2P.ttf");
+    m_font.loadFromFile("PressStart2P.ttf");
 }
 
 sf::Font& ResourcesManager::getFont() {
@@ -76,7 +75,4 @@ sf::Texture *ResourcesManager::getTitle() {
     return &m_title;
 }
 
-sf::Texture *ResourcesManager::getPacmanSheet() {
-    return &m_pacman;
-}
 

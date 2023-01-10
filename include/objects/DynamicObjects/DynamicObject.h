@@ -21,7 +21,9 @@ public:
     virtual void handleCollision(Door&) = 0;
     virtual void handleCollision(Cookie&) = 0;
     virtual void handleCollision(Gift&) = 0;
-    void updateAnimation();
+    virtual void updateAnimation() = 0;
+    void setIntRectPacman(int rect);
+    void setIntRectGhost(int rect);
 protected:
     void rotateObject(float rotateBy);
     sf::Vector2f getPosition();
@@ -30,7 +32,6 @@ protected:
     void cancelMove();
     void setPosition(sf::Vector2f position);
 private:
-    int m_rect = 0;
     sf::Vector2f m_statPosition;
     float m_speedPerSecond = SPEED;
     sf::Vector2f m_previousPosition;

@@ -1,11 +1,23 @@
 #include "Ghost.h"
 
 Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : DynamicObject(texture, position,scaleFactor) {}
+    : DynamicObject(texture, position,scaleFactor) ,m_rect(0){}
 
 void Ghost::move(float deltaTime, Bounds boardBounds){
     std::vector<sf::Vector2f> dirs = {sf::Vector2f(0,1),sf::Vector2f(0,-1),sf::Vector2f(1,0),sf::Vector2f(-1,0)};
-    moveObj(dirs[rand()%4], deltaTime);
+    int i = rand()%4;
+    moveObj(dirs[i], deltaTime);
+    if(i == 0)
+        m_rect = 3072;
+    else if(i == 1)
+        m_rect = 2048;
+    else if(i == 2)
+        m_rect = 0;
+    else
+        m_rect = 1024;
+
+    m_rect+= 512;
+
 }
 
 void Ghost::handleCollision(GameObject &object) {
@@ -42,4 +54,8 @@ void Ghost::handleCollision(Gift & gift) {
 
 void Ghost::handleCollision(Wall & wall) {
     cancelMove();
+}
+
+void Ghost::updateAnimation() {
+    setIntRectGhost(m_rect);
 }

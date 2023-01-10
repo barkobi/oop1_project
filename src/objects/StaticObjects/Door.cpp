@@ -1,8 +1,11 @@
-//
-// Created by Bar Kobi on 06/01/2023.
-//
-
+#include <cmath>
 #include "objects/StaticObjects/Door.h"
 
 Door::Door(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : StaticObject(texture, position, scaleFactor){}
+
+int Door::checkDistance(sf::Vector2f &pos) {
+    std::cout << "in check distance\n";
+    auto dorpos = this->getSprite().getPosition();
+    return sqrt(pow(pos.x - dorpos.x, 2) + pow(pos.y - dorpos.y, 2) * 1.0);
+}

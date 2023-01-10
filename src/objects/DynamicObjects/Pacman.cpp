@@ -1,8 +1,9 @@
 #include "Pacman.h"
 #include "Cookie.h"
+#include "Key.h"
 
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : DynamicObject(texture, position,scaleFactor){}
+    : DynamicObject(texture, position,scaleFactor),m_rect(0){}
 
 void Pacman::move(float deltaTime, Bounds boardBounds){
     sf::Vector2f offset;
@@ -40,24 +41,24 @@ void Pacman::handleCollision(GameObject &object) {
 
 void Pacman::handleCollision(Ghost & ghost) {
     Event event(CollapseWithGhost);
-    EventLoop::instance().addEvent(event);
+    EventLoop::instance().addEvent(event,ghost.getSprite().getPosition());
     cancelMove();
 }
 
 void Pacman::handleCollision(Key & key) {
-    printf("key\n");
-    cancelMove();
+    Event event(GotKey ,7);
+    EventLoop::instance().addEvent(event,key.getSprite().getPosition());
+    key.deleteObject(1);
 }
 
 void Pacman::handleCollision(Door & door) {
-    printf("door\n");
     cancelMove();
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
-    cookie.deleteObject();
+    cookie.deleteObject(1);
     Event event(EatCookie ,5);
-    EventLoop::instance().addEvent(event);
+    EventLoop::instance().addEvent(event,cookie.getSprite().getPosition());
 }
 
 void Pacman::handleCollision(Pacman & pacman) {
@@ -75,3 +76,9 @@ void Pacman::handleCollision(Wall & wall) {
     cancelMove();
 }
 
+void Pacman::updateAnimation() {
+    if(m_rect > 2047)
+        m_rect = 0;
+    setIntRectPacman(m_rect);
+    m_rect += 512;
+}

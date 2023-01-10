@@ -13,10 +13,13 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
     add_compile_options (/W4 /permissive- /Zc:externConstexpr /Zc:inline /analyze)
+
 endif ()
 
 
 if(APPLE)
+
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/oop1_Project.app/Contents/MacOS)
 
     add_executable (oop1_Project MACOSX_BUNDLE "" src/GameBoard.cpp src/GameWindow.cpp src/Menu.cpp src/GameController.cpp src/ResourcesManager.cpp src/SettingsManager.cpp include/SettingsManager.h src/SettingsScreen.cpp include/SettingsScreen.h src/objects/GameObject.cpp src/objects/DynamicObjects/DynamicObject.cpp src/objects/StaticObjects/StaticObject.cpp src/objects/StaticObjects/Cookie.cpp include/objects/StaticObjects/Cookie.h src/events/Event.cpp include/events/Event.h)
 

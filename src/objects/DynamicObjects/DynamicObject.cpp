@@ -1,7 +1,7 @@
 #include "objects/DynamicObjects/DynamicObject.h"
 
 DynamicObject::DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position),m_rect(0){
+    : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position){
 }
 sf::Vector2f DynamicObject::getPosition() {return GameObject::getSprite().getPosition();}
 
@@ -36,9 +36,11 @@ void DynamicObject::rotateObject(float rotateBy) {
     m_sprite.rotate(rotateBy);
 }
 
-void DynamicObject::updateAnimation() {
-    if(m_rect >= 1536)
-        m_rect = 0;
-    m_sprite.setTextureRect(sf::IntRect(0,m_rect,512,512));
-    m_rect += 512;
+void DynamicObject::setIntRectPacman(int rect) {
+    m_sprite.setTextureRect(sf::IntRect(0,rect,512,512));
+}
+
+
+void DynamicObject::setIntRectGhost(int rect) {
+    m_sprite.setTextureRect(sf::IntRect(rect,0,512,512));
 }

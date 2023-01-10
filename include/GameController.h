@@ -12,6 +12,12 @@
 #include "Cookie.h"
 #include "EventLoop.h"
 
+enum Clocks_t{
+    GAMECLOCK,
+    ANIMATIONCLOCK,
+    MOVECLOCK
+};
+
 class GameController{
 public:
     GameController(sf::RenderWindow &window);
@@ -24,11 +30,13 @@ private:
     void handleCollision();
     void handleEvent();
     void nextLevel();
+    void openDoor();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
     sf::RenderWindow &m_window;
+    sf::Clock clocks[3];
     GameBoard m_board;
     int m_cookies_on_board;
     int m_lives = 3;

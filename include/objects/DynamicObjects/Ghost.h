@@ -13,6 +13,7 @@ public:
     virtual void handleCollision(Cookie&);
     virtual void handleCollision(Gift&);
     virtual void handleCollision(Wall&);
+    virtual void updateAnimation();
 private:
-
+    int m_rect;
 };

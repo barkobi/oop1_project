@@ -17,7 +17,6 @@ public:
     sf::Texture *getObjectTexture(const int loc);
     sf::Texture *getBackground();
     sf::Texture *getTitle();
-    sf::Texture *getPacmanSheet();
 
 //    sf::SoundBuffer *getSound(const int index);
 
@@ -29,7 +28,6 @@ public:
 private:
     ResourcesManager();
 
-    sf::Texture m_pacman;
     sf::Font m_font;
     sf::Sound m_sounds[NUMBER_OF_SOUNDS];
     sf::Music m_backgroundMusic;
@@ -38,7 +36,7 @@ private:
     sf::Texture m_backGround;
     sf::Texture m_title;
     sf::Texture m_pictures[MENU_BUTTONS];
-    std::string m_picturesString[OBJECTS] = { "Pacmansheet", "Key", "Ghost",
+    std::string m_picturesString[OBJECTS] = { "pacmanSpreadSheet", "Key", "ghostsheet",
                                               "Door", "Wall", "Cookie", "Gift"};
     std::string m_buttonString[MENU_BUTTONS] = {"PlayButton", "LeaderBoardButton", "AddStageButton",
                                                       "HelpButton", "SettingsButton", "QuitButton"};

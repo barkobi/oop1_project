@@ -1,14 +1,11 @@
 #include "../include/GameController.h"
 
 GameController::GameController(sf::RenderWindow &window)
-    : m_window(window), m_board(GameBoard()),m_cookies_on_board(0){
+    : m_window(window), m_board(GameBoard()),m_cookies_on_board(0),m_lives(3){
+    modifyBoard();
 }
 
 void GameController::run() {
-    m_lives = 3;
-    modifyBoard();
-    sf::Clock clock;
-    sf::Clock pa;
     print();
     while(m_window.isOpen()){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
@@ -17,16 +14,16 @@ void GameController::run() {
                     return;
             }
         }
-        float deltaTime = clock.restart().asSeconds();
+        float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         for(int i=0 ; i<m_dynamicObj.size() ; i++)
         {
-            if(pa.getElapsedTime().asSeconds() > 0.15){
-                m_dynamicObj[i]->updateAnimation();
-                pa.restart();
-            }
             m_dynamicObj[i]->move(deltaTime, m_board.getBoardBounds());
         }
-
+        if(clocks[ANIMATIONCLOCK].getElapsedTime().asSeconds() > 0.15){
+            for(int j = 0;j < m_dynamicObj.size();j++)
+                m_dynamicObj[j]->updateAnimation();
+            clocks[ANIMATIONCLOCK].restart();
+        }
         handleCollision();
         handleEvent();
         print();
@@ -36,34 +33,50 @@ void GameController::run() {
 void GameController::handleEvent() {
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
-        switch (event.getEventType()){
+        switch (event.first.getEventType()){
             case CollapseWithGhost:
                 m_lives--;
                 if(m_lives == 0)
-                    EventLoop::instance().addEvent(Event(GameOver));
+                    EventLoop::instance().addEvent(Event(GameOver),sf::Vector2f(0,0));
                 //TODO reset level
                 break;
             case EatCookie:
                 ResourcesManager::instance().playSound(CHEW_SOUND);
                 m_cookies_on_board--;
                 if(m_cookies_on_board == 0)
-                    EventLoop::instance().addEvent(Event(LevelEnd));
+                    EventLoop::instance().addEvent(Event(LevelEnd),sf::Vector2f(0,0));
                 break;
             case GotGift:
                 break;
-            case GotKey:
+            case GotKey:{
+                int min = WINDOW_WIDTH;
+                int index = -1;
+                for(int i = 0;i < m_staticObj.size();i++)
+                {
+                    int distance = m_staticObj[i]->checkDistance(event.second);
+                    if(distance < min)
+                    {
+                        if(index > -1)
+                            m_staticObj[index]->deleteObject(0);
+                        m_staticObj[i]->deleteObject(1);
+                        min = distance;
+                        index = i;
+                    }
+                }
                 break;
+            }
             case GameOver:
                 break;
-            case LevelEnd:
+            case LevelEnd:{
                 nextLevel();
                 break;
+            }
             case GameDone:
                 printf("Game Done!\n");
                 m_window.close();
                 break;
         }
-        m_points+=event.getPoints();
+        m_points+=event.first.getPoints();
     }
 }
 
@@ -94,7 +107,7 @@ void GameController::charHandler(char type,int row,int col) {
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.75));
             break;
         }
         case GHOST_S:{
@@ -137,16 +150,13 @@ void GameController::handleCollision() {
         }
     }
     std::erase_if(m_staticObj, [](const auto& obj) { return obj->needToDelete();});
-
 }
 
 void GameController::nextLevel() {
     if(m_board.checkFinishGame()){
-        EventLoop::instance().addEvent(Event(GameDone));
+        EventLoop::instance().addEvent(Event(GameDone),sf::Vector2f(0,0));
         return;
     }
     m_board.loadNextLevel();
-    m_lives = 3;
     modifyBoard();
 }
-
