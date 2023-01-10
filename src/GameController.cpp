@@ -108,10 +108,11 @@ void GameController::charHandler(char type,int row,int col) {
     switch (type) {
         case PACMAN_S:{
             m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.75));
+            std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }
         case GHOST_S:{
-            m_dynamicObj.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
+            m_dynamicObj.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width * 0.9));
             break;
         }
         case KEY_S:{
