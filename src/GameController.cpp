@@ -33,18 +33,18 @@ void GameController::run() {
 void GameController::handleEvent() {
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
-        switch (event.first.getEventType()){
+        switch (event.getEventType()){
             case CollapseWithGhost:
                 m_lives--;
                 if(m_lives == 0)
-                    EventLoop::instance().addEvent(Event(GameOver),sf::Vector2f(0,0));
+                    EventLoop::instance().addEvent(Event(GameOver));
                 //TODO reset level
                 break;
             case EatCookie:
                 ResourcesManager::instance().playSound(CHEW_SOUND);
                 m_cookies_on_board--;
                 if(m_cookies_on_board == 0)
-                    EventLoop::instance().addEvent(Event(LevelEnd),sf::Vector2f(0,0));
+                    EventLoop::instance().addEvent(Event(LevelEnd));
                 break;
             case GotGift:
                 break;
@@ -53,7 +53,7 @@ void GameController::handleEvent() {
                 int index = -1;
                 for(int i = 0;i < m_staticObj.size();i++)
                 {
-                    int distance = m_staticObj[i]->checkDistance(event.second);
+                    int distance = m_staticObj[i]->checkDistance(m_staticObj[0]->getSprite().getPosition());
                     if(distance < min)
                     {
                         if(index > -1)
@@ -76,7 +76,7 @@ void GameController::handleEvent() {
                 m_window.close();
                 break;
         }
-        m_points+=event.first.getPoints();
+        m_points+=event.getPoints();
     }
 }
 
@@ -155,7 +155,7 @@ void GameController::handleCollision() {
 
 void GameController::nextLevel() {
     if(m_board.checkFinishGame()){
-        EventLoop::instance().addEvent(Event(GameDone),sf::Vector2f(0,0));
+        EventLoop::instance().addEvent(Event(GameDone));
         return;
     }
     m_board.loadNextLevel();

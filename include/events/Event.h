@@ -18,5 +18,4 @@ public:
 private:
     int m_pointsToAdd;
     EventType_t m_eventType;
-    sf::Vector2f m_position;
 };
