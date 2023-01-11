@@ -7,35 +7,20 @@ GameController::GameController(sf::RenderWindow &window)
 
 void GameController::run(){
     print();
-    sf::Clock temp;
     while(m_window.isOpen() && !backToMenu){
-        if(auto event = sf::Event{}; m_window.pollEvent(event)){
-            switch (event.type) {
-                case sf::Event::Closed:
-                    return;
-            }
-        }
+        if(auto event = sf::Event{}; m_window.pollEvent(event))
+            if(event.type == sf::Event::Closed)
+                return;
+
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         for(int i=0 ; i<m_dynamicObj.size() ; i++)
         {
             m_dynamicObj[i]->move(deltaTime, m_board.getBoardBounds());
         }
-        if(clocks[ANIMATIONCLOCK].getElapsedTime().asSeconds() > 0.15){
-            for(int j = 0;j < m_dynamicObj.size();j++)
-                m_dynamicObj[j]->updateAnimation();
-            clocks[ANIMATIONCLOCK].restart();
-        }
-        if(temp.getElapsedTime().asSeconds() > 0.05)
-        {
-            for(int i = 0;i < m_staticObj.size();i++)
-            {
-                m_staticObj[i]->animation();
-            }
-            temp.restart();
-        }
 
         handleCollision();
         handleEvent();
+        handleAnimations();
         print();
     }
 }
@@ -179,4 +164,20 @@ void GameController::openDoor() {
 void GameController::resetLevel() {
     for(int i=0 ; i<m_dynamicObj.size() ; i++)
         m_dynamicObj[i]->goToInitialPosition();
+}
+
+void GameController::handleAnimations() {
+    auto time = clocks[ANIMATIONCLOCK].getElapsedTime().asSeconds();
+    if(time > 0.15){
+        clocks[ANIMATIONCLOCK].restart().asSeconds();
+        for(int j = 0;j < m_dynamicObj.size();j++)
+            m_dynamicObj[j]->updateAnimation();
+    }
+    if(time > 0.09)
+    {
+        for(int i = 0;i < m_staticObj.size();i++)
+        {
+            m_staticObj[i]->animation();
+        }
+    }
 }

@@ -13,14 +13,12 @@ public:
     void handleCollision(Ghost& gameObject) { gameObject.handleCollision(*this); }
     virtual void animation();
     virtual float checkDistance(const sf::Vector2f& pos){return WINDOW_WIDTH;}
-    void setAnim();
     void setHitten();
     bool getHitten();
 private:
     int m_height = 0;
     int m_rect = 0;
     int m_count = 0;
-    bool update = false;
     bool isHitten = false;
 
 };

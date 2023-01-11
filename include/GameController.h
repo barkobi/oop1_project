@@ -32,6 +32,7 @@ private:
     void nextLevel();
     void openDoor();
     void resetLevel();
+    void handleAnimations();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;

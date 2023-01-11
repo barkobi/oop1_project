@@ -58,7 +58,6 @@ void Pacman::handleCollision(Door & door) {
 void Pacman::handleCollision(Cookie & cookie) {
     if(!cookie.getHitten())
     {
-        cookie.setAnim();
         cookie.setHitten();
         Event event(EatCookie ,5);
         EventLoop::instance().addEvent(event);
