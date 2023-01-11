@@ -31,6 +31,7 @@ private:
     void handleEvent();
     void nextLevel();
     void openDoor();
+    void resetLevel();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;

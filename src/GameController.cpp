@@ -38,7 +38,7 @@ void GameController::handleEvent() {
                 m_lives--;
                 if(m_lives == 0)
                     EventLoop::instance().addEvent(Event(GameOver));
-                //TODO reset level
+                resetLevel();
                 break;
             case EatCookie:
                 ResourcesManager::instance().playSound(CHEW_SOUND);
@@ -156,7 +156,7 @@ void GameController::openDoor() {
     int min = WINDOW_WIDTH;
     int index = -1;
     for(int i = 0;i < m_staticObj.size();i++){
-        float distance = m_staticObj[i]->checkDistance(m_staticObj[0]->getSprite().getPosition());
+        float distance = m_staticObj[i]->checkDistance(m_dynamicObj[0]->getSprite().getPosition());
         if(distance < min){
             min = distance;
             index = i;
@@ -164,4 +164,9 @@ void GameController::openDoor() {
     }
     if(index != -1)
         m_staticObj[index]->deleteObject();
+}
+
+void GameController::resetLevel() {
+    for(int i=0 ; i<m_dynamicObj.size() ; i++)
+        m_dynamicObj[i]->goToInitialPosition();
 }
