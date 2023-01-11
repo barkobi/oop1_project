@@ -12,6 +12,7 @@ public:
     void handleCollision(GameObject& object) { object.handleCollision(*this); }
     void handleCollision(Pacman& pacman) { pacman.handleCollision(*this); }
     void handleCollision(Ghost& ghost) { ghost.handleCollision(*this); }
+    virtual void animation() {}
     virtual int checkDistance(sf::Vector2f& pos){return WINDOW_WIDTH;}
 private:
 };

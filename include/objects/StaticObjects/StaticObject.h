@@ -18,6 +18,7 @@ public:
     virtual void handleCollision(Gift&) {};
     virtual int checkDistance(sf::Vector2f&) = 0;
     bool needToDelete() const;
+    virtual void animation() = 0;
     void deleteObject();
 protected:
 private:

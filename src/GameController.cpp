@@ -7,6 +7,7 @@ GameController::GameController(sf::RenderWindow &window)
 
 void GameController::run() {
     print();
+    sf::Clock temp;
     while(m_window.isOpen()){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
             switch (event.type) {
@@ -24,6 +25,15 @@ void GameController::run() {
                 m_dynamicObj[j]->updateAnimation();
             clocks[ANIMATIONCLOCK].restart();
         }
+        if(temp.getElapsedTime().asSeconds() > 0.05)
+        {
+            for(int i = 0;i < m_staticObj.size();i++)
+            {
+                m_staticObj[i]->animation();
+            }
+            temp.restart();
+        }
+
         handleCollision();
         handleEvent();
         print();
@@ -40,12 +50,14 @@ void GameController::handleEvent() {
                     EventLoop::instance().addEvent(Event(GameOver));
                 //TODO reset level
                 break;
-            case EatCookie:
+            case EatCookie:{
+                std::cout << m_cookies_on_board << " ";
                 ResourcesManager::instance().playSound(CHEW_SOUND);
                 m_cookies_on_board--;
                 if(m_cookies_on_board == 0)
                     EventLoop::instance().addEvent(Event(LevelEnd));
                 break;
+            }
             case GotGift:
                 break;
             case GotKey:{

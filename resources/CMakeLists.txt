@@ -29,4 +29,6 @@ configure_file ("Title.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("backGroundimage.jpg" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("pacmanSpreadSheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("ghostsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
+configure_file ("coinsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
+
 
