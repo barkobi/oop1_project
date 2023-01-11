@@ -56,13 +56,12 @@ void Pacman::handleCollision(Door & door) {
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
-    cookie.deleteObject(1);
+    cookie.deleteObject();
     Event event(EatCookie ,5);
     EventLoop::instance().addEvent(event);
 }
 
 void Pacman::handleCollision(Pacman & pacman) {
-    printf("pacman\n");
     cancelMove();
 }
 

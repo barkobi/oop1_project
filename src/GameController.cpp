@@ -7,7 +7,7 @@ GameController::GameController(sf::RenderWindow &window)
 
 void GameController::run() {
     print();
-    while(m_window.isOpen()){
+    while(m_window.isOpen() && !backToMenu){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
             switch (event.type) {
                 case sf::Event::Closed:
@@ -49,25 +49,12 @@ void GameController::handleEvent() {
             case GotGift:
                 break;
             case GotKey:{
-                int min = WINDOW_WIDTH;
-                int index = -1;
-                for(int i = 0;i < m_staticObj.size();i++)
-                {
-                    int distance = m_staticObj[i]->checkDistance(m_staticObj[0]->getSprite().getPosition());
-                    if(distance < min)
-                    {
-                        if(index > -1)
-                            m_staticObj[index]->deleteObject(0);
-                        m_staticObj[i]->deleteObject(1);
-                        min = distance;
-                        index = i;
-                    }
-                }
-                if(index != -1)
-                    m_staticObj[index]->deleteObject();
+                openDoor();
                 break;
             }
             case GameOver:
+                printf("Game Over!\n");
+                backToMenu = true;
                 break;
             case LevelEnd:{
                 nextLevel();
@@ -75,7 +62,8 @@ void GameController::handleEvent() {
             }
             case GameDone:
                 printf("Game Done!\n");
-                m_window.close();
+                backToMenu = true;
+//                m_window.close();
                 break;
         }
         m_points+=event.getPoints();
@@ -162,4 +150,18 @@ void GameController::nextLevel() {
     }
     m_board.loadNextLevel();
     modifyBoard();
+}
+
+void GameController::openDoor() {
+    int min = WINDOW_WIDTH;
+    int index = -1;
+    for(int i = 0;i < m_staticObj.size();i++){
+        float distance = m_staticObj[i]->checkDistance(m_staticObj[0]->getSprite().getPosition());
+        if(distance < min){
+            min = distance;
+            index = i;
+        }
+    }
+    if(index != -1)
+        m_staticObj[index]->deleteObject();
 }

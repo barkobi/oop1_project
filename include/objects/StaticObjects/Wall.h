@@ -12,6 +12,6 @@ public:
     void handleCollision(GameObject& object) { object.handleCollision(*this); }
     void handleCollision(Pacman& pacman) { pacman.handleCollision(*this); }
     void handleCollision(Ghost& ghost) { ghost.handleCollision(*this); }
-    virtual int checkDistance(const sf::Vector2f& pos){return WINDOW_WIDTH;}
+    virtual float checkDistance(const sf::Vector2f& pos){return WINDOW_WIDTH;}
 private:
 };
