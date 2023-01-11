@@ -16,7 +16,7 @@ public:
     virtual void handleCollision(Door&){};
     virtual void handleCollision(Cookie&) {};
     virtual void handleCollision(Gift&) {};
-    virtual int checkDistance(sf::Vector2f&) = 0;
+    virtual float checkDistance(const sf::Vector2f&) = 0;
     bool needToDelete() const;
     virtual void animation() = 0;
     void deleteObject();

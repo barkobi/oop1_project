@@ -5,10 +5,10 @@ GameController::GameController(sf::RenderWindow &window)
     modifyBoard();
 }
 
-void GameController::run() {
+void GameController::run(){
     print();
     sf::Clock temp;
-    while(m_window.isOpen()){
+    while(m_window.isOpen() && !backToMenu){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
             switch (event.type) {
                 case sf::Event::Closed:
@@ -48,10 +48,9 @@ void GameController::handleEvent() {
                 m_lives--;
                 if(m_lives == 0)
                     EventLoop::instance().addEvent(Event(GameOver));
-                //TODO reset level
+                resetLevel();
                 break;
             case EatCookie:{
-                std::cout << m_cookies_on_board << " ";
                 ResourcesManager::instance().playSound(CHEW_SOUND);
                 m_cookies_on_board--;
                 if(m_cookies_on_board == 0)
@@ -61,23 +60,12 @@ void GameController::handleEvent() {
             case GotGift:
                 break;
             case GotKey:{
-                int min = std::max(WINDOW_WIDTH,WINDOW_HEIGHT);
-                int index = -1;
-                auto position = m_dynamicObj[0]->getSprite().getPosition();
-                for(int i = 0;i < m_staticObj.size();i++)
-                {
-                    int distance = m_staticObj[i]->checkDistance(position);
-                    if(distance < min)
-                    {
-                        min = distance;
-                        index = i;
-                    }
-                }
-                if(index != -1)
-                    m_staticObj[index]->deleteObject();
+                openDoor();
                 break;
             }
             case GameOver:
+                printf("Game Over!\n");
+                backToMenu = true;
                 break;
             case LevelEnd:{
                 nextLevel();
@@ -85,7 +73,7 @@ void GameController::handleEvent() {
             }
             case GameDone:
                 printf("Game Done!\n");
-                m_window.close();
+                backToMenu = true;
                 break;
         }
         m_points+=event.getPoints();
@@ -172,4 +160,23 @@ void GameController::nextLevel() {
     }
     m_board.loadNextLevel();
     modifyBoard();
+}
+
+void GameController::openDoor() {
+    int min = WINDOW_WIDTH;
+    int index = -1;
+    for(int i = 0;i < m_staticObj.size();i++){
+        float distance = m_staticObj[i]->checkDistance(m_dynamicObj[0]->getSprite().getPosition());
+        if(distance < min){
+            min = distance;
+            index = i;
+        }
+    }
+    if(index != -1)
+        m_staticObj[index]->deleteObject();
+}
+
+void GameController::resetLevel() {
+    for(int i=0 ; i<m_dynamicObj.size() ; i++)
+        m_dynamicObj[i]->goToInitialPosition();
 }

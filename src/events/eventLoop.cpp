@@ -9,7 +9,7 @@ EventLoop &EventLoop::instance() {
 
 bool EventLoop::hasEvent() {return !events.empty();}
 
-    Event EventLoop::popEvent() {
+Event EventLoop::popEvent() {
     auto popRes = events.front();
     events.pop();
     return popRes;

@@ -67,7 +67,6 @@ void Pacman::handleCollision(Cookie & cookie) {
 }
 
 void Pacman::handleCollision(Pacman & pacman) {
-    printf("pacman\n");
     cancelMove();
 }
 

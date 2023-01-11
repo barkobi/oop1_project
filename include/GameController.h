@@ -31,6 +31,7 @@ private:
     void handleEvent();
     void nextLevel();
     void openDoor();
+    void resetLevel();
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
@@ -41,4 +42,5 @@ private:
     int m_cookies_on_board;
     int m_lives = 3;
     int m_points = 0;
+    bool backToMenu = false;
 };
