@@ -67,6 +67,10 @@ void GameController::handleEvent() {
 
 void GameController::print() {
     m_window.clear();
+    auto background = sf::RectangleShape();
+    background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+    background.setTexture(ResourcesManager::instance().getBackground());
+    m_window.draw(background);
     m_board.draw(m_window);
     for(int obj = 0;obj < m_staticObj.size();obj++){
         m_staticObj[obj]->draw(&m_window);
