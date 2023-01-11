@@ -7,6 +7,6 @@ bool StaticObject::needToDelete() const {
     return m_delete;
 }
 
-void StaticObject::deleteObject(int flag) {
-    m_delete = flag;
+void StaticObject::deleteObject() {
+    m_delete = true;
 }

@@ -63,6 +63,8 @@ void GameController::handleEvent() {
                         index = i;
                     }
                 }
+                if(index != -1)
+                    m_staticObj[index]->deleteObject();
                 break;
             }
             case GameOver:

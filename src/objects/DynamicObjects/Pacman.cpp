@@ -48,7 +48,7 @@ void Pacman::handleCollision(Ghost & ghost) {
 void Pacman::handleCollision(Key & key) {
     Event event(GotKey ,7);
     EventLoop::instance().addEvent(event);
-    key.deleteObject(1);
+    key.deleteObject();
 }
 
 void Pacman::handleCollision(Door & door) {
@@ -72,7 +72,6 @@ void Pacman::handleCollision(Gift & gift) {
 }
 
 void Pacman::handleCollision(Wall & wall) {
-    printf("wall\n");
     cancelMove();
 }
 
