@@ -50,6 +50,7 @@ void ResourcesManager::playBackgroundMusic() {
         return;
 
     m_backgroundMusic.setVolume(SettingsManager::instance().getVolume());
+    m_backgroundMusic.setLoop(true);
     m_backgroundMusic.play();
 }
 

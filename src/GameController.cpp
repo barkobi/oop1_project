@@ -5,7 +5,7 @@ GameController::GameController(sf::RenderWindow &window)
     modifyBoard();
 }
 
-void GameController::run() {
+void GameController::run(){
     print();
     while(m_window.isOpen() && !backToMenu){
         if(auto event = sf::Event{}; m_window.pollEvent(event)){
@@ -63,7 +63,6 @@ void GameController::handleEvent() {
             case GameDone:
                 printf("Game Done!\n");
                 backToMenu = true;
-//                m_window.close();
                 break;
         }
         m_points+=event.getPoints();
