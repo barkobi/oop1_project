@@ -41,3 +41,16 @@ void Ghost::updateAnimation(){
     frame = !frame;
     setIntRectGhost(m_rect + IMAGE_DIMENSIONS*frame);
 }
+
+void Ghost::handleCollision(TimeAddGift &) {
+
+}
+void Ghost::handleCollision(SuperPacGift &) {
+
+}
+void Ghost::handleCollision(LifeIncGift &) {
+
+}
+void Ghost::handleCollision(GhostFreezeGift &) {
+
+}
