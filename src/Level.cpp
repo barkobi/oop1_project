@@ -15,7 +15,7 @@ int Level::getHeight() const{return m_height;}
 /**
  * @return get the map.
  */
-std::vector<std::string> Level::getMap() const {return m_map;}
+std::vector<std::string> Level::getMap() {return m_map;}
 
 /**
  * load the next map from the file
@@ -83,4 +83,8 @@ bool Level::validateLevel(){
         return false;
     }
     return true;
+}
+
+void Level::removeChar(int row, int col) {
+    m_map[row][col] = ' ';
 }

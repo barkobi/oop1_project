@@ -11,8 +11,7 @@ ResourcesManager::ResourcesManager() {
     }
     m_backGround.loadFromFile("backGroundimage.jpg");
     m_title.loadFromFile("Title.png");
-    for(int i = 0;i < OBJECTS;i++)
-    {
+    for(int i = 0;i < OBJECTS;i++){
         m_pictures[i].loadFromFile(m_picturesString[i] + ".png");
     }
 

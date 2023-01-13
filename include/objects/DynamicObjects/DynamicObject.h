@@ -2,8 +2,6 @@
 #include "objects/GameObject.h"
 #include "GameBoard.h"
 
-enum Direction_t {UP , DOWN , LEFT , RIGHT};
-
 class DynamicObject : public GameObject{
 public:
     DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
@@ -11,7 +9,7 @@ public:
 
     void goToInitialPosition();
 
-    virtual void move(float deltaTime, Bounds boardBounds) = 0;
+    virtual void move(float deltaTime, Bounds boardBounds ,std::vector<std::vector<int>> bfsRes) = 0;
 
     void handleCollision(Wall& wall);
     virtual void handleCollision(GameObject&) = 0;

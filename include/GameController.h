@@ -4,13 +4,16 @@
 #include <algorithm>
 #include <memory>
 #include "Pacman.h"
-#include "Ghost.h"
+#include "objects/DynamicObjects/ghosts/Ghost.h"
 #include "Key.h"
 #include "Wall.h"
 #include "Door.h"
 #include "Gift.h"
 #include "Cookie.h"
 #include "EventLoop.h"
+#include "RandomGhost.h"
+#include "SmartGhost.h"
+#include "Brain.h"
 
 enum Clocks_t{
     GAMECLOCK,

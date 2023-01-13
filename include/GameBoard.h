@@ -30,7 +30,6 @@ public:
     Bounds &getBoardBounds();
     bool checkFinishGame();
 
-
 private:
     // members
     std::vector<std::vector<sf::RectangleShape>> m_matrix;

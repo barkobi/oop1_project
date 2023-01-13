@@ -5,7 +5,7 @@
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor),m_rect(0){}
 
-void Pacman::move(float deltaTime, Bounds boardBounds){
+void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
     sf::Vector2f offset;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
         rotateObject(-90);

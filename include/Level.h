@@ -16,11 +16,12 @@ public:
     //getters / setters
     int getWidth() const;
     int getHeight() const;
-    std::vector<std::string> getMap() const;
+    std::vector<std::string> getMap();
 
     // functions:
     bool load_level(int current_level);
     bool validateLevel();
+    void removeChar(int row, int col);
 
 private:
     // members
