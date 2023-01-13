@@ -14,6 +14,10 @@ public:
     virtual void handleCollision(Key&);
     virtual void handleCollision(Door&);
     virtual void handleCollision(Cookie&);
+    virtual void handleCollision(TimeAddGift&);
+    virtual void handleCollision(GhostFreezeGift&);
+    virtual void handleCollision(LifeIncGift&);
+    virtual void handleCollision(SuperPacGift&);
     virtual void handleCollision(Gift&);
     virtual void handleCollision(Wall& wall);
     virtual void updateAnimation();

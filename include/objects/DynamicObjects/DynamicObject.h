@@ -20,6 +20,10 @@ public:
     virtual void handleCollision(Key&) = 0;
     virtual void handleCollision(Door&) = 0;
     virtual void handleCollision(Cookie&) = 0;
+    virtual void handleCollision(TimeAddGift&) = 0;
+    virtual void handleCollision(GhostFreezeGift&) = 0;
+    virtual void handleCollision(LifeIncGift&) = 0;
+    virtual void handleCollision(SuperPacGift&) = 0;
     virtual void handleCollision(Gift&) = 0;
     virtual void updateAnimation() = 0;
     void setIntRectPacman(int rect);

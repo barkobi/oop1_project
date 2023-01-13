@@ -8,6 +8,10 @@ class Ghost;
 class Door;
 class Cookie;
 class Gift;
+class TimeAddGift;
+class LifeIncGift;
+class GhostFreezeGift;
+class SuperPacGift;
 class Pacman;
 
 

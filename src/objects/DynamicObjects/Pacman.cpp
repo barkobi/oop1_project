@@ -1,6 +1,10 @@
 #include "Pacman.h"
 #include "Cookie.h"
 #include "Key.h"
+#include "LifeIncGift.h"
+#include "GhostFreezeGift.h"
+#include "TimeAddGift.h"
+#include "SuperPacGift.h"
 
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor),m_rect(0){}
@@ -52,6 +56,7 @@ void Pacman::handleCollision(Key & key) {
 }
 
 void Pacman::handleCollision(Door & door) {
+    std::cout << "HIT DOOR\n";
     cancelMove();
 }
 
@@ -59,18 +64,13 @@ void Pacman::handleCollision(Cookie & cookie) {
     if(!cookie.getHitten())
     {
         cookie.setHitten();
-        Event event(EatCookie ,5);
+        Event event(EatCookie ,2);
         EventLoop::instance().addEvent(event);
     }
 
 }
 
 void Pacman::handleCollision(Pacman & pacman) {
-    cancelMove();
-}
-
-void Pacman::handleCollision(Gift & gift) {
-    printf("gift\n");
     cancelMove();
 }
 
@@ -84,3 +84,46 @@ void Pacman::updateAnimation() {
     setIntRectPacman(m_rect);
     m_rect += 512;
 }
+
+void Pacman::handleCollision(GhostFreezeGift & gift) {
+    if(!gift.isHitten())
+    {
+        gift.setHitten();
+        Event event(GotGhostFreezeGift ,5);
+        EventLoop::instance().addEvent(event);
+        gift.deleteObject();
+    }
+}
+
+void Pacman::handleCollision(LifeIncGift & gift) {
+    if(!gift.isHitten())
+    {
+        gift.setHitten();
+        Event event(GotLifeGift ,5);
+        EventLoop::instance().addEvent(event);
+        gift.deleteObject();
+    }
+}
+
+void Pacman::handleCollision(SuperPacGift &gift) {
+    if(!gift.isHitten())
+    {
+        gift.setHitten();
+        Event event(GotSuperGift ,5);
+        EventLoop::instance().addEvent(event);
+        gift.deleteObject();
+    }
+}
+
+
+void Pacman::handleCollision(TimeAddGift & gift) {
+    if(!gift.isHitten())
+    {
+        gift.setHitten();
+        Event event(GotTimeAddGift ,5);
+        EventLoop::instance().addEvent(event);
+        gift.deleteObject();
+    }
+}
+
+void Pacman::handleCollision(Gift &) {}

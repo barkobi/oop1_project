@@ -27,7 +27,6 @@ public:
     void handleMove(const sf::Event::MouseMoveEvent &moveevent);
     void setSignal ();
     static void myHandler (int signum);
-    Menu& operator=(const Menu& other);
 
 private:
     sf::RenderWindow m_menuWindow;

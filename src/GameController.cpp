@@ -42,7 +42,17 @@ void GameController::handleEvent() {
                     EventLoop::instance().addEvent(Event(LevelEnd));
                 break;
             }
-            case GotGift:
+            case GotLifeGift:
+                std::cout << "add life\n";
+                break;
+            case GotSuperGift:
+                std::cout << "make super\n";
+                break;
+            case GotTimeAddGift:
+                std::cout << "add time\n";
+                break;
+            case GotGhostFreezeGift:
+                std::cout << "freezing ghost\n";
                 break;
             case GotKey:{
                 openDoor();
@@ -113,7 +123,24 @@ void GameController::charHandler(char type,int row,int col) {
             break;
         }
         case GIFT_S:{
-            m_staticObj.push_back(std::make_unique<Gift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
+            static int gift = -1;
+            int tmp;
+            do{tmp = rand()%4;} while (tmp==gift);
+            gift = tmp;
+            switch (gift) {
+                case 0:
+                    m_staticObj.push_back(std::make_unique<TimeAddGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+                    break;
+                case 1:
+                    m_staticObj.push_back(std::make_unique<SuperPacGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+                    break;
+                case 2:
+                    m_staticObj.push_back(std::make_unique<GhostFreezeGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+                    break;
+                case 3:
+                    m_staticObj.push_back(std::make_unique<LifeIncGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+                    break;
+            }
             break;
         }
         case COOKIE_S:{
@@ -173,7 +200,7 @@ void GameController::handleAnimations() {
         for(int j = 0;j < m_dynamicObj.size();j++)
             m_dynamicObj[j]->updateAnimation();
     }
-    if(time > 0.09)
+    if(time > 0.13)
     {
         for(int i = 0;i < m_staticObj.size();i++)
         {

@@ -36,6 +36,7 @@ void Ghost::handleCollision(Key & key) {
 }
 
 void Ghost::handleCollision(Door & door) {
+    std::cout << "GHOST HIT DOOR\n";
     cancelMove();
 }
 
@@ -49,6 +50,7 @@ void Ghost::handleCollision(Pacman & pacman) {
 }
 
 void Ghost::handleCollision(Gift & gift) {
+    std::cout << "ABSTARCT CLASS GIFT";
     cancelMove();
 }
 
@@ -58,4 +60,17 @@ void Ghost::handleCollision(Wall & wall) {
 
 void Ghost::updateAnimation() {
     setIntRectGhost(m_rect);
+}
+
+void Ghost::handleCollision(TimeAddGift &) {
+
+}
+void Ghost::handleCollision(SuperPacGift &) {
+
+}
+void Ghost::handleCollision(LifeIncGift &) {
+
+}
+void Ghost::handleCollision(GhostFreezeGift &) {
+
 }

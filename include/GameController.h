@@ -8,7 +8,10 @@
 #include "Key.h"
 #include "Wall.h"
 #include "Door.h"
-#include "Gift.h"
+#include "GhostFreezeGift.h"
+#include "LifeIncGift.h"
+#include "SuperPacGift.h"
+#include "TimeAddGift.h"
 #include "Cookie.h"
 #include "EventLoop.h"
 

@@ -6,7 +6,10 @@ enum EventType_t{
     GameDone,
     LevelEnd,
     CollapseWithGhost,
-    GotGift,
+    GotSuperGift,
+    GotLifeGift,
+    GotGhostFreezeGift,
+    GotTimeAddGift,
     GotKey
 };
 

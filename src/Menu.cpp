@@ -169,4 +169,3 @@ void Menu::myHandler(int signum) {
     m_lastClick = -1;
     canPlay = std::filesystem::exists("lvl_1.txt");
 }
-

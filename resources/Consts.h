@@ -14,7 +14,7 @@ const int MENU_BUTTONS = 6;
 const int NUMBER_OF_SOUNDS = 3;
 const int NUMBER_OF_TEXTURES = 7;
 
-const float SPEED = 120.1;
+const float SPEED = WINDOW_WIDTH / 15;
 
 const int IMAGE_DIMENSIONS = 512;
 
