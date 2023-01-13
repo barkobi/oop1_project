@@ -36,7 +36,6 @@ void Ghost::handleCollision(Key & key) {
 }
 
 void Ghost::handleCollision(Door & door) {
-    std::cout << "GHOST HIT DOOR\n";
     cancelMove();
 }
 
@@ -50,7 +49,6 @@ void Ghost::handleCollision(Pacman & pacman) {
 }
 
 void Ghost::handleCollision(Gift & gift) {
-    std::cout << "ABSTARCT CLASS GIFT";
     cancelMove();
 }
 

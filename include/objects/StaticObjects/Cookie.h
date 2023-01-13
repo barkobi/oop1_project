@@ -1,7 +1,7 @@
 #pragma once
 
 #include "StaticObject.h"
-#include "Ghost.h"
+#include "objects/DynamicObjects/ghosts/Ghost.h"
 #include "Pacman.h"
 
 class Cookie : public StaticObject{

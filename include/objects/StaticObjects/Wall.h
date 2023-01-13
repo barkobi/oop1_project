@@ -2,7 +2,7 @@
 
 #include "StaticObject.h"
 #include "Pacman.h"
-#include "Ghost.h"
+#include "objects/DynamicObjects/ghosts/Ghost.h"
 
 
 class Wall : public StaticObject{

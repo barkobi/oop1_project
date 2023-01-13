@@ -28,7 +28,6 @@ configure_file ("EmptyBtn.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("Title.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("../../oop1_ex04/resources/backGroundimage.jpg" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("pacmanSpreadSheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
-configure_file ("ghostsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
+configure_file ("randomghostsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
+configure_file ("smartghostsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("coinsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
-
-

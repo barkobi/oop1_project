@@ -6,7 +6,7 @@
 class Pacman : public DynamicObject{
 public:
     Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
-    void move(float deltaTime, Bounds boardBounds);
+    void move(float deltaTime, Bounds boardBounds, std::vector<std::vector<int>> bfsRes);
 
     virtual void handleCollision(GameObject&);
     virtual void handleCollision(Pacman&);

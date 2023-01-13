@@ -11,8 +11,7 @@ ResourcesManager::ResourcesManager() {
     }
     m_backGround.loadFromFile("backGroundimage.jpg");
     m_title.loadFromFile("Title.png");
-    for(int i = 0;i < OBJECTS;i++)
-    {
+    for(int i = 0;i < OBJECTS;i++){
         m_pictures[i].loadFromFile(m_picturesString[i] + ".png");
     }
 
@@ -49,7 +48,7 @@ void ResourcesManager::playBackgroundMusic() {
     if(!SettingsManager::instance().getSoundSwitch())
         return;
 
-    m_backgroundMusic.setVolume(SettingsManager::instance().getVolume());
+    m_backgroundMusic.setVolume(SettingsManager::instance().getBGMVolume());
     m_backgroundMusic.setLoop(true);
     m_backgroundMusic.play();
 }
@@ -65,7 +64,8 @@ void ResourcesManager::updateMusic() {
     if(m_backgroundMusic.getStatus() != sf::Music::Status::Playing)
         m_backgroundMusic.play();
 
-    m_backgroundMusic.setVolume(SettingsManager::instance().getVolume());
+    m_backgroundMusic.setVolume(SettingsManager::instance().getBGMVolume());
+    m_backgroundMusic.setLoop(true);
 }
 
 sf::Texture *ResourcesManager::getBackground() {

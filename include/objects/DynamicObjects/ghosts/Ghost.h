@@ -1,9 +1,11 @@
 #pragma once
 #include "DynamicObject.h"
+
+enum Direction_t{Right, Left, Up, Down};
+
 class Ghost : public DynamicObject{
 public:
     Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
-    void move(float deltaTime, Bounds boardBounds);
 
     virtual void handleCollision(GameObject&);
     virtual void handleCollision(Pacman&);
@@ -18,6 +20,12 @@ public:
     virtual void handleCollision(Gift&);
     virtual void handleCollision(Wall&);
     virtual void updateAnimation();
+
+protected:
+    void moveGhost(float deltaTime, Bounds boardBounds, Direction_t);
+
 private:
     int m_rect;
+    bool frame;
+
 };

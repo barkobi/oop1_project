@@ -1,4 +1,4 @@
-#include "../include/GameController.h"
+#include "GameController.h"
 
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()),m_cookies_on_board(0),m_lives(3){
@@ -13,11 +13,10 @@ void GameController::run(){
                 return;
 
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
-        for(int i=0 ; i<m_dynamicObj.size() ; i++)
-        {
-            m_dynamicObj[i]->move(deltaTime, m_board.getBoardBounds());
+        auto bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(&m_dynamicObj, m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height , m_board.getTile(0,0).getPosition()));
+        for(int i=0 ; i<m_dynamicObj.size() ; i++){
+            m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
         }
-
         handleCollision();
         handleEvent();
         handleAnimations();
@@ -77,6 +76,10 @@ void GameController::handleEvent() {
 
 void GameController::print() {
     m_window.clear();
+    auto background = sf::RectangleShape();
+    background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+    background.setTexture(ResourcesManager::instance().getBackground());
+    m_window.draw(background);
     m_board.draw(m_window);
     for(int obj = 0;obj < m_staticObj.size();obj++){
         m_staticObj[obj]->draw(&m_window);
@@ -92,9 +95,13 @@ void GameController::modifyBoard() {
     m_staticObj.clear();
     auto map = m_board.getLevel().getMap();
     for(int row = 0;row < map.size();row++){
-        for(int col = 0;col < map[row].length();col++)
-            if (map[row][col] != ' ')
+        for(int col = 0;col < map[row].length();col++){
+            if (map[row][col] != ' '){
                 charHandler(map[row][col], row, col);
+                if(map[row][col]!= WALL_S)
+                    m_board.getLevel().removeChar(row,col);
+            }
+        }
     }
 }
 
@@ -107,7 +114,10 @@ void GameController::charHandler(char type,int row,int col) {
             break;
         }
         case GHOST_S:{
-            m_dynamicObj.push_back(std::make_unique<Ghost>(ResourcesManager::instance().getObjectTexture(GHOST),tile.getPosition(),tile.getGlobalBounds().width * 0.9));
+            if(rand()%2 == 0)
+                m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),tile.getGlobalBounds().width * 0.9));
+            else
+                m_dynamicObj.push_back(std::make_unique<SmartGhost>(tile.getPosition(),tile.getGlobalBounds().width * 0.9));
             break;
         }
         case KEY_S:{
