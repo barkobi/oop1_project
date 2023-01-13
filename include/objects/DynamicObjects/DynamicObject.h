@@ -26,12 +26,12 @@ public:
     virtual void updateAnimation() = 0;
     void setIntRectPacman(int rect);
     void setIntRectGhost(int rect);
+    void cancelMove();
 protected:
     void rotateObject(float rotateBy);
     sf::Vector2f getPosition();
     sf::Rect<float> getGlobalBounds();
     void moveObj(sf::Vector2f offset, float dt);
-    void cancelMove();
     void setPosition(sf::Vector2f position);
 private:
     sf::Vector2f m_statPosition;

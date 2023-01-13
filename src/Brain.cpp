@@ -61,22 +61,12 @@ namespace Brain{
             }
         }
 
-
-//        for(int i=0 ; i<result.size() ; i++){
-//            for(int j=0 ; j<result[i].size() ; j++)
-//                std::cout << result[i][j] << "   ";
-//            std::cout << "\n";
-//        }
         return result;
     }
 
-    std::vector<std::string> Brain::addObjectsToMap(std::vector<std::unique_ptr<DynamicObject>> *objects, std::vector<std::string> map, float tileSize, sf::Vector2f topLeft) {
-        auto pacmanLoc = (*objects)[0]->getSprite().getPosition()-topLeft + sf::Vector2f(1,1);
-        map[(int)(pacmanLoc.y/tileSize)][(int)(pacmanLoc.x/tileSize)] = PACMAN_S;
-        for(int i=1 ; i<objects->size() ; i++){
-            auto ghostLoc = (*objects)[i]->getSprite().getPosition()-topLeft+ sf::Vector2f(1,1);
-            map[(int)(ghostLoc.y/tileSize)][(int)(ghostLoc.x/tileSize)] = GHOST_S;
-        }
+    std::vector<std::string> Brain::addObjectsToMap(sf::Vector2f pacloc, std::vector<std::string> map, float tileSize, sf::Vector2f topLeft,float pacsize) {
+        pacloc = pacloc - topLeft + sf::Vector2f(pacsize/2,pacsize/2);
+        map[(int)(pacloc.y/tileSize)][(int)(pacloc.x/tileSize)] = PACMAN_S;
         return map;
     }
 }

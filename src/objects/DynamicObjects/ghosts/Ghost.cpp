@@ -1,5 +1,5 @@
 #include "objects/DynamicObjects/ghosts/Ghost.h"
-
+#include "Pacman.h"
 Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor) ,m_rect(0){}
 
@@ -28,7 +28,6 @@ void Ghost::handleCollision(Door & door) {
 void Ghost::handleCollision(Cookie & cookie) {}
 
 void Ghost::handleCollision(Pacman & pacman) {
-    printf("ghost collision with pacman\n");
 }
 
 void Ghost::handleCollision(Gift & gift) {}

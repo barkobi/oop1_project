@@ -12,6 +12,7 @@ struct Bounds{
     float topLeftY;
     float BottomRightX;
     float BottomRightY;
+    float tile;
 };
 
 class GameBoard {

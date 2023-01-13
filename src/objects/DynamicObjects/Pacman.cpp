@@ -5,11 +5,14 @@
 #include "GhostFreezeGift.h"
 #include "TimeAddGift.h"
 #include "SuperPacGift.h"
-
+#include "Door.h"
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : DynamicObject(texture, position,scaleFactor),m_rect(0){}
+    : DynamicObject(texture, position,scaleFactor),m_rect(0),pacstate(std::make_unique<NormalPacman>()){}
 
 void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
+    if(superClock.getElapsedTime().asSeconds() > 5){
+        downgradeToNormal();
+    }
     sf::Vector2f offset;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
         rotateObject(-90);
@@ -44,9 +47,8 @@ void Pacman::handleCollision(GameObject &object) {
 }
 
 void Pacman::handleCollision(Ghost & ghost) {
-    Event event(CollapseWithGhost);
-    EventLoop::instance().addEvent(event);
-    cancelMove();
+    if(pacstate->handleWallCollision(ghost))
+        ghost.goToInitialPosition();
 }
 
 void Pacman::handleCollision(Key & key) {
@@ -56,8 +58,10 @@ void Pacman::handleCollision(Key & key) {
 }
 
 void Pacman::handleCollision(Door & door) {
-    std::cout << "HIT DOOR\n";
-    cancelMove();
+    if(!pacstate->handleWallCollision(door))
+        cancelMove();
+    else
+        door.deleteObject();
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
@@ -113,6 +117,8 @@ void Pacman::handleCollision(SuperPacGift &gift) {
         EventLoop::instance().addEvent(event);
         gift.deleteObject();
     }
+    upgradeToSuper();
+    superClock.restart().asSeconds();
 }
 
 
@@ -127,3 +133,11 @@ void Pacman::handleCollision(TimeAddGift & gift) {
 }
 
 void Pacman::handleCollision(Gift &) {}
+
+void Pacman::upgradeToSuper() {
+    pacstate.reset(new SuperPacmanState());
+}
+
+void Pacman::downgradeToNormal() {
+    pacstate.reset(new NormalPacman());
+}

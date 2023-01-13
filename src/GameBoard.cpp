@@ -62,6 +62,7 @@ void GameBoard::createBoard() {
     auto bottomRightTile = m_matrix[m_level.getHeight()-1][m_level.getWidth()-1];
     m_bounds.BottomRightX = bottomRightTile.getPosition().x + tileSize;
     m_bounds.BottomRightY = bottomRightTile.getPosition().y + tileSize;
+    m_bounds.tile = tileSize;
 
 }
 

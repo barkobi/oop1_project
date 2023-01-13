@@ -1,57 +1,78 @@
 #include "GameController.h"
 
 GameController::GameController(sf::RenderWindow &window)
-    : m_window(window), m_board(GameBoard()),m_cookies_on_board(0),m_lives(3){
+    : m_window(window), m_board(GameBoard()), m_gameBar(window){
+    stats[Life] = 3;
+    stats[Points] = 0;
+    stats[Cookies] = 0;
     modifyBoard();
 }
 
 void GameController::run(){
     print();
+    std::vector<std::vector<int>> bfsRes;
     while(m_window.isOpen() && !backToMenu){
         if(auto event = sf::Event{}; m_window.pollEvent(event))
             if(event.type == sf::Event::Closed)
                 return;
-
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
-        auto bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(&m_dynamicObj, m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height , m_board.getTile(0,0).getPosition()));
+        bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(m_dynamicObj[0]->getSprite().getPosition(), m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height ,
+                                                                 m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
         for(int i=0 ; i<m_dynamicObj.size() ; i++){
+            if(i > 0 && freezed)
+                break;
             m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
         }
+
         handleCollision();
         handleEvent();
         handleAnimations();
         print();
+        m_gameBar.updateGameBar(stats);
     }
 }
 
 void GameController::handleEvent() {
+    if(freezed){
+        if(clocks[GIFTCLOCK].getElapsedTime().asSeconds() > 5)
+            freezed = false;
+    }
+    if(super)
+        if(clocks[GIFTCLOCK].getElapsedTime().asSeconds() > 5)
+            m_dynamicObj[0]->getSprite().setTexture(*ResourcesManager::instance().getObjectTexture(0));
+
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
         switch (event.getEventType()){
             case CollapseWithGhost:
-                m_lives--;
-                if(m_lives == 0)
+            {
+                stats[Life]--;
+                if(stats[Life] == 0)
                     EventLoop::instance().addEvent(Event(GameOver));
                 resetLevel();
                 break;
+            }
             case EatCookie:{
                 ResourcesManager::instance().playSound(CHEW_SOUND);
-                m_cookies_on_board--;
-                if(m_cookies_on_board == 0)
+                stats[Cookies]--;
+                if(stats[Cookies] == 0)
                     EventLoop::instance().addEvent(Event(LevelEnd));
                 break;
             }
             case GotLifeGift:
-                std::cout << "add life\n";
+                stats[Life]++;
                 break;
             case GotSuperGift:
-                std::cout << "make super\n";
+                m_dynamicObj[0]->getSprite().setTexture(*ResourcesManager::instance().getObjectTexture(3));
+                clocks[GIFTCLOCK].restart().asSeconds();
+                super = true;
                 break;
             case GotTimeAddGift:
-                std::cout << "add time\n";
+                m_gameBar.addTime();
                 break;
             case GotGhostFreezeGift:
-                std::cout << "freezing ghost\n";
+                clocks[GIFTCLOCK].restart().asSeconds();
+                freezed = true;
                 break;
             case GotKey:{
                 openDoor();
@@ -69,8 +90,11 @@ void GameController::handleEvent() {
                 printf("Game Done!\n");
                 backToMenu = true;
                 break;
+            case TimeOver:
+                EventLoop::instance().addEvent(Event(GameOver));
+                break;
         }
-        m_points+=event.getPoints();
+        stats[Points]+=event.getPoints();
     }
 }
 
@@ -87,7 +111,6 @@ void GameController::print() {
     for(int obj = 0;obj < m_dynamicObj.size();obj++){
         m_dynamicObj[obj]->draw(&m_window);
     }
-    m_window.display();
 }
 
 void GameController::modifyBoard() {
@@ -98,7 +121,7 @@ void GameController::modifyBoard() {
         for(int col = 0;col < map[row].length();col++){
             if (map[row][col] != ' '){
                 charHandler(map[row][col], row, col);
-                if(map[row][col]!= WALL_S)
+                if(map[row][col]!= WALL_S && map[row][col]!= DOOR_S)
                     m_board.getLevel().removeChar(row,col);
             }
         }
@@ -115,9 +138,9 @@ void GameController::charHandler(char type,int row,int col) {
         }
         case GHOST_S:{
             if(rand()%2 == 0)
-                m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),tile.getGlobalBounds().width * 0.9));
+                m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),tile.getGlobalBounds().width));
             else
-                m_dynamicObj.push_back(std::make_unique<SmartGhost>(tile.getPosition(),tile.getGlobalBounds().width * 0.9));
+                m_dynamicObj.push_back(std::make_unique<SmartGhost>(tile.getPosition(),tile.getGlobalBounds().width));
             break;
         }
         case KEY_S:{
@@ -154,7 +177,7 @@ void GameController::charHandler(char type,int row,int col) {
             break;
         }
         case COOKIE_S:{
-            m_cookies_on_board++;
+            stats[Cookies]++;
             m_staticObj.push_back(std::make_unique<Cookie>(ResourcesManager::instance().getObjectTexture(COOKIE),tile.getPosition(),tile.getGlobalBounds().width * 0.5));
             break;
         }
@@ -182,6 +205,7 @@ void GameController::nextLevel() {
     }
     m_board.loadNextLevel();
     modifyBoard();
+    m_gameBar.resetClock();
 }
 
 void GameController::openDoor() {
@@ -201,6 +225,8 @@ void GameController::openDoor() {
 void GameController::resetLevel() {
     for(int i=0 ; i<m_dynamicObj.size() ; i++)
         m_dynamicObj[i]->goToInitialPosition();
+
+    m_gameBar.resetClock();
 }
 
 void GameController::handleAnimations() {

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "pacmanState.h"
 #include "DynamicObject.h"
 #include "eventLoop.h"
 
@@ -21,9 +21,13 @@ public:
     virtual void handleCollision(Gift&);
     virtual void handleCollision(Wall& wall);
     virtual void updateAnimation();
+    void upgradeToSuper();
+    void downgradeToNormal();
 
 private:
+    sf::Clock superClock;
     int m_rect;
+    std::unique_ptr<PacmanState> pacstate;
 
 };
 

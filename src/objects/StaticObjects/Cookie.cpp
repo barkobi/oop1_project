@@ -13,8 +13,6 @@ void Cookie::animation() {
         else if(m_count < 5)
             m_height -= 4;
 
-        std::cout << m_sprite.getPosition().y << "  \n";
-        std::cout << m_height << " \n";
         m_rect += 512;
         m_count++;
         m_sprite.setTextureRect(sf::IntRect(m_rect,0,512,512));

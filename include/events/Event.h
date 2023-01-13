@@ -10,7 +10,8 @@ enum EventType_t{
     GotLifeGift,
     GotGhostFreezeGift,
     GotTimeAddGift,
-    GotKey
+    GotKey,
+    TimeOver
 };
 
 class Event{

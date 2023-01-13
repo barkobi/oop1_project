@@ -17,11 +17,17 @@
 #include "RandomGhost.h"
 #include "SmartGhost.h"
 #include "Brain.h"
-
+#include "GameBar.h"
 enum Clocks_t{
-    GAMECLOCK,
     ANIMATIONCLOCK,
-    MOVECLOCK
+    MOVECLOCK,
+    GIFTCLOCK
+};
+
+enum Stats_t{
+    Cookies,
+    Points,
+    Life
 };
 
 class GameController{
@@ -46,8 +52,9 @@ private:
     sf::RenderWindow &m_window;
     sf::Clock clocks[3];
     GameBoard m_board;
-    int m_cookies_on_board;
-    int m_lives = 3;
-    int m_points = 0;
+    int stats[3];
     bool backToMenu = false;
+    GameBar m_gameBar;
+    bool freezed = false;
+    bool super = false;
 };
