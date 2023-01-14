@@ -14,7 +14,7 @@ private:
     sf::Clock collisionClock;
     sf::Clock randomClock;
     sf::Vector2i myLocation;
-    Direction_t m_lastDirection = Right;
+    Direction_t m_lastDirection;
     bool randomize = false;
 
 };

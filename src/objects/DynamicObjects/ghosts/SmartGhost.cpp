@@ -11,20 +11,18 @@ SmartGhost::SmartGhost(sf::Vector2f position, float scaleFactor)
 
 void SmartGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes) {
 
-    if(randomClock.getElapsedTime().asSeconds() > 4)
+    if(randomClock.getElapsedTime().asSeconds() > 2)
         randomize = false;
 
     if(randomize)
     {
         m_timetoswitch += deltaTime;
-        std::cout << "time to switch : " << m_timetoswitch << " \n";
         if(m_timetoswitch > 0.5){
             m_timetoswitch = 0;
             Direction_t randomDir = static_cast<Direction_t>(rand() % 4);
             m_lastDirection = randomDir;
-            std::cout << "direction = " << m_lastDirection << "\n";
         }
-        moveGhost(deltaTime, boardBounds, m_lastDirection);
+        moveGhost(deltaTime,m_lastDirection);
         return;
     }
     float tileSize = boardBounds.tile;
@@ -65,5 +63,5 @@ void SmartGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vecto
         bfsRes[myLocation.y - 1][myLocation.x] < minLocation) {
         m_lastDirection = Left;
     }
-    moveGhost(deltaTime, boardBounds, m_lastDirection);
+    moveGhost(deltaTime,m_lastDirection);
 }
