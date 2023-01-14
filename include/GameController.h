@@ -46,6 +46,7 @@ private:
     void resetLevel();
     void handleAnimations();
 
+
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;

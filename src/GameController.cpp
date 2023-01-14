@@ -95,7 +95,7 @@ void GameController::handleEvent() {
                 backToMenu = true;
                 break;
             case TimeOver:
-                EventLoop::instance().addEvent(Event(GameOver));
+                //EventLoop::instance().addEvent(Event(GameOver));
                 break;
         }
         stats[Points]+=event.getPoints();
@@ -138,7 +138,7 @@ void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.75));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
             std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }
