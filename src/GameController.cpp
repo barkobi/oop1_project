@@ -92,7 +92,7 @@ void GameController::handleEvent() {
                 backToMenu = true;
                 break;
             case TimeOver:
-                EventLoop::instance().addEvent(Event(GameOver));
+                //EventLoop::instance().addEvent(Event(GameOver));
                 break;
         }
         stats[Points]+=event.getPoints();
