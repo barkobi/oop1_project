@@ -29,11 +29,17 @@ sf::Rect<float> DynamicObject::getGlobalBounds() {
 }
 
 void DynamicObject::rotateObject(float rotateBy) {
+    static auto originalScale = m_sprite.getScale();
+    m_sprite.setScale(originalScale);
+
     if(m_sprite.getRotation() == rotateBy)
         return;
 
     m_sprite.rotate(-m_sprite.getRotation());
-    m_sprite.rotate(rotateBy);
+    if(rotateBy == 180)
+        m_sprite.setScale(-originalScale.x, originalScale.y);
+    else
+        m_sprite.rotate(rotateBy);
 }
 
 void DynamicObject::setIntRectPacman(int rect) {

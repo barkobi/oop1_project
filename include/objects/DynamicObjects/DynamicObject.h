@@ -9,7 +9,7 @@ public:
 
     void goToInitialPosition();
 
-    virtual void move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes ,std::vector<std::vector<sf::RectangleShape>> matrix) = 0;
+    virtual void move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes) = 0;
 
     void handleCollision(Wall& wall);
     virtual void handleCollision(GameObject&) = 0;

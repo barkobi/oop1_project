@@ -38,7 +38,7 @@ void GameBar::updateGameBar(int stats[]){
 
     if(m_gametime == 0)
     {
-        EventLoop::instance().addEvent(Event(TimeOver));
+//        EventLoop::instance().addEvent(Event(TimeOver));
     }
 }
 

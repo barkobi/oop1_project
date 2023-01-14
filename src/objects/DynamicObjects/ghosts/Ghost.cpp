@@ -1,5 +1,6 @@
 #include "objects/DynamicObjects/ghosts/Ghost.h"
 #include "Pacman.h"
+
 Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor) ,m_rect(0){}
 
@@ -27,13 +28,11 @@ void Ghost::handleCollision(Door & door) {
 
 void Ghost::handleCollision(Cookie & cookie) {}
 
-void Ghost::handleCollision(Pacman & pacman) {
-}
+void Ghost::handleCollision(Pacman & pacman) {}
 
 void Ghost::handleCollision(Gift & gift) {}
 
 void Ghost::handleCollision(Wall & wall) {
-    badMove = true;
     cancelMove();
 }
 
@@ -42,15 +41,7 @@ void Ghost::updateAnimation(){
     setIntRectGhost(m_rect + IMAGE_DIMENSIONS*frame);
 }
 
-void Ghost::handleCollision(TimeAddGift &) {
-
-}
-void Ghost::handleCollision(SuperPacGift &) {
-
-}
-void Ghost::handleCollision(LifeIncGift &) {
-
-}
-void Ghost::handleCollision(GhostFreezeGift &) {
-
-}
+void Ghost::handleCollision(TimeAddGift &) {}
+void Ghost::handleCollision(SuperPacGift &) {}
+void Ghost::handleCollision(LifeIncGift &) {}
+void Ghost::handleCollision(GhostFreezeGift &) {}

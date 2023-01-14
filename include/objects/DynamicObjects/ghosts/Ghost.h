@@ -23,10 +23,8 @@ public:
 
 protected:
     void moveGhost(float deltaTime, Direction_t);
-    bool badMove = false;
 
 private:
     int m_rect;
     bool frame;
-
 };

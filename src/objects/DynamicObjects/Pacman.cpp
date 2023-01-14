@@ -6,10 +6,11 @@
 #include "TimeAddGift.h"
 #include "SuperPacGift.h"
 #include "Door.h"
+
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor),m_rect(0),pacstate(std::make_unique<NormalPacman>()){}
 
-void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes ,std::vector<std::vector<sf::RectangleShape>> matrix){
+void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
     if(superClock.getElapsedTime().asSeconds() > 5){
         downgradeToNormal();
     }
@@ -24,7 +25,7 @@ void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<in
         rotateObject(0);
         offset =sf::Vector2f(1, 0);
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-        rotateObject(-180);
+        rotateObject(180);
         offset =sf::Vector2f(-1, 0);
     }
     moveObj(offset, deltaTime);
@@ -65,8 +66,7 @@ void Pacman::handleCollision(Door & door) {
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
-    if(!cookie.getHitten())
-    {
+    if(!cookie.getHitten()){
         cookie.setHitten();
         Event event(EatCookie ,2);
         EventLoop::instance().addEvent(event);
@@ -83,10 +83,10 @@ void Pacman::handleCollision(Wall & wall) {
 }
 
 void Pacman::updateAnimation() {
-    if(m_rect > 2047)
+    if(m_rect == IMAGE_DIMENSIONS*4)
         m_rect = 0;
     setIntRectPacman(m_rect);
-    m_rect += 512;
+    m_rect += IMAGE_DIMENSIONS;
 }
 
 void Pacman::handleCollision(GhostFreezeGift & gift) {
