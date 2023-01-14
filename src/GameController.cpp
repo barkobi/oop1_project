@@ -13,8 +13,9 @@ void GameController::run(){
     std::vector<std::vector<int>> bfsRes;
     while(m_window.isOpen() && !backToMenu){
         if(auto event = sf::Event{}; m_window.pollEvent(event))
-            if(event.type == sf::Event::Closed)
+            if(event.type == sf::Event::Closed) {
                 return;
+            }
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(m_dynamicObj[0]->getSprite().getPosition(), m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height ,
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));

@@ -9,4 +9,8 @@ public:
 
     virtual void move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes);
 
+private:
+    sf::Vector2i myLocation;
+    Direction_t m_lastDirection;
+
 };
