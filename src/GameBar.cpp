@@ -1,35 +1,31 @@
 #include "GameBar.h"
-#include "iostream"
-GameBar::GameBar(sf::RenderWindow& window) : m_window(window),m_gametime(60){
-    m_font.loadFromFile("PressStart2P.ttf");
+
+GameBar::GameBar() : m_gametime(60){
     int prevloc = 0;
     for(int i = 0;i < 4;i++)
     {
         m_Texts[i].setFillColor(sf::Color::White);
-        m_Texts[i].setFont(m_font);
+        m_Texts[i].setFont(ResourcesManager::instance().getFont());
         m_Texts[i].setString(texts[i]);
-        m_Texts[i].setCharacterSize(25);
-        m_Texts[i].setPosition(100 + prevloc,30);
-        prevloc = m_Texts[i].getPosition().x + m_Texts[i].getGlobalBounds().width + 120;
+        m_Texts[i].setCharacterSize(30);
+        m_Texts[i].setPosition(WINDOW_WIDTH*0.05 + prevloc,30);
+        prevloc = m_Texts[i].getPosition().x + (m_Texts[i].getGlobalBounds().width) + WINDOW_WIDTH*0.05;
     }
     m_gameTimer.restart().asSeconds();
 }
 
-void GameBar::drawStats() {
+void GameBar::drawStats(sf::RenderWindow &window){
     for(int i = 0;i < 4;i++)
-        m_window.draw(m_Texts[i]);
-
-    m_window.display();
+        window.draw(m_Texts[i]);
 }
 
-void GameBar::updateGameBar(int stats[]) {
+void GameBar::updateGameBar(int stats[]){
     std::stringstream stringtonum;
     for(int i = 0;i < 3;i++)
     {
         stringtonum.str("");
         stringtonum << stats[i];
         m_Texts[i].setString(texts[i] + stringtonum.str().c_str());
-
     }
 
     if(m_gameTimer.getElapsedTime().asSeconds() >= 1){
@@ -42,10 +38,8 @@ void GameBar::updateGameBar(int stats[]) {
 
     if(m_gametime == 0)
     {
-        Event event(TimeOver ,0);
-        EventLoop::instance().addEvent(event);
+        EventLoop::instance().addEvent(Event(TimeOver));
     }
-    drawStats();
 }
 
 void GameBar::resetClock() {

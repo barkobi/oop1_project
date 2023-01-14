@@ -24,8 +24,7 @@ public:
 class NormalPacman: public PacmanState {
 public:
     bool handleWallCollision(Ghost& ghost) override {
-        Event event(CollapseWithGhost);
-        EventLoop::instance().addEvent(event);
+        EventLoop::instance().addEvent(Event(CollapseWithGhost));
         return false;
     }
     bool handleWallCollision(Door& door) override {

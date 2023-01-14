@@ -1,7 +1,7 @@
 #include "GameController.h"
 
 GameController::GameController(sf::RenderWindow &window)
-    : m_window(window), m_board(GameBoard()), m_gameBar(window){
+    : m_window(window), m_board(GameBoard()){
     stats[Life] = 3;
     stats[Points] = 0;
     stats[Cookies] = 0;
@@ -27,8 +27,8 @@ void GameController::run(){
         handleCollision();
         handleEvent();
         handleAnimations();
-        print();
         m_gameBar.updateGameBar(stats);
+        print();
     }
 }
 
@@ -104,6 +104,7 @@ void GameController::print() {
     background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
     background.setTexture(ResourcesManager::instance().getBackground());
     m_window.draw(background);
+    m_gameBar.drawStats(m_window);
     m_board.draw(m_window);
     for(int obj = 0;obj < m_staticObj.size();obj++){
         m_staticObj[obj]->draw(&m_window);
@@ -111,6 +112,7 @@ void GameController::print() {
     for(int obj = 0;obj < m_dynamicObj.size();obj++){
         m_dynamicObj[obj]->draw(&m_window);
     }
+    m_window.display();
 }
 
 void GameController::modifyBoard() {
@@ -137,10 +139,12 @@ void GameController::charHandler(char type,int row,int col) {
             break;
         }
         case GHOST_S:{
-            if(rand()%2 == 0)
+            static bool ghost = false;
+            if(ghost)
                 m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),tile.getGlobalBounds().width));
             else
                 m_dynamicObj.push_back(std::make_unique<SmartGhost>(tile.getPosition(),tile.getGlobalBounds().width));
+            ghost = !ghost;
             break;
         }
         case KEY_S:{
@@ -226,7 +230,7 @@ void GameController::resetLevel() {
     for(int i=0 ; i<m_dynamicObj.size() ; i++)
         m_dynamicObj[i]->goToInitialPosition();
 
-    m_gameBar.resetClock();
+//    m_gameBar.resetClock();
 }
 
 void GameController::handleAnimations() {
