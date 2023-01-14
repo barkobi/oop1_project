@@ -102,3 +102,7 @@ Bounds &GameBoard::getBoardBounds() {return m_bounds;}
 bool GameBoard::checkFinishGame() {
     return m_total_levels == m_current_level;
 }
+
+std::vector<std::vector<sf::RectangleShape>> GameBoard::getMatrix() {
+    return m_matrix;
+}

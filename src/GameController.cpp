@@ -21,7 +21,7 @@ void GameController::run(){
         for(int i=0 ; i<m_dynamicObj.size() ; i++){
             if(i > 0 && freezed)
                 break;
-            m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
+            m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes,m_board.getMatrix());
         }
 
         handleCollision();

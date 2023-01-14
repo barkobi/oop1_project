@@ -5,7 +5,7 @@
 RandomGhost::RandomGhost(sf::Vector2f position, float scaleFactor)
         : Ghost(ResourcesManager::instance().getObjectTexture(RANDOMGHOST), position, scaleFactor), m_lastDirection(Up) {}
 
-void RandomGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
+void RandomGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes ,std::vector<std::vector<sf::RectangleShape>> matrix){
     static float timeToSwitchDirection = 0;
     timeToSwitchDirection+=deltaTime;
     if(timeToSwitchDirection> 0.7){
@@ -28,5 +28,5 @@ void RandomGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vect
         }
         timeToSwitchDirection = 0;
     }
-    moveGhost(deltaTime,boardBounds,m_lastDirection);
+    moveGhost(deltaTime,m_lastDirection);
 }

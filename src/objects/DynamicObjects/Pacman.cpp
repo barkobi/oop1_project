@@ -9,7 +9,7 @@
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : DynamicObject(texture, position,scaleFactor),m_rect(0),pacstate(std::make_unique<NormalPacman>()){}
 
-void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
+void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes ,std::vector<std::vector<sf::RectangleShape>> matrix){
     if(superClock.getElapsedTime().asSeconds() > 5){
         downgradeToNormal();
     }

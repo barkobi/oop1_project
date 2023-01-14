@@ -22,7 +22,8 @@ public:
     virtual void updateAnimation();
 
 protected:
-    void moveGhost(float deltaTime, Bounds boardBounds, Direction_t);
+    void moveGhost(float deltaTime, Direction_t);
+    bool badMove = false;
 
 private:
     int m_rect;
