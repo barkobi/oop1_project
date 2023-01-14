@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string.h>
 
-const int OBJECTS = 8;
+const int OBJECTS = 9;
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height * 0.85;
 const int WINDOW_WIDTH = sf::VideoMode::getDesktopMode().width * 0.85;
 
@@ -26,6 +26,7 @@ enum Sounds_t{
 
 enum Characters {
     PACMAN,
+    SUPERPACMAN,
     KEY,
     RANDOMGHOST,
     SMARTGHOST,

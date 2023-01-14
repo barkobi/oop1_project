@@ -31,3 +31,4 @@ configure_file ("pacmanSpreadSheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYON
 configure_file ("randomghostsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("smartghostsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
 configure_file ("coinsheet.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)
+configure_file ("suprepacman.png" ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} COPYONLY)

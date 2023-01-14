@@ -64,7 +64,7 @@ void GameController::handleEvent() {
                 stats[Life]++;
                 break;
             case GotSuperGift:
-                m_dynamicObj[0]->getSprite().setTexture(*ResourcesManager::instance().getObjectTexture(3));
+                m_dynamicObj[0]->getSprite().setTexture(*ResourcesManager::instance().getObjectTexture(SUPERPACMAN));
                 clocks[GIFTCLOCK].restart().asSeconds();
                 super = true;
                 break;
@@ -131,7 +131,7 @@ void GameController::modifyBoard() {
     }
 }
 
-void GameController::charHandler(char type,int row,int col) {
+void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
@@ -165,6 +165,7 @@ void GameController::charHandler(char type,int row,int col) {
             int tmp;
             do{tmp = rand()%4;} while (tmp==gift);
             gift = tmp;
+            gift = 1;
             switch (gift) {
                 case 0:
                     m_staticObj.push_back(std::make_unique<TimeAddGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
