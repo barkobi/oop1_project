@@ -36,10 +36,10 @@ private:
     sf::Texture m_title;
     sf::Texture m_pictures[OBJECTS];
     std::string m_picturesString[OBJECTS] = { "pacmanSpreadSheet", "suprepacman", "Key", "randomghostsheet","smartghostsheet","ghostSuperPm",
-                                              "doorSpreadSheet", "Wall", "coinsheet", "giftSpreadSheet"};
+                                              "doorSpreadSheet", "Wall", "coinsheet", "superPMGift", "ghostFreezeGift", "addLifeGift", "addTimeGift"};
     std::string m_buttonString[MENU_BUTTONS] = {"PlayButton", "LeaderBoardButton", "AddStageButton",
                                                       "HelpButton", "SettingsButton", "QuitButton"};
     std::string m_soundstring[2] = {"MusicButton","FXButton"};
     sf::Texture m_soundButton[2];
-    std::string m_sound_file_names[NUMBER_OF_SOUNDS] = {"menu_hover.wav", "start_game.wav","cookieEat.wav", "openDoor.wav"};
+    std::string m_sound_file_names[NUMBER_OF_SOUNDS] = {"menu_hover.wav", "start_game.wav","cookieEat.wav", "openDoor.wav", "gotGift.wav"};
 };
