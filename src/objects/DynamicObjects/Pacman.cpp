@@ -6,14 +6,16 @@
 #include "TimeAddGift.h"
 #include "SuperPacGift.h"
 #include "Door.h"
-
+#include "limits"
 Pacman::Pacman(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : DynamicObject(texture, position,scaleFactor),m_rect(0),pacstate(std::make_unique<NormalPacman>()){}
+    : DynamicObject(texture, position,scaleFactor),m_rect(0),pacstate(std::make_unique<NormalPacman>()){
+}
 
 void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
-    if(superClock.getElapsedTime().asSeconds() > 5){
+    if(superClock.getElapsedTime().asSeconds() > 5 && m_issuper){
         downgradeToNormal();
     }
+
     sf::Vector2f offset;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
         rotateObject(-90);
@@ -48,8 +50,7 @@ void Pacman::handleCollision(GameObject &object) {
 }
 
 void Pacman::handleCollision(Ghost & ghost) {
-    if(pacstate->handleWallCollision(ghost))
-        ghost.goToInitialPosition();
+    pacstate->handleWallCollision(ghost,*this);
 }
 
 void Pacman::handleCollision(Key & key) {
@@ -59,10 +60,7 @@ void Pacman::handleCollision(Key & key) {
 }
 
 void Pacman::handleCollision(Door & door) {
-    if(!pacstate->handleWallCollision(door))
-        cancelMove();
-    else
-        door.deleteObject();
+    pacstate->handleWallCollision(door,*this);
 }
 
 void Pacman::handleCollision(Cookie & cookie) {
@@ -90,8 +88,7 @@ void Pacman::updateAnimation() {
 }
 
 void Pacman::handleCollision(GhostFreezeGift & gift) {
-    if(!gift.isHitten())
-    {
+    if(!gift.isHitten()){
         gift.setHitten();
         Event event(GotGhostFreezeGift ,5);
         EventLoop::instance().addEvent(event);
@@ -100,8 +97,7 @@ void Pacman::handleCollision(GhostFreezeGift & gift) {
 }
 
 void Pacman::handleCollision(LifeIncGift & gift) {
-    if(!gift.isHitten())
-    {
+    if(!gift.isHitten()){
         gift.setHitten();
         Event event(GotLifeGift ,5);
         EventLoop::instance().addEvent(event);
@@ -110,8 +106,7 @@ void Pacman::handleCollision(LifeIncGift & gift) {
 }
 
 void Pacman::handleCollision(SuperPacGift &gift) {
-    if(!gift.isHitten())
-    {
+    if(!gift.isHitten()){
         gift.setHitten();
         Event event(GotSuperGift ,5);
         EventLoop::instance().addEvent(event);
@@ -135,9 +130,11 @@ void Pacman::handleCollision(TimeAddGift & gift) {
 void Pacman::handleCollision(Gift &) {}
 
 void Pacman::upgradeToSuper() {
+    m_issuper = true;
     pacstate.reset(new SuperPacmanState());
 }
 
 void Pacman::downgradeToNormal() {
+    m_issuper = false;
     pacstate.reset(new NormalPacman());
 }

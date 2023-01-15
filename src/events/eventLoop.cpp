@@ -1,4 +1,6 @@
 #include "eventLoop.h"
+#include "pacmanState.h"
+
 
 EventLoop::EventLoop() {}
 

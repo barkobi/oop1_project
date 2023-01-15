@@ -28,6 +28,7 @@ private:
     sf::Clock superClock;
     int m_rect;
     std::unique_ptr<PacmanState> pacstate;
+    bool m_issuper = false;
 
 };
 

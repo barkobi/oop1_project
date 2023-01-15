@@ -10,11 +10,10 @@ public:
     virtual void move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes);
 
 private:
-    float m_timetoswitch;
-    sf::Clock collisionClock;
-    sf::Clock randomClock;
-    sf::Vector2i myLocation;
-    Direction_t m_lastDirection;
-    bool randomize = false;
+    sf::Clock m_collisionClock;
+    sf::Vector2i m_myLocation;
+    bool m_blocked = false;
+
+    void calcMyLocation(Bounds boardBounds);
 
 };

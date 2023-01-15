@@ -127,7 +127,7 @@ void GameController::modifyBoard() {
         for(int col = 0;col < map[row].length();col++){
             if (map[row][col] != ' '){
                 charHandler(map[row][col], row, col);
-                if(map[row][col]!= WALL_S && map[row][col]!= DOOR_S)
+                if(map[row][col]!= WALL_S)
                     m_board.getLevel().removeChar(row,col);
             }
         }
@@ -168,7 +168,6 @@ void GameController::charHandler(char type,int row,int col){
             int tmp;
             do{tmp = rand()%4;} while (tmp==gift);
             gift = tmp;
-            gift = 1;
             switch (gift) {
                 case 0:
                     m_staticObj.push_back(std::make_unique<TimeAddGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
