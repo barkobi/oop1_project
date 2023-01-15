@@ -4,8 +4,8 @@
 
 #include "objects/StaticObjects/Gift/Gift.h"
 
-Gift::Gift(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : StaticObject(texture, position,scaleFactor) {}
+Gift::Gift( sf::Vector2f position, float scaleFactor)
+    : StaticObject(ResourcesManager::instance().getObjectTexture(GIFT), position,scaleFactor) {}
 
 void Gift::setHitten() {
     hitten = true;

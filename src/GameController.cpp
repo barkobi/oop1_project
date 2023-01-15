@@ -145,7 +145,7 @@ void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(ResourcesManager::instance().getObjectTexture(PACMAN),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
             std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }
@@ -159,15 +159,15 @@ void GameController::charHandler(char type,int row,int col){
             break;
         }
         case KEY_S:{
-            m_staticObj.push_back(std::make_unique<Key>(ResourcesManager::instance().getObjectTexture(KEY),tile.getPosition(),tile.getGlobalBounds().width * 0.8));
+            m_staticObj.push_back(std::make_unique<Key>(tile.getPosition(),tile.getGlobalBounds().width * 0.8));
             break;
         }
         case DOOR_S:{
-            m_staticObj.push_back(std::make_unique<Door>(ResourcesManager::instance().getObjectTexture(DOOR),tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Door>(tile.getPosition(),tile.getGlobalBounds().width));
             break;
         }
         case WALL_S:{
-            m_staticObj.push_back(std::make_unique<Wall>(ResourcesManager::instance().getObjectTexture(WALL),tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Wall>(tile.getPosition(),tile.getGlobalBounds().width));
             break;
         }
         case GIFT_S:{
@@ -177,23 +177,23 @@ void GameController::charHandler(char type,int row,int col){
             gift = tmp;
             switch (gift) {
                 case 0:
-                    m_staticObj.push_back(std::make_unique<TimeAddGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+                    m_staticObj.push_back(std::make_unique<TimeAddGift>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
                     break;
                 case 1:
-                    m_staticObj.push_back(std::make_unique<SuperPacGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+                    m_staticObj.push_back(std::make_unique<SuperPacGift>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
                     break;
                 case 2:
-                    m_staticObj.push_back(std::make_unique<GhostFreezeGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+                    m_staticObj.push_back(std::make_unique<GhostFreezeGift>(tile.getPosition(),tile.getGlobalBounds().width* 0.7));
                     break;
                 case 3:
-                    m_staticObj.push_back(std::make_unique<LifeIncGift>(ResourcesManager::instance().getObjectTexture(GIFT),tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+                    m_staticObj.push_back(std::make_unique<LifeIncGift>(tile.getPosition(),tile.getGlobalBounds().width* 0.7));
                     break;
             }
             break;
         }
         case COOKIE_S:{
             stats[Cookies]++;
-            m_staticObj.push_back(std::make_unique<Cookie>(ResourcesManager::instance().getObjectTexture(COOKIE),tile.getPosition(),tile.getGlobalBounds().width * 0.5));
+            m_staticObj.push_back(std::make_unique<Cookie>(tile.getPosition(),tile.getGlobalBounds().width * 0.5));
             break;
         }
     }
@@ -234,7 +234,8 @@ void GameController::openDoor() {
         }
     }
     if(index != -1)
-        m_staticObj[index]->deleteObject();
+        dynamic_cast<Door*>(m_staticObj[index].get())->openDoor();
+
 }
 
 void GameController::resetLevel() {
@@ -250,10 +251,8 @@ void GameController::handleAnimations() {
         for(int j = 0;j < m_dynamicObj.size();j++)
             m_dynamicObj[j]->updateAnimation();
     }
-    if(time > 0.13)
-    {
-        for(int i = 0;i < m_staticObj.size();i++)
-        {
+    if(time > 0.13){
+        for(int i = 0;i < m_staticObj.size();i++){
             m_staticObj[i]->animation();
         }
     }

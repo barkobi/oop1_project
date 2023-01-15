@@ -2,14 +2,20 @@
 
 GameBar::GameBar() : m_gametime(60){
     int prevloc = 0;
-    for(int i = 0;i < 4;i++)
-    {
+    for(int i = 0;i < 4;i++){
         m_Texts[i].setFillColor(sf::Color::White);
         m_Texts[i].setFont(ResourcesManager::instance().getFont());
         m_Texts[i].setString(texts[i]);
         m_Texts[i].setCharacterSize(30);
-        m_Texts[i].setPosition(WINDOW_WIDTH*0.05 + prevloc,30);
-        prevloc = m_Texts[i].getPosition().x + (m_Texts[i].getGlobalBounds().width) + WINDOW_WIDTH*0.01;
+        m_Texts[i].setPosition(prevloc,30);
+        prevloc+= m_Texts[i].getGlobalBounds().width;
+    }
+    //add spacing
+    float extraSpace = WINDOW_WIDTH - m_Texts[3].getPosition().x - m_Texts[3].getGlobalBounds().width;
+    extraSpace /= 5;
+    for(int i = 0;i < 4;i++){
+        float moveBy = extraSpace * (i+1);
+        m_Texts[i].move(moveBy,0);
     }
     m_gameTimer.restart().asSeconds();
 }
@@ -37,9 +43,8 @@ void GameBar::updateGameBar(int stats[]){
     m_Texts[3].setString(texts[3] + stringtonum.str().c_str());
 
     if(m_gametime == 0)
-    {
-//        EventLoop::instance().addEvent(Event(TimeOver));
-    }
+        EventLoop::instance().addEvent(Event(TimeOver));
+
 }
 
 void GameBar::resetClock() {

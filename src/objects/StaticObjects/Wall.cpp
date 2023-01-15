@@ -1,4 +1,4 @@
 #include "Wall.h"
 
-Wall::Wall(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : StaticObject(texture, position,scaleFactor) {}
+Wall::Wall(sf::Vector2f position, float scaleFactor)
+    : StaticObject(ResourcesManager::instance().getObjectTexture(WALL),position,scaleFactor) {}

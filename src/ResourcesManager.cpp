@@ -36,6 +36,8 @@ sf::Texture *ResourcesManager::getMenuTexture(const int loc) {
 }
 
 void ResourcesManager::playSound(const int index) {
+    if(index == OPEN_DOOR)
+        printf("");
     if(!SettingsManager::instance().getFXSwitch())
         return;
     m_sounds[index].setBuffer(m_sounds_buffs[index]);

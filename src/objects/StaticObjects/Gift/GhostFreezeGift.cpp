@@ -1,4 +1,4 @@
 #include "GhostFreezeGift.h"
 
-GhostFreezeGift::GhostFreezeGift(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-        : Gift(texture,position,scaleFactor) {}
+GhostFreezeGift::GhostFreezeGift(sf::Vector2f position, float scaleFactor)
+        : Gift(position,scaleFactor) {}
