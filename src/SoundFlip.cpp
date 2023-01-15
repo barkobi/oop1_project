@@ -7,6 +7,7 @@ SoundFlip::SoundFlip() {
         m_soundButtons[i].setPosition((WINDOW_WIDTH - WINDOW_WIDTH / 7) + prevloc,WINDOW_HEIGHT/20);
         m_soundButtons[i].setTexture(ResourcesManager::instance().getSoundButton(i));
         m_soundButtons[i].setTextureRect(sf::IntRect(0,0,512,512));
+        m_soundButtons[i].setScale(0.65,0.65);
         prevloc = m_soundButtons[i].getLocalBounds().width + m_soundButtons[i].getLocalBounds().width/5;
     }
     m_fxClicked = SettingsManager::instance().getFXSwitch();
@@ -20,8 +21,7 @@ SoundFlip &SoundFlip::instance() {
 
 void SoundFlip::draw(sf::RenderWindow &m_window) {
 
-    for(int i = 0;i<2;i++)
-    {
+    for(int i = 0;i<2;i++){
         if(i == MUSIC)
             if(m_musicClicked)
                 m_soundButtons[MUSIC].setTextureRect(sf::IntRect(0,0,512,512));
@@ -39,19 +39,15 @@ void SoundFlip::draw(sf::RenderWindow &m_window) {
 void SoundFlip::checkIfContains(const sf::Event::MouseButtonEvent &event) {
     for (int i = 0; i < 2; i++) {
         if (m_soundButtons[i].getGlobalBounds().contains(event.x, event.y)) {
-            if(i == MUSIC)
-            {
+            if(i == MUSIC){
                 m_musicClicked = !m_musicClicked;
                 SettingsManager::instance().flipMusicSwitch();
                 ResourcesManager::instance().updateSounds();
             }
-
-            if(i == SOUND)
-            {
+            if(i == SOUND){
                 m_fxClicked = !m_fxClicked;
                 SettingsManager::instance().flipFXSwitch();
             }
-
         }
     }
 }

@@ -88,29 +88,26 @@ void Pacman::updateAnimation() {
 }
 
 void Pacman::handleCollision(GhostFreezeGift & gift) {
-    if(!gift.isHitten()){
-        gift.setHitten();
+    if(!gift.isOpen()){
+        gift.openGift();
         Event event(GotGhostFreezeGift ,5);
         EventLoop::instance().addEvent(event);
-        gift.deleteObject();
     }
 }
 
 void Pacman::handleCollision(LifeIncGift & gift) {
-    if(!gift.isHitten()){
-        gift.setHitten();
+    if(!gift.isOpen()){
+        gift.openGift();
         Event event(GotLifeGift ,5);
         EventLoop::instance().addEvent(event);
-        gift.deleteObject();
     }
 }
 
 void Pacman::handleCollision(SuperPacGift &gift) {
-    if(!gift.isHitten()){
-        gift.setHitten();
+    if(!gift.isOpen()){
+        gift.openGift();
         Event event(GotSuperGift ,5);
         EventLoop::instance().addEvent(event);
-        gift.deleteObject();
     }
     upgradeToSuper();
     superClock.restart().asSeconds();
@@ -118,12 +115,11 @@ void Pacman::handleCollision(SuperPacGift &gift) {
 
 
 void Pacman::handleCollision(TimeAddGift & gift) {
-    if(!gift.isHitten())
+    if(!gift.isOpen())
     {
-        gift.setHitten();
+        gift.openGift();
         Event event(GotTimeAddGift ,5);
         EventLoop::instance().addEvent(event);
-        gift.deleteObject();
     }
 }
 
