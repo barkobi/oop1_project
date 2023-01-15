@@ -59,6 +59,7 @@ void Menu::printWindow() {
         m_menuWindow.draw(m_buttons[i]);
     }
 
+    SoundFlip::instance().draw(m_menuWindow);
     m_menuWindow.display();
 }
 
@@ -67,9 +68,11 @@ void Menu::eventGetter() {
     while (m_menuWindow.isOpen()) {
         if (auto event = sf::Event{}; m_menuWindow.pollEvent(event)) {
             switch (event.type) {
-                case sf::Event::Closed:
+                case sf::Event::Closed:{
                     m_menuWindow.close();
+                    SettingsManager::instance().save_settings();
                     break;
+                }
                 case sf::Event::MouseMoved:
                     handleMove(event.mouseMove);
                     break;
@@ -79,8 +82,8 @@ void Menu::eventGetter() {
                 case sf::Event::KeyPressed:
                 {
                     if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
-                        SettingsManager::instance().flipSoundSwitch();
-                        ResourcesManager::instance().updateMusic();
+                        SettingsManager::instance().flipMusicSwitch();
+                        ResourcesManager::instance().updateSounds();
                     }
                     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         m_menuWindow.close();
@@ -93,7 +96,7 @@ void Menu::eventGetter() {
 }
 
 void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
-
+    SoundFlip::instance().checkIfContains(clickevent);
     for (int i = 0; i < MENU_BUTTONS; i++) {
         if (m_buttons[i].getGlobalBounds().contains(m_menuWindow.mapPixelToCoords({clickevent.x, clickevent.y}))) {
             if (m_lastClick == i)
@@ -130,6 +133,7 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                     break;
                 }
                 case QUIT:
+                    SettingsManager::instance().save_settings();
                     m_menuWindow.close();
                     break;
             }
@@ -161,11 +165,18 @@ void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent) {
 }
 
 void Menu::setSignal() {
-    signal(SIGUSR1, Menu::myHandler);
+    signal(SIGUSR1, Menu::myHandlersigusr1);
+    signal(SIGUSR2, Menu::myHandlersigusr2);
 }
 
-void Menu::myHandler(int signum) {
-    signal(SIGUSR1, Menu::myHandler);
+void Menu::myHandlersigusr1(int signum) {
+    signal(SIGUSR1, Menu::myHandlersigusr1);
     m_lastClick = -1;
     canPlay = std::filesystem::exists("lvl_1.txt");
+}
+
+void Menu::myHandlersigusr2(int signum) {
+    signal(SIGUSR2, Menu::myHandlersigusr2);
+    SettingsManager::instance().flipMusicSwitch();
+    ResourcesManager::instance().updateSounds();
 }

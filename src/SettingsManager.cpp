@@ -12,7 +12,8 @@ SettingsManager& SettingsManager::instance(){
 
 void SettingsManager::load_settings() {
     if(!std::filesystem::exists("settings.txt")){
-        m_sound = true;
+        m_fxsound = true;
+        m_music = true;
         m_volume = 100;
         m_BGMVolume = 100;
         return;
@@ -27,7 +28,8 @@ void SettingsManager::load_settings() {
     }
 
     settings_file.seekg(0);
-    settings_file >> m_sound;
+    settings_file >> m_fxsound;
+    settings_file >> m_music;
     settings_file >> m_volume;
     settings_file >> m_BGMVolume;
     settings_file.close();
@@ -46,19 +48,21 @@ void SettingsManager::save_settings(){
         exit(EXIT_FAILURE);
     }
     settings_file.seekp(0);
-    settings_file << m_sound << " " << m_volume << " " << m_BGMVolume;
+    settings_file << m_fxsound << " " << m_music << " " << m_volume << " " << m_BGMVolume;
     settings_file.close();
 }
 
-const bool SettingsManager::getSoundSwitch() const {return m_sound;}
+const bool SettingsManager::getMusicSwitch() const {return m_music;}
 
 const int SettingsManager::getVolume() const {return m_volume;}
 
 const int SettingsManager::getBGMVolume() const {return m_BGMVolume;}
 
 
-void SettingsManager::flipSoundSwitch() {
-    m_sound = !m_sound;
+const bool SettingsManager::getFXSwitch() const {return m_fxsound;}
+
+void SettingsManager::flipMusicSwitch() {
+    m_music = !m_music;
 }
 
 void SettingsManager::setVolume(const int volume) {
@@ -67,6 +71,10 @@ void SettingsManager::setVolume(const int volume) {
 
 void SettingsManager::setBGMusicVolume(const int volume) {
     m_BGMVolume = volume;
-    ResourcesManager::instance().updateMusic();
 }
+
+void SettingsManager::flipFXSwitch() {
+    m_fxsound = !m_fxsound;
+}
+
 

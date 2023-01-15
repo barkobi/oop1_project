@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "ResourcesManager.h"
 #include "SettingsScreen.h"
-
+#include "SoundFlip.h"
 #include "../include/ResourcesManager.h"
 #include "signal.h"
 
@@ -26,7 +26,8 @@ public:
     void handleClick(const sf::Event::MouseButtonEvent &clickevent);
     void handleMove(const sf::Event::MouseMoveEvent &moveevent);
     void setSignal ();
-    static void myHandler (int signum);
+    static void myHandlersigusr1 (int signum);
+    static void myHandlersigusr2 (int signum);
 
 private:
     sf::RenderWindow m_menuWindow;

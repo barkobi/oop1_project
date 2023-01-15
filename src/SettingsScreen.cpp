@@ -1,4 +1,5 @@
 #include "SettingsScreen.h"
+#include "SoundFlip.h"
 
 SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
 
@@ -13,12 +14,6 @@ SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
     m_sound_text.setPosition(WINDOW_WIDTH/2 , (WINDOW_HEIGHT/2)-(m_volume_text.getGlobalBounds().height*2));
     m_sound_text.setFillColor(sf::Color::White);
     m_sound_text.setFont(ResourcesManager::instance().getFont());
-
-    m_checkBox.setPosition(m_sound_text.getPosition().x + m_sound_text.getLocalBounds().width + 20 ,m_sound_text.getPosition().y);
-    m_checkBox.setSize(sf::Vector2f(m_sound_text.getLocalBounds().height,m_sound_text.getLocalBounds().height));
-    m_checkBox.setOutlineColor(sf::Color::White);
-    m_checkBox.setFillColor(SettingsManager::instance().getSoundSwitch() ? sf::Color::White : sf::Color::Transparent);
-    m_checkBox.setOutlineThickness(2);
 
     m_volume_line.setSize(sf::Vector2f((WINDOW_WIDTH - (m_volume_text.getPosition().x + m_volume_text.getGlobalBounds().width))*0.5,5));
     m_volume_line.setFillColor(sf::Color::White);
@@ -69,12 +64,11 @@ bool SettingsScreen::handleClick(const sf::Event::MouseButtonEvent &clickevent) 
     }
     else if(m_music_clicked)
         m_music_clicked = false;
-    else if (m_checkBox.getGlobalBounds().contains(clickevent.x, clickevent.y)){
-        SettingsManager::instance().flipSoundSwitch();
-        ResourcesManager::instance().updateMusic();
-    }
+
     else if(m_backBtn.getGlobalBounds().contains(clickevent.x,clickevent.y))
         return false;
+
+    SoundFlip::instance().checkIfContains(clickevent);
 
     return true;
 }
@@ -99,6 +93,7 @@ void SettingsScreen::handleMouseMove(const sf::Event::MouseMoveEvent &moveevent)
 
         int vol = ((m_music_drag.getPosition().x - m_music_line.getPosition().x) /(m_music_line.getGlobalBounds().width))*100;
         SettingsManager::instance().setBGMusicVolume(vol);
+        ResourcesManager::instance().updateSounds();
     }
 
 
@@ -134,7 +129,6 @@ void SettingsScreen::printScreen() {
     background.setTexture(ResourcesManager::instance().getBackground());
 
     m_window.draw(background);
-    m_checkBox.setFillColor(SettingsManager::instance().getSoundSwitch() ? sf::Color::White : sf::Color::Transparent);
 
     int vol = SettingsManager::instance().getVolume();
     std::string str = "volume: ";
@@ -146,13 +140,14 @@ void SettingsScreen::printScreen() {
 
     m_window.draw(m_volume_line);
     m_window.draw(m_volume_drag);
-    m_window.draw(m_checkBox);
     m_window.draw(m_volume_text);
     m_window.draw(m_sound_text);
     m_window.draw(m_backBtn);
     m_window.draw(m_music_text);
     m_window.draw(m_music_drag);
     m_window.draw(m_music_line);
+
+    SoundFlip::instance().draw(m_window);
 
     m_window.display();
 

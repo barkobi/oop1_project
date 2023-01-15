@@ -17,13 +17,12 @@ public:
     sf::Texture *getObjectTexture(const int loc);
     sf::Texture *getBackground();
     sf::Texture *getTitle();
+    sf::Texture *getSoundButton(const int loc);
 
-//    sf::SoundBuffer *getSound(const int index);
 
     void playSound(const int index);
     void playBackgroundMusic();
-    void stopBackgroundMusic();
-    void updateMusic();
+    void updateSounds();
 
 private:
     ResourcesManager();
@@ -40,5 +39,7 @@ private:
                                               "Door", "Wall", "coinsheet", "Gift"};
     std::string m_buttonString[MENU_BUTTONS] = {"PlayButton", "LeaderBoardButton", "AddStageButton",
                                                       "HelpButton", "SettingsButton", "QuitButton"};
+    std::string m_soundstring[2] = {"MusicButton","FXButton"};
+    sf::Texture m_soundButton[2];
     std::string m_sound_file_names[NUMBER_OF_SOUNDS] = {"menu_hover.wav", "start_game.wav","cookieEat.wav"};
 };

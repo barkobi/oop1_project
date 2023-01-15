@@ -5,6 +5,10 @@ ResourcesManager::ResourcesManager() {
     for (int i = 0; i < MENU_BUTTONS; i++) {
         m_menuButtonTxt[i].loadFromFile(m_buttonString[i] + ".png");
     }
+    for(int i = 0;i < 2;i++)
+    {
+        m_soundButton[i].loadFromFile(m_soundstring[i] + ".png");
+    }
     for (int i = 0; i < NUMBER_OF_SOUNDS; i++) {
         m_sounds_buffs[i].loadFromFile(m_sound_file_names[i]);
         m_sounds[i].setBuffer(m_sounds_buffs[i]);
@@ -32,7 +36,7 @@ sf::Texture *ResourcesManager::getMenuTexture(const int loc) {
 }
 
 void ResourcesManager::playSound(const int index) {
-    if(!SettingsManager::instance().getSoundSwitch())
+    if(!SettingsManager::instance().getFXSwitch())
         return;
     m_sounds[index].setBuffer(m_sounds_buffs[index]);
     m_sounds[index].setLoop(false);
@@ -45,7 +49,7 @@ sf::Texture *ResourcesManager::getObjectTexture(const int loc) {
 }
 
 void ResourcesManager::playBackgroundMusic() {
-    if(!SettingsManager::instance().getSoundSwitch())
+    if(!SettingsManager::instance().getMusicSwitch())
         return;
 
     m_backgroundMusic.setVolume(SettingsManager::instance().getBGMVolume());
@@ -53,10 +57,8 @@ void ResourcesManager::playBackgroundMusic() {
     m_backgroundMusic.play();
 }
 
-void ResourcesManager::stopBackgroundMusic() {m_backgroundMusic.stop();}
-
-void ResourcesManager::updateMusic() {
-    if(!SettingsManager::instance().getSoundSwitch()){
+void ResourcesManager::updateSounds() {
+    if(!SettingsManager::instance().getMusicSwitch()){
         m_backgroundMusic.stop();
         return;
     }
@@ -66,7 +68,10 @@ void ResourcesManager::updateMusic() {
 
     m_backgroundMusic.setVolume(SettingsManager::instance().getBGMVolume());
     m_backgroundMusic.setLoop(true);
+
 }
+
+
 
 sf::Texture *ResourcesManager::getBackground() {
     return &m_backGround;
@@ -76,4 +81,6 @@ sf::Texture *ResourcesManager::getTitle() {
     return &m_title;
 }
 
-
+sf::Texture *ResourcesManager::getSoundButton(const int loc) {
+    return &m_soundButton[loc];
+}

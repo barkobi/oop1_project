@@ -17,7 +17,7 @@ private:
     sf::RectangleShape m_music_line;
     sf::Text m_backBtn;
 
-    sf::RectangleShape m_checkBox;
+//    sf::RectangleShape m_checkBox;
     bool m_volume_clicked = false;
     bool m_music_clicked = false;
 

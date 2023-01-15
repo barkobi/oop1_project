@@ -11,8 +11,10 @@ public:
 
     const int getVolume() const;
     const int getBGMVolume() const;
-    const bool getSoundSwitch() const;
-    void flipSoundSwitch();
+    const bool getMusicSwitch() const;
+    const bool getFXSwitch() const;
+    void flipMusicSwitch();
+    void flipFXSwitch();
     void setVolume(const int volume);
     void setBGMusicVolume(const int volume);
     void save_settings();
@@ -20,7 +22,7 @@ public:
 private:
     int m_volume, m_BGMVolume;
 
-    bool m_sound;
+    bool m_fxsound,m_music;
 
     SettingsManager();
     void load_settings();

@@ -1,4 +1,6 @@
 #include "GameController.h"
+#include "SoundFlip.h"
+
 
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
@@ -12,10 +14,13 @@ void GameController::run(){
     print();
     std::vector<std::vector<int>> bfsRes;
     while(m_window.isOpen() && !backToMenu){
-        if(auto event = sf::Event{}; m_window.pollEvent(event))
-            if(event.type == sf::Event::Closed) {
+        if(auto event = sf::Event{}; m_window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
                 return;
-            }
+            if (event.type == sf::Event::MouseButtonReleased)
+                SoundFlip::instance().checkIfContains(event.mouseButton);
+        }
+
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(m_dynamicObj[0]->getSprite().getPosition(), m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height ,
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
@@ -116,6 +121,8 @@ void GameController::print() {
     for(int obj = 0;obj < m_dynamicObj.size();obj++){
         m_dynamicObj[obj]->draw(&m_window);
     }
+
+    SoundFlip::instance().draw(m_window);
     m_window.display();
 }
 

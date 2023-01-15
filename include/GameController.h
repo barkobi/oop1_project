@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "../include/GameBoard.h"
 #include <vector>
@@ -18,6 +19,7 @@
 #include "SmartGhost.h"
 #include "Brain.h"
 #include "GameBar.h"
+
 enum Clocks_t{
     ANIMATIONCLOCK,
     MOVECLOCK,
@@ -58,4 +60,5 @@ private:
     GameBar m_gameBar;
     bool freezed = false;
     bool super = false;
+    bool paused = false;
 };
