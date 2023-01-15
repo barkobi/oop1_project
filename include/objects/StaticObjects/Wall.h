@@ -7,7 +7,7 @@
 
 class Wall : public StaticObject{
 public:
-    Wall(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
+    Wall(sf::Vector2f position, float scaleFactor);
 
     void handleCollision(GameObject& object) { object.handleCollision(*this); }
     void handleCollision(Pacman& pacman) { pacman.handleCollision(*this); }

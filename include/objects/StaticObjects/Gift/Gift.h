@@ -6,7 +6,7 @@
 
 class Gift : public StaticObject{
 public:
-    Gift(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
+    Gift(sf::Vector2f position, float scaleFactor);
 
     void handleCollision(GameObject& object) = 0;
     void handleCollision(Pacman& player) = 0;

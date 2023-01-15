@@ -1,8 +1,8 @@
 #include <cmath>
 #include "objects/StaticObjects/Door.h"
 
-Door::Door(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : StaticObject(texture, position, scaleFactor){}
+Door::Door(sf::Vector2f position, float scaleFactor)
+    : StaticObject(ResourcesManager::instance().getObjectTexture(DOOR), position, scaleFactor){}
 
 float Door::checkDistance(const sf::Vector2f &pos) {
     auto dorpos = this->getSprite().getPosition();
