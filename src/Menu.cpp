@@ -118,7 +118,10 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                     pid_t status;
                     status = fork();
                     if (status == 0) {
-                        if (execvp("./oop1_ex04", 0) != 0) {
+                        auto str = std::to_string(SettingsManager::instance().getMusicSwitch());
+                        char * c = str.data();
+                        char *argv[1000] = {"./oop1_ex04",c,NULL};
+                        if (execvp(argv[0],argv) != 0) {
                             perror("execvp() failed");
                             exit(EXIT_FAILURE);
                         }
