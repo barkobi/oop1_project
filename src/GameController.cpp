@@ -227,7 +227,8 @@ void GameController::openDoor() {
         }
     }
     if(index != -1)
-        m_staticObj[index]->deleteObject();
+        dynamic_cast<Door*>(m_staticObj[index].get())->openDoor();
+
 }
 
 void GameController::resetLevel() {

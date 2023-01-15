@@ -12,5 +12,13 @@ public:
     void handleCollision(Pacman& player) { player.handleCollision(*this); }
     void handleCollision(Ghost& gameObject) { gameObject.handleCollision(*this); }
     virtual float checkDistance(const sf::Vector2f& pos);
-    virtual void animation() {}
+    virtual void animation();
+
+    void openDoor();
+    bool isOpen();
+
+private:
+    bool m_isOpen = false;
+    int m_rect = 0;
+    int m_count = 0;
 };

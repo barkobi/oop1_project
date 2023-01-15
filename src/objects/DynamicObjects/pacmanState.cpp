@@ -4,7 +4,8 @@
 #include "Ghost.h"
 
 void SuperPacmanState::handleWallCollision(Door &door, Pacman &pacman) {
-    door.deleteObject();
+    if(!door.isOpen())
+        door.openDoor();
 }
 
 void SuperPacmanState::handleWallCollision(Ghost &ghost, Pacman &pacman) {
@@ -12,7 +13,8 @@ void SuperPacmanState::handleWallCollision(Ghost &ghost, Pacman &pacman) {
 }
 
 void NormalPacman::handleWallCollision(Door &door, Pacman &pacman) {
-    pacman.cancelMove();
+    if(!door.isOpen())
+        pacman.cancelMove();
 }
 
 void NormalPacman::handleWallCollision(Ghost &ghost, Pacman &pacman) {
