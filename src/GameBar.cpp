@@ -9,7 +9,7 @@ GameBar::GameBar() : m_gametime(60){
         m_Texts[i].setString(texts[i]);
         m_Texts[i].setCharacterSize(30);
         m_Texts[i].setPosition(WINDOW_WIDTH*0.05 + prevloc,30);
-        prevloc = m_Texts[i].getPosition().x + (m_Texts[i].getGlobalBounds().width) + WINDOW_WIDTH*0.05;
+        prevloc = m_Texts[i].getPosition().x + (m_Texts[i].getGlobalBounds().width) + WINDOW_WIDTH*0.01;
     }
     m_gameTimer.restart().asSeconds();
 }

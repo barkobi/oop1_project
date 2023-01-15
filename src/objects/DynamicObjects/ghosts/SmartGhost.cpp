@@ -37,7 +37,6 @@ void SmartGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vecto
         myLocation.y = std::round(ghostLoc_y);
         collisionClock.restart().asSeconds();
     }
-    std::cout << "Collision Clock Time elapesed : " << collisionClock.getElapsedTime().asSeconds() << "\n";
     if (collisionClock.getElapsedTime().asSeconds() > 1) {
         m_timetoswitch = 0;
         randomize = true;
