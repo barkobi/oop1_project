@@ -24,6 +24,10 @@ public:
     virtual void handleCollision(SuperPacGift&) = 0;
     virtual void handleCollision(Gift&) = 0;
     virtual void updateAnimation() = 0;
+
+    void setTextureRegular();
+    void setTexture(sf::Texture *texture);
+
     void setIntRectPacman(int rect);
     void setIntRectGhost(int rect);
     void cancelMove();
@@ -37,5 +41,6 @@ private:
     sf::Vector2f m_statPosition;
     float m_speedPerSecond = SPEED;
     sf::Vector2f m_previousPosition;
+    sf::Texture *originalTexture;
 };
 

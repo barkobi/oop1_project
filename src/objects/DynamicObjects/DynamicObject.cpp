@@ -1,7 +1,7 @@
 #include "objects/DynamicObjects/DynamicObject.h"
 
 DynamicObject::DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position){
+    : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position) , originalTexture(texture){
 }
 sf::Vector2f DynamicObject::getPosition() {return GameObject::getSprite().getPosition();}
 
@@ -49,4 +49,12 @@ void DynamicObject::setIntRectPacman(int rect) {
 
 void DynamicObject::setIntRectGhost(int rect) {
     m_sprite.setTextureRect(sf::IntRect(rect,0,512,512));
+}
+
+void DynamicObject::setTextureRegular() {
+    m_sprite.setTexture(*originalTexture);
+}
+
+void DynamicObject::setTexture(sf::Texture *texture) {
+    m_sprite.setTexture(*texture);
 }

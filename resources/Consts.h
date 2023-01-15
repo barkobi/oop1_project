@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string.h>
 
-const int OBJECTS = 9;
+const int OBJECTS = 10;
 const int WINDOW_HEIGHT = sf::VideoMode::getDesktopMode().height * 0.85;
 const int WINDOW_WIDTH = sf::VideoMode::getDesktopMode().width * 0.85;
 
@@ -30,6 +30,7 @@ enum Characters {
     KEY,
     RANDOMGHOST,
     SMARTGHOST,
+    SUPERPMGHOST,
     DOOR,
     WALL,
     COOKIE,

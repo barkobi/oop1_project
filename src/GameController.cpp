@@ -34,13 +34,14 @@ void GameController::run(){
 }
 
 void GameController::handleEvent() {
-    if(freezed){
-        if(clocks[GIFTCLOCK].getElapsedTime().asSeconds() > 5)
-            freezed = false;
+    if(clocks[GIFTCLOCK].getElapsedTime().asSeconds() > 5){
+        freezed = false;
+        if(super){
+            for(int i=0 ; i<m_dynamicObj.size() ; i++)
+                m_dynamicObj[i]->setTextureRegular();
+            super = false;
+        }
     }
-    if(super)
-        if(clocks[GIFTCLOCK].getElapsedTime().asSeconds() > 5)
-            m_dynamicObj[0]->getSprite().setTexture(*ResourcesManager::instance().getObjectTexture(0));
 
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
@@ -64,7 +65,9 @@ void GameController::handleEvent() {
                 stats[Life]++;
                 break;
             case GotSuperGift:
-                m_dynamicObj[0]->getSprite().setTexture(*ResourcesManager::instance().getObjectTexture(SUPERPACMAN));
+                m_dynamicObj[0]->setTexture(ResourcesManager::instance().getObjectTexture(SUPERPACMAN));
+                for(int i=1 ; i<m_dynamicObj.size() ; i++)
+                    m_dynamicObj[i]->setTexture(ResourcesManager::instance().getObjectTexture(SUPERPMGHOST));
                 clocks[GIFTCLOCK].restart().asSeconds();
                 super = true;
                 break;
@@ -232,7 +235,6 @@ void GameController::resetLevel() {
     for(int i=0 ; i<m_dynamicObj.size() ; i++)
         m_dynamicObj[i]->goToInitialPosition();
 
-//    m_gameBar.resetClock();
 }
 
 void GameController::handleAnimations() {
