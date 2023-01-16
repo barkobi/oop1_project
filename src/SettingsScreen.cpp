@@ -55,7 +55,6 @@ void SettingsScreen::run() {
         eventHandler(exit);
         printScreen();
     }
-    SettingsManager::instance().save_settings();
 }
 
 bool SettingsScreen::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
@@ -150,4 +149,8 @@ void SettingsScreen::printScreen() {
 
     m_window.display();
 
+}
+
+SettingsScreen::~SettingsScreen() {
+    SettingsManager::instance().save_settings();
 }

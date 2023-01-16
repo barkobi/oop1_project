@@ -6,6 +6,7 @@
 class SettingsScreen{
 public:
     SettingsScreen(sf::RenderWindow& window);
+    ~SettingsScreen();
 
 private:
     sf::RenderWindow& m_window;
