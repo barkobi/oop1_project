@@ -118,7 +118,7 @@ void GameController::handleEvent() {
             }
             case GameDone:{
                 printf("Game Done!\n");
-                std::string msg[2] = {"Game Done!", "You Are The King!"};
+                std::string msg[2] = {"Game Done!", "You Are The Winner"};
                 gameOverOrDone(msg);
                 break;
             }
@@ -303,7 +303,10 @@ void GameController::gameOverOrDone(std::string msg[2]) {
 
     gameTexts[0].setString(msg[0]);
     gameTexts[0].setOrigin(gameTexts[0].getGlobalBounds().width/2,gameTexts[0].getGlobalBounds().height/2);
-    gameTexts[1].setString(msg[1] + "\n\n" + gameTexts[1].getString());
+    std::string spaces = "";
+    for(int i=0 ; i< (gameTexts[1].getString().getSize() -msg[1].size())/2 ; i++)
+        spaces += ' ';
+    gameTexts[1].setString(spaces + msg[1] + "\n\n" + gameTexts[1].getString());
     gameTexts[1].setOrigin(gameTexts[1].getGlobalBounds().width/2,gameTexts[1].getGlobalBounds().height/2);
 
     for(int i = 0;i < 2;i++)
