@@ -4,6 +4,14 @@
 
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
+    int nextY = 0;
+    for(int i = 0;i < 2;i++){
+        gameTexts[0].setCharacterSize(100);
+        gameTexts[i].setFont(ResourcesManager::instance().getFont());
+        gameTexts[i].setString(gameStrings[i]);
+        gameTexts[i].setPosition((WINDOW_WIDTH / 2) - ((m_board.getLevel().getWidth() / 4) * m_board.getBoardBounds().tile),(WINDOW_HEIGHT/2) + nextY * 1.5);
+        nextY = gameTexts[i].getGlobalBounds().height;
+    }
     stats[Life] = 3;
     stats[Points] = 0;
     stats[Cookies] = 0;
@@ -14,22 +22,30 @@ void GameController::run(){
     print();
     std::vector<std::vector<int>> bfsRes;
     while(m_window.isOpen() && !backToMenu){
+        if(!paused)
+            stats[isStopped] = 0;
         if(auto event = sf::Event{}; m_window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 return;
             if (event.type == sf::Event::MouseButtonReleased)
                 SoundFlip::instance().checkIfContains(event.mouseButton);
+            if (event.type == sf::Event::KeyPressed) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                    paused = !paused;
+                    if (paused) {
+                        stats[isStopped] = 1;
+                    }
+                }
+            }
         }
-
-        float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(m_dynamicObj[0]->getSprite().getPosition(), m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height ,
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
+        float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         for(int i=0 ; i<m_dynamicObj.size() ; i++){
-            if(i > 0 && freezed)
+            if((i > 0 && freezed) || paused)
                 break;
             m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
         }
-
         handleCollision();
         handleEvent();
         handleAnimations();
@@ -100,7 +116,9 @@ void GameController::handleEvent() {
                 backToMenu = true;
                 break;
             case TimeOver:
-                EventLoop::instance().addEvent(Event(GameOver));
+                if(!paused)
+                    EventLoop::instance().addEvent(Event(GameOver));
+                else;
                 break;
         }
         stats[Points]+=event.getPoints();
@@ -123,6 +141,17 @@ void GameController::print() {
     }
 
     SoundFlip::instance().draw(m_window);
+
+    if(paused){
+        sf::RectangleShape fadedBackground;
+        fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+        fadedBackground.setFillColor(sf::Color(0,0,0,90));
+
+        m_window.draw(fadedBackground);
+
+        for(int i = 0;i < 2;i++)
+            m_window.draw(gameTexts[i]);
+    }
     m_window.display();
 }
 
@@ -145,7 +174,7 @@ void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),tile.getGlobalBounds().width* 0.7));
             std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }

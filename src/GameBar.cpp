@@ -34,10 +34,14 @@ void GameBar::updateGameBar(int stats[]){
         m_Texts[i].setString(texts[i] + stringtonum.str().c_str());
     }
 
+    if(stats[3] == 1)
+        m_gameTimer.restart().asSeconds();
+
     if(m_gameTimer.getElapsedTime().asSeconds() >= 1){
         m_gametime--;
         m_gameTimer.restart().asSeconds();
     }
+
     stringtonum.str("");
     stringtonum << m_gametime;
     m_Texts[3].setString(texts[3] + stringtonum.str().c_str());

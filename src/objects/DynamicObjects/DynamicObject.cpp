@@ -2,6 +2,7 @@
 
 DynamicObject::DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
     : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position) , originalTexture(texture){
+    m_origianlScale = m_sprite.getScale();
 }
 sf::Vector2f DynamicObject::getPosition() {return GameObject::getSprite().getPosition();}
 
@@ -29,21 +30,20 @@ sf::Rect<float> DynamicObject::getGlobalBounds() {
 }
 
 void DynamicObject::rotateObject(float rotateBy) {
-    static auto originalScale = m_sprite.getScale();
-    m_sprite.setScale(originalScale);
+    m_sprite.setScale(m_origianlScale);
 
     if(m_sprite.getRotation() == rotateBy)
         return;
 
     m_sprite.rotate(-m_sprite.getRotation());
     if(rotateBy == 180)
-        m_sprite.setScale(-originalScale.x, originalScale.y);
+        m_sprite.setScale(-m_origianlScale.x, m_origianlScale.y);
     else
         m_sprite.rotate(rotateBy);
 }
 
 void DynamicObject::setIntRectPacman(int rect) {
-    m_sprite.setTextureRect(sf::IntRect(0,rect,512,512));
+    m_sprite.setTextureRect(sf::IntRect(0,rect,m_sprite.getTextureRect().width,m_sprite.getTextureRect().height));
 }
 
 

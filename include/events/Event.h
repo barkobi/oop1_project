@@ -11,7 +11,8 @@ enum EventType_t{
     GotGhostFreezeGift,
     GotTimeAddGift,
     GotKey,
-    TimeOver
+    TimeOver,
+    GameFreeze
 };
 
 class Event{

@@ -1,5 +1,5 @@
 #include "objects/GameObject.h"
-
+#include "iostream"
 GameObject::GameObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor) {
     m_sprite.setTexture(*texture);
     m_sprite.setTextureRect(sf::IntRect (0,0,512,512));

@@ -23,13 +23,14 @@
 enum Clocks_t{
     ANIMATIONCLOCK,
     MOVECLOCK,
-    GIFTCLOCK
+    GIFTCLOCK,
 };
 
 enum Stats_t{
     Cookies,
     Points,
-    Life
+    Life,
+    isStopped
 };
 
 class GameController{
@@ -53,9 +54,11 @@ private:
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
     sf::RenderWindow &m_window;
-    sf::Clock clocks[3];
+    sf::Clock clocks[4];
+    sf::Text gameTexts[2];
+    std::string gameStrings[2] = {"Paused","Press Space To Continue"};
     GameBoard m_board;
-    int stats[3];
+    int stats[4];
     bool backToMenu = false;
     GameBar m_gameBar;
     bool freezed = false;

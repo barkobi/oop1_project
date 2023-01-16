@@ -12,6 +12,7 @@ Pacman::Pacman(sf::Vector2f position, float scaleFactor)
       m_rect(0),pacstate(std::make_unique<NormalPacman>()){}
 
 void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
+
     if(superClock.getElapsedTime().asSeconds() > 5 && m_issuper){
         downgradeToNormal();
     }
@@ -30,7 +31,9 @@ void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<in
         rotateObject(180);
         offset =sf::Vector2f(-1, 0);
     }
+
     moveObj(offset, deltaTime);
+
     auto myPosition = getPosition();
     if(myPosition.x +getGlobalBounds().width >= boardBounds.BottomRightX)
         setPosition(sf::Vector2f(boardBounds.topLeftX,myPosition.y));

@@ -39,6 +39,7 @@ protected:
     void setPosition(sf::Vector2f position);
 private:
     sf::Vector2f m_statPosition;
+    sf::Vector2f m_origianlScale;
     float m_speedPerSecond = SPEED;
     sf::Vector2f m_previousPosition;
     sf::Texture *originalTexture;
