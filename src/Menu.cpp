@@ -136,7 +136,6 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                     break;
                 }
                 case QUIT:
-                    SettingsManager::instance().save_settings();
                     m_menuWindow.close();
                     break;
             }

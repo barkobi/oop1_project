@@ -9,7 +9,7 @@ class PacmanState{
 public:
     virtual void handleWallCollision(Ghost& ghost,Pacman& pacman) = 0;
     virtual void handleWallCollision(Door& door,Pacman& pacman) = 0;
-    virtual ~PacmanState() {std::cout << "Hi\n";}
+    virtual ~PacmanState() {}
 };
 
 class SuperPacmanState: public PacmanState {
