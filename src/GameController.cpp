@@ -33,8 +33,11 @@ void GameController::run(){
                 SoundFlip::instance().checkIfContains(event.mouseButton);
             if (event.type == sf::Event::KeyPressed) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-                    if(isGameOver)
+                    if(isGameOver){
+                        if(!ResourcesManager::instance().isBGMusicPlaying())
+                            ResourcesManager::instance().playBackgroundMusic();
                         return;
+                    }
                     paused = !paused;
                     if (paused) {
                         stats[isStopped] = 1;
@@ -73,6 +76,7 @@ void GameController::handleEvent() {
         switch (event.getEventType()){
             case CollapseWithGhost:
             {
+                ResourcesManager::instance().playSound(COLLAPSE_WITH_GHOST);
                 stats[Life]--;
                 if(stats[Life] == 0)
                     EventLoop::instance().addEvent(Event(GameOver));
@@ -109,6 +113,7 @@ void GameController::handleEvent() {
             }
             case GameOver:{
                 printf("Game Over!\n");
+                ResourcesManager::instance().playSound(GAME_OVER);
                 std::string msg[2] = {"Game Over!", "Better Luck Next Time"};
                 gameOverOrDone(msg);
                 break;
@@ -119,7 +124,9 @@ void GameController::handleEvent() {
             }
             case GameDone:{
                 printf("Game Done!\n");
-                std::string msg[2] = {"Game Done!", "You Are The King!"};
+                ResourcesManager::instance().pauseBackgroundMusic();
+                ResourcesManager::instance().playSound(GAME_DONE);
+                std::string msg[2] = {"Game Done!", "You Are The Winner"};
                 gameOverOrDone(msg);
                 break;
             }
@@ -304,7 +311,10 @@ void GameController::gameOverOrDone(std::string msg[2]) {
 
     gameTexts[0].setString(msg[0]);
     gameTexts[0].setOrigin(gameTexts[0].getGlobalBounds().width/2,gameTexts[0].getGlobalBounds().height/2);
-    gameTexts[1].setString(msg[1] + "\n\n" + gameTexts[1].getString());
+    std::string spaces = "";
+    for(int i=0 ; i< (gameTexts[1].getString().getSize() -msg[1].size())/2 ; i++)
+        spaces += ' ';
+    gameTexts[1].setString(spaces + msg[1] + "\n\n" + gameTexts[1].getString());
     gameTexts[1].setOrigin(gameTexts[1].getGlobalBounds().width/2,gameTexts[1].getGlobalBounds().height/2);
 
     for(int i = 0;i < 2;i++)
