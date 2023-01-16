@@ -32,8 +32,11 @@ void GameController::run(){
                 SoundFlip::instance().checkIfContains(event.mouseButton);
             if (event.type == sf::Event::KeyPressed) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-                    if(isGameOver)
+                    if(isGameOver){
+                        if(!ResourcesManager::instance().isBGMusicPlaying())
+                            ResourcesManager::instance().playBackgroundMusic();
                         return;
+                    }
                     paused = !paused;
                     if (paused) {
                         stats[isStopped] = 1;
@@ -72,6 +75,7 @@ void GameController::handleEvent() {
         switch (event.getEventType()){
             case CollapseWithGhost:
             {
+                ResourcesManager::instance().playSound(COLLAPSE_WITH_GHOST);
                 stats[Life]--;
                 if(stats[Life] == 0)
                     EventLoop::instance().addEvent(Event(GameOver));
@@ -108,6 +112,7 @@ void GameController::handleEvent() {
             }
             case GameOver:{
                 printf("Game Over!\n");
+                ResourcesManager::instance().playSound(GAME_OVER);
                 std::string msg[2] = {"Game Over!", "Better Luck Next Time"};
                 gameOverOrDone(msg);
                 break;
@@ -118,6 +123,8 @@ void GameController::handleEvent() {
             }
             case GameDone:{
                 printf("Game Done!\n");
+                ResourcesManager::instance().pauseBackgroundMusic();
+                ResourcesManager::instance().playSound(GAME_DONE);
                 std::string msg[2] = {"Game Done!", "You Are The Winner"};
                 gameOverOrDone(msg);
                 break;

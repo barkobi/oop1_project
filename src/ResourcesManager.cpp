@@ -36,8 +36,6 @@ sf::Texture *ResourcesManager::getMenuTexture(const int loc) {
 }
 
 void ResourcesManager::playSound(const int index) {
-    if(index == OPEN_DOOR)
-        printf("");
     if(!SettingsManager::instance().getFXSwitch())
         return;
     m_sounds[index].setBuffer(m_sounds_buffs[index]);
@@ -85,4 +83,12 @@ sf::Texture *ResourcesManager::getTitle() {
 
 sf::Texture *ResourcesManager::getSoundButton(const int loc) {
     return &m_soundButton[loc];
+}
+
+void ResourcesManager::pauseBackgroundMusic() {
+    m_backgroundMusic.pause();
+}
+
+bool ResourcesManager::isBGMusicPlaying() {
+    return m_backgroundMusic.getStatus() == sf::Music::Playing;
 }

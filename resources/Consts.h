@@ -11,7 +11,7 @@ const int WINDOW_WIDTH = sf::VideoMode::getDesktopMode().width * 0.85;
 const int MENU_WIDTH =  sf::VideoMode::getDesktopMode().width * 0.1;
 const int MENU_START = sf::VideoMode::getDesktopMode().height * 0.1;
 const int MENU_BUTTONS = 6;
-const int NUMBER_OF_SOUNDS = 5;
+const int NUMBER_OF_SOUNDS = 8;
 
 const float SPEED = WINDOW_WIDTH / 15;
 
@@ -22,7 +22,10 @@ enum Sounds_t{
     START_SOUND,
     CHEW_SOUND,
     OPEN_DOOR,
-    GOT_GIFT
+    GOT_GIFT,
+    GAME_OVER,
+    COLLAPSE_WITH_GHOST,
+    GAME_DONE
 };
 
 enum Characters {
