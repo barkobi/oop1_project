@@ -262,7 +262,7 @@ void GameController::openDoor() {
             index = i;
         }
     }
-    if(index != -1)
+    if(index != -1 && min != WINDOW_WIDTH)
         dynamic_cast<Door*>(m_staticObj[index].get())->openDoor();
 
 }

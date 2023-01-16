@@ -6,6 +6,7 @@
 void SuperPacmanState::handleWallCollision(Door &door, Pacman &pacman) {
     if(!door.isOpen())
         door.openDoor();
+
 }
 
 void SuperPacmanState::handleWallCollision(Ghost &ghost, Pacman &pacman) {
