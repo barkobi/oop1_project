@@ -4,11 +4,12 @@
 class Ghost;
 class Door;
 class Pacman;
+
 class PacmanState{
 public:
     virtual void handleWallCollision(Ghost& ghost,Pacman& pacman) = 0;
     virtual void handleWallCollision(Door& door,Pacman& pacman) = 0;
-    virtual ~PacmanState() {}
+    virtual ~PacmanState() {std::cout << "Hi\n";}
 };
 
 class SuperPacmanState: public PacmanState {

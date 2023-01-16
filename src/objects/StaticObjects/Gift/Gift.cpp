@@ -1,17 +1,27 @@
-//
-// Created by Bar Kobi on 06/01/2023.
-//
 
-#include "objects/StaticObjects/Gift/Gift.h"
+#include "Gift.h"
 
-Gift::Gift( sf::Vector2f position, float scaleFactor)
-    : StaticObject(ResourcesManager::instance().getObjectTexture(GIFT), position,scaleFactor) {}
+Gift::Gift(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
+    : StaticObject(texture, position,scaleFactor) {}
 
-void Gift::setHitten() {
-    hitten = true;
-
+void Gift::openGift(){
+    if(is_open)
+        return;
+    ResourcesManager::instance().playSound(GOT_GIFT);
+    is_open = true;
 }
 
-bool Gift::isHitten() {
-    return hitten;
+bool Gift::isOpen(){
+    return is_open;
+}
+
+void Gift::animation() {
+    if(is_open){
+        if(m_count == 9)
+            deleteObject();
+
+        m_rect += IMAGE_DIMENSIONS;
+        m_count++;
+        m_sprite.setTextureRect(sf::IntRect(m_rect,0,512,512));
+    }
 }
