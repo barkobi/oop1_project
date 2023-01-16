@@ -16,5 +16,5 @@ private:
     sf::Clock m_gameTimer;
     int m_gametime;
     sf::Text m_Texts[4];
-    std::string texts[4] = {"Remaining Cookies : ","Points : ","Life : ","Remaining Time : "};
+    std::string texts[4] = {"Remaining Coins : ","Points : ","Life : ","Remaining Time : "};
 };

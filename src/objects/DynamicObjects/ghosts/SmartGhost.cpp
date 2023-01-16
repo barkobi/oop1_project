@@ -10,10 +10,15 @@ SmartGhost::SmartGhost(sf::Vector2f position, float scaleFactor)
 void SmartGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes) {
     calcMyLocation(boardBounds);
 
-    std::pair<int, Direction_t> dirs[4] = {std::make_pair(bfsRes[m_myLocation.y][m_myLocation.x+1],Right),
-                                           std::make_pair(bfsRes[m_myLocation.y][m_myLocation.x-1], Left),
-                                           std::make_pair(bfsRes[m_myLocation.y-1][m_myLocation.x],Up),
-                                           std::make_pair(bfsRes[m_myLocation.y+1][m_myLocation.x],Down)};
+    int right = m_myLocation.x+1 < bfsRes[0].size() ? bfsRes[m_myLocation.y][m_myLocation.x+1] : WINDOW_WIDTH;
+    int left = m_myLocation.x-1 >=0 ? bfsRes[m_myLocation.y][m_myLocation.x-1] : WINDOW_WIDTH;
+    int up = m_myLocation.y-1>=0 ? bfsRes[m_myLocation.y-1][m_myLocation.x] : WINDOW_WIDTH;
+    int down = m_myLocation.y+1 < bfsRes.size() ? bfsRes[m_myLocation.y+1][m_myLocation.x] : WINDOW_WIDTH;
+
+    std::pair<int, Direction_t> dirs[4] = {std::make_pair(right,Right),
+                                           std::make_pair(left, Left),
+                                           std::make_pair(up,Up),
+                                           std::make_pair(down,Down)};
 
     for(int round=0; round < 4-1;round++){
         for(int place=0; place< 4-round-1; place++)
@@ -21,10 +26,10 @@ void SmartGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vecto
                 std::swap(dirs[place],dirs[place + 1]);
             }
     }
-    if (m_collisionClock.getElapsedTime().asSeconds() > 0.5)
+    if (m_collisionClock.getElapsedTime().asSeconds() > 0.7)
         m_blocked = true;
 
-    moveGhost(deltaTime,dirs[m_blocked].second);
+    moveGhost(deltaTime,boardBounds, dirs[m_blocked].second);
 }
 
 void SmartGhost::calcMyLocation(Bounds boardBounds) {

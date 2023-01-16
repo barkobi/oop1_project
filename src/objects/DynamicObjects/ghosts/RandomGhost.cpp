@@ -28,5 +28,5 @@ void RandomGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vect
         }
         timeToSwitchDirection = 0;
     }
-    moveGhost(deltaTime,m_lastDirection);
+    moveGhost(deltaTime, boardBounds,m_lastDirection);
 }
