@@ -32,7 +32,7 @@ void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<in
         offset =sf::Vector2f(-1, 0);
     }
 
-    moveObj(offset, deltaTime);
+    moveObj(offset, deltaTime,boardBounds.speed);
 
     auto myPosition = getPosition();
     if(myPosition.x +getGlobalBounds().width >= boardBounds.BottomRightX)

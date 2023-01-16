@@ -6,7 +6,7 @@ Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
 
 void Ghost::moveGhost(float deltaTime, Bounds boardBounds, Direction_t direction){
     std::vector<sf::Vector2f> dirs = {sf::Vector2f(1,0),sf::Vector2f(-1,0),sf::Vector2f(0,-1),sf::Vector2f(0,1)};
-    moveObj(dirs[direction], deltaTime);
+    moveObj(dirs[direction], deltaTime,boardBounds.speed);
 
     auto myPosition = getPosition();
     if((myPosition.x +getGlobalBounds().width >= boardBounds.BottomRightX)

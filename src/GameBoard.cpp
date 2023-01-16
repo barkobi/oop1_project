@@ -1,5 +1,5 @@
 #include "GameBoard.h"
-
+#include "cmath"
 GameBoard::GameBoard() : m_total_levels(0){
     load_levels_files();
     if(m_total_levels>0){
@@ -49,9 +49,9 @@ void GameBoard::createBoard() {
         for(int col=0 ; col<m_level.getWidth() ; col++){
             auto r = sf::RectangleShape();
             r.setSize(sf::Vector2f(tileSize , tileSize ));
-            r.setOrigin(tileSize/2,tileSize/2);
+            r.setOrigin(tileSize*0.5,tileSize*0.5);
             r.setPosition(float((col *tileSize + topLeftX)) + tileSize * 0.5, float((row*tileSize + topLeftY)) + tileSize * 0.5);
-            r.setFillColor(sf::Color(100, 190, 190));
+            r.setFillColor(sf::Color(65,74,76,235));
             line.push_back(r);
         }
         m_matrix.push_back(line);
@@ -63,6 +63,8 @@ void GameBoard::createBoard() {
     m_bounds.BottomRightX = bottomRightTile.getPosition().x + tileSize;
     m_bounds.BottomRightY = bottomRightTile.getPosition().y + tileSize;
     m_bounds.tile = tileSize;
+    m_bounds.speed = sqrt(pow(m_bounds.topLeftX - m_bounds.BottomRightX, 2) + pow(m_bounds.topLeftY - m_bounds.BottomRightY, 2));
+    m_bounds.speed *= 0.0275;
 
 }
 

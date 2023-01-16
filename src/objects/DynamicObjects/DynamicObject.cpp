@@ -12,9 +12,9 @@ void DynamicObject::handleCollision(Wall& wall){
     m_sprite.setPosition(m_previousPosition);
 }
 
-void DynamicObject::moveObj(sf::Vector2f offset, float dt) {
+void DynamicObject::moveObj(sf::Vector2f offset, float dt,float ObjectSpeed) {
     m_previousPosition = m_sprite.getPosition();
-    m_sprite.move(offset * dt * SPEED);
+    m_sprite.move(offset * dt * (ObjectSpeed*3));
 }
 
 void DynamicObject::cancelMove() {

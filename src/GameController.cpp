@@ -1,6 +1,6 @@
 #include "GameController.h"
 #include "SoundFlip.h"
-
+#include "cmath"
 
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
@@ -13,6 +13,7 @@ GameController::GameController(sf::RenderWindow &window)
         gameTexts[i].setOrigin(gameTexts[i].getGlobalBounds().width/2,gameTexts[i].getGlobalBounds().height/2);
         nextY = gameTexts[i].getGlobalBounds().height;
     }
+
     stats[Life] = 3;
     stats[Points] = 0;
     stats[Cookies] = 0;
@@ -181,7 +182,7 @@ void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
             std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }
