@@ -48,6 +48,7 @@ private:
     void openDoor();
     void resetLevel();
     void handleAnimations();
+    void gameOverOrDone(std::string msg[2]);
 
 
     // members
@@ -59,9 +60,9 @@ private:
     std::string gameStrings[2] = {"Paused","Press Space To Continue"};
     GameBoard m_board;
     int stats[4];
-    bool backToMenu = false;
     GameBar m_gameBar;
     bool freezed = false;
     bool super = false;
     bool paused = false;
+    bool isGameOver = false;
 };
