@@ -48,6 +48,7 @@ private:
     void openDoor();
     void resetLevel();
     void handleAnimations();
+    void gameOverOrDone(std::string msg[2]);
 
 
     // members
@@ -64,4 +65,5 @@ private:
     bool freezed = false;
     bool super = false;
     bool paused = false;
+    bool isGameOver = false;
 };
