@@ -56,8 +56,8 @@ private:
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
     sf::RenderWindow &m_window;
     sf::Clock clocks[4];
-    sf::Text gameTexts[2];
-    std::string gameStrings[2] = {"Paused","Press Space To Continue"};
+    sf::Text gameTexts[4];
+    std::string gameStrings[4] = {"Paused","Press Space To Continue","Get Ready For the next Level","Good LUCK!"};
     GameBoard m_board;
     int stats[4];
     GameBar m_gameBar;

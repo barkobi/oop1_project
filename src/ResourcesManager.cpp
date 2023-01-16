@@ -13,11 +13,13 @@ ResourcesManager::ResourcesManager() {
         m_sounds_buffs[i].loadFromFile(m_sound_file_names[i]);
         m_sounds[i].setBuffer(m_sounds_buffs[i]);
     }
-    m_backGround.loadFromFile("backGroundimage.jpg");
+    m_backGround.loadFromFile("backGroundimage.png");
     m_title.loadFromFile("Title.png");
     for(int i = 0;i < OBJECTS;i++){
         m_pictures[i].loadFromFile(m_picturesString[i] + ".png");
     }
+
+    m_helpScreen.loadFromFile("HelpScreen.png");
 
     m_font.loadFromFile("PressStart2P.ttf");
 }
@@ -91,4 +93,8 @@ void ResourcesManager::pauseBackgroundMusic() {
 
 bool ResourcesManager::isBGMusicPlaying() {
     return m_backgroundMusic.getStatus() == sf::Music::Playing;
+}
+
+sf::Texture *ResourcesManager::getHelpScreen() {
+    return &m_helpScreen;
 }

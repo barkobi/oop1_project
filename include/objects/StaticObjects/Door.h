@@ -6,7 +6,7 @@
 class Door : public StaticObject{
 
 public:
-    Door(sf::Vector2f position, float scaleFactor);
+    Door(sf::Vector2f position, float scaleFactor,float tileSize);
 
     void handleCollision(GameObject& object) { object.handleCollision(*this); }
     void handleCollision(Pacman& player) { player.handleCollision(*this); }

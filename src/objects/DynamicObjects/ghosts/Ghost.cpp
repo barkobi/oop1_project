@@ -1,8 +1,8 @@
 #include "objects/DynamicObjects/ghosts/Ghost.h"
 #include "Pacman.h"
 
-Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : DynamicObject(texture, position,scaleFactor) ,m_rect(0){}
+Ghost::Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize)
+    : DynamicObject(texture, position,scaleFactor,tileSize) ,m_rect(0){}
 
 void Ghost::moveGhost(float deltaTime, Bounds boardBounds, Direction_t direction){
     std::vector<sf::Vector2f> dirs = {sf::Vector2f(1,0),sf::Vector2f(-1,0),sf::Vector2f(0,-1),sf::Vector2f(0,1)};

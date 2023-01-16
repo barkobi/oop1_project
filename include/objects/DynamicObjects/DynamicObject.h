@@ -4,7 +4,7 @@
 
 class DynamicObject : public GameObject{
 public:
-    DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
+    DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize);
 //    virtual ~DynamicObject() = default;
 
     void goToInitialPosition();
@@ -37,9 +37,9 @@ protected:
     sf::Rect<float> getGlobalBounds();
     void moveObj(sf::Vector2f offset, float dt,float ObjectSpeed);
     void setPosition(sf::Vector2f position);
+    sf::Vector2f m_origianlScale;
 private:
     sf::Vector2f m_statPosition;
-    sf::Vector2f m_origianlScale;
     sf::Vector2f m_previousPosition;
     sf::Texture *originalTexture;
 };

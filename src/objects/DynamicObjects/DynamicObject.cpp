@@ -1,7 +1,7 @@
 #include "objects/DynamicObjects/DynamicObject.h"
 
-DynamicObject::DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : GameObject(texture,position,scaleFactor),m_statPosition(position),m_previousPosition(position) , originalTexture(texture){
+DynamicObject::DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize)
+    : GameObject(texture,position,scaleFactor,tileSize),m_statPosition(position),m_previousPosition(position) , originalTexture(texture){
     m_origianlScale = m_sprite.getScale();
 }
 sf::Vector2f DynamicObject::getPosition() {return GameObject::getSprite().getPosition();}

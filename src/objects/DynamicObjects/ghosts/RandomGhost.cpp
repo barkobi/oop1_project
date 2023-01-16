@@ -2,8 +2,8 @@
 #include "RandomGhost.h"
 
 
-RandomGhost::RandomGhost(sf::Vector2f position, float scaleFactor)
-        : Ghost(ResourcesManager::instance().getObjectTexture(RANDOMGHOST), position, scaleFactor * 0.75), m_lastDirection(Up) {}
+RandomGhost::RandomGhost(sf::Vector2f position, float scaleFactor,float tileSize)
+        : Ghost(ResourcesManager::instance().getObjectTexture(RANDOMGHOST), position, scaleFactor,tileSize), m_lastDirection(Up) {}
 
 void RandomGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
     static float timeToSwitchDirection = 0;

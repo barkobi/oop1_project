@@ -4,7 +4,7 @@
 
 class StaticObject : public GameObject{
 public:
-    StaticObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
+    StaticObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize);
     virtual ~StaticObject() = default;
 
 

@@ -129,6 +129,7 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                     break;
                 }
                 case HELP:
+                    HelpScreenPrint();
                     break;
                 case SETTINGS: {
                     SettingsScreen settingsScreen = SettingsScreen(m_menuWindow);
@@ -180,4 +181,19 @@ void Menu::myHandlersigusr2(int signum) {
     signal(SIGUSR2, Menu::myHandlersigusr2);
     SettingsManager::instance().flipMusicSwitch();
     ResourcesManager::instance().updateSounds();
+}
+
+void Menu::HelpScreenPrint() {
+    m_menuWindow.clear();
+    m_helpRect.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+    m_helpRect.setTexture(ResourcesManager::instance().getHelpScreen());
+    m_menuWindow.draw(m_helpRect);
+    m_menuWindow.display();
+    while(m_menuWindow.isOpen()){
+        auto event = sf::Event{};
+        m_menuWindow.waitEvent(event);
+        if(event.type == event.KeyPressed)
+            break;
+    }
+
 }

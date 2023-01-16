@@ -1,8 +1,8 @@
 
 #include "Gift.h"
 
-Gift::Gift(sf::Texture *texture, sf::Vector2f position, float scaleFactor)
-    : StaticObject(texture, position,scaleFactor) {}
+Gift::Gift(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize)
+    : StaticObject(texture, position,scaleFactor,tileSize) {}
 
 void Gift::openGift(){
     if(is_open)

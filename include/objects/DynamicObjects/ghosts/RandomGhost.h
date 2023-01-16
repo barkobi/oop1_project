@@ -4,7 +4,7 @@
 
 class RandomGhost : public Ghost{
 public:
-    RandomGhost(sf::Vector2f position, float scaleFactor);
+    RandomGhost(sf::Vector2f position, float scaleFactor,float tileSize);
 
     virtual void move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes);
 private:

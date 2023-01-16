@@ -6,7 +6,7 @@
 
 class Cookie : public StaticObject{
 public:
-    Cookie(sf::Vector2f position, float scaleFactor);
+    Cookie(sf::Vector2f position, float scaleFactor,float tileSize);
 
     void handleCollision(GameObject& object) { object.handleCollision(*this); }
     void handleCollision(Pacman& player) { player.handleCollision(*this); }

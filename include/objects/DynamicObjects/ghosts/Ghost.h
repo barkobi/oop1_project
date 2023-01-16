@@ -5,7 +5,7 @@ enum Direction_t{Right, Left, Up, Down};
 
 class Ghost : public DynamicObject{
 public:
-    Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
+    Ghost(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize);
 
     virtual void handleCollision(GameObject&);
     virtual void handleCollision(Pacman&);

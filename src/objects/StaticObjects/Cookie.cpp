@@ -1,8 +1,8 @@
 #include "cmath"
 #include "Cookie.h"
 
-Cookie::Cookie(sf::Vector2f position, float scaleFactor)
-    : StaticObject(ResourcesManager::instance().getObjectTexture(COOKIE), position,scaleFactor) {}
+Cookie::Cookie(sf::Vector2f position, float scaleFactor,float tileSize)
+    : StaticObject(ResourcesManager::instance().getObjectTexture(COOKIE), position,scaleFactor,tileSize) {}
 
 void Cookie::animation() {
     if(isHitten){

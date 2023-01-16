@@ -5,7 +5,7 @@
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
     int nextY = 0;
-    for(int i = 0;i < 2;i++){
+    for(int i = 0;i < 4;i++){
         gameTexts[0].setCharacterSize(100);
         gameTexts[i].setFont(ResourcesManager::instance().getFont());
         gameTexts[i].setString(gameStrings[i]);
@@ -189,29 +189,29 @@ void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
-            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+            m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
             std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }
         case GHOST_S:{
             static bool ghost = false;
             if(ghost)
-                m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),tile.getGlobalBounds().width));
+                m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),0.75,tile.getGlobalBounds().width));
             else
-                m_dynamicObj.push_back(std::make_unique<SmartGhost>(tile.getPosition(),tile.getGlobalBounds().width));
+                m_dynamicObj.push_back(std::make_unique<SmartGhost>(tile.getPosition(),0.75,tile.getGlobalBounds().width));
             ghost = !ghost;
             break;
         }
         case KEY_S:{
-            m_staticObj.push_back(std::make_unique<Key>(tile.getPosition(),tile.getGlobalBounds().width * 0.8));
+            m_staticObj.push_back(std::make_unique<Key>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
             break;
         }
         case DOOR_S:{
-            m_staticObj.push_back(std::make_unique<Door>(tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Door>(tile.getPosition(),1,tile.getGlobalBounds().width));
             break;
         }
         case WALL_S:{
-            m_staticObj.push_back(std::make_unique<Wall>(tile.getPosition(),tile.getGlobalBounds().width));
+            m_staticObj.push_back(std::make_unique<Wall>(tile.getPosition(),1,tile.getGlobalBounds().width));
             break;
         }
         case GIFT_S:{
@@ -221,23 +221,23 @@ void GameController::charHandler(char type,int row,int col){
             gift = tmp;
             switch (gift) {
                 case 0:
-                    m_staticObj.push_back(std::make_unique<TimeAddGift>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+                    m_staticObj.push_back(std::make_unique<TimeAddGift>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
                     break;
                 case 1:
-                    m_staticObj.push_back(std::make_unique<SuperPacGift>(tile.getPosition(),tile.getGlobalBounds().width * 0.7));
+                    m_staticObj.push_back(std::make_unique<SuperPacGift>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
                     break;
                 case 2:
-                    m_staticObj.push_back(std::make_unique<GhostFreezeGift>(tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+                    m_staticObj.push_back(std::make_unique<GhostFreezeGift>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
                     break;
                 case 3:
-                    m_staticObj.push_back(std::make_unique<LifeIncGift>(tile.getPosition(),tile.getGlobalBounds().width* 0.7));
+                    m_staticObj.push_back(std::make_unique<LifeIncGift>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
                     break;
             }
             break;
         }
         case COOKIE_S:{
             stats[Cookies]++;
-            m_staticObj.push_back(std::make_unique<Cookie>(tile.getPosition(),tile.getGlobalBounds().width * 0.5));
+            m_staticObj.push_back(std::make_unique<Cookie>(tile.getPosition(),0.5,tile.getGlobalBounds().width));
             break;
         }
     }
@@ -304,23 +304,23 @@ void GameController::handleAnimations() {
 
 void GameController::gameOverOrDone(std::string msg[2]) {
     sf::RectangleShape fadedBackground;
-    fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
-    fadedBackground.setFillColor(sf::Color(0,0,0,90));
+    fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    fadedBackground.setFillColor(sf::Color(0, 0, 0, 90));
 
     m_window.draw(fadedBackground);
 
     gameTexts[0].setString(msg[0]);
-    gameTexts[0].setOrigin(gameTexts[0].getGlobalBounds().width/2,gameTexts[0].getGlobalBounds().height/2);
+    gameTexts[0].setOrigin(gameTexts[0].getGlobalBounds().width / 2, gameTexts[0].getGlobalBounds().height / 2);
     std::string spaces = "";
-    for(int i=0 ; i< (gameTexts[1].getString().getSize() -msg[1].size())/2 ; i++)
+    for (int i = 0; i < (gameTexts[1].getString().getSize() - msg[1].size()) / 2; i++)
         spaces += ' ';
     gameTexts[1].setString(spaces + msg[1] + "\n\n" + gameTexts[1].getString());
-    gameTexts[1].setOrigin(gameTexts[1].getGlobalBounds().width/2,gameTexts[1].getGlobalBounds().height/2);
+    gameTexts[1].setOrigin(gameTexts[1].getGlobalBounds().width / 2, gameTexts[1].getGlobalBounds().height / 2);
 
-    for(int i = 0;i < 2;i++)
+    for (int i = 0; i < 2; i++)
         m_window.draw(gameTexts[i]);
     m_window.display();
-    paused= true;
+    paused = true;
     stats[isStopped] = 1;
     isGameOver = true;
 }

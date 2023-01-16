@@ -7,9 +7,10 @@
 #include "SuperPacGift.h"
 #include "Door.h"
 #include "limits"
-Pacman::Pacman(sf::Vector2f position, float scaleFactor)
-    : DynamicObject(ResourcesManager::instance().getObjectTexture(PACMAN), position,scaleFactor),
-      m_rect(0),pacstate(std::make_unique<NormalPacman>()){}
+Pacman::Pacman(sf::Vector2f position, float scaleFactor,float tileSize)
+    : DynamicObject(ResourcesManager::instance().getObjectTexture(PACMAN), position,scaleFactor,tileSize),
+      m_rect(0),pacstate(std::make_unique<NormalPacman>()){
+}
 
 void Pacman::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
 

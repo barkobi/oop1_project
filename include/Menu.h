@@ -28,10 +28,12 @@ public:
     void setSignal ();
     static void myHandlersigusr1 (int signum);
     static void myHandlersigusr2 (int signum);
+    void HelpScreenPrint();
 
 private:
     sf::RenderWindow m_menuWindow;
     sf::RectangleShape m_title;
+    sf::RectangleShape m_helpRect;
     sf::Sprite m_buttons[MENU_BUTTONS];
     sf::SoundBuffer m_soundBuffer;
     sf::Sound m_sound;

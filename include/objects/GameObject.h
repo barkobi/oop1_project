@@ -18,7 +18,7 @@ class Pacman;
 class GameObject{
 public:
     // C-tor
-    GameObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor);
+    GameObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize);
     virtual ~GameObject() = default;
 
     // Public Funcs

@@ -2,8 +2,8 @@
 #include "SmartGhost.h"
 
 #include <cmath>
-SmartGhost::SmartGhost(sf::Vector2f position, float scaleFactor)
-        : Ghost(ResourcesManager::instance().getObjectTexture(SMARTGHOST), position, scaleFactor * 0.75), m_myLocation(1,1) {
+SmartGhost::SmartGhost(sf::Vector2f position, float scaleFactor,float tileSize)
+        : Ghost(ResourcesManager::instance().getObjectTexture(SMARTGHOST), position, scaleFactor,tileSize), m_myLocation(1,1) {
     m_collisionClock.restart().asSeconds();
 }
 
