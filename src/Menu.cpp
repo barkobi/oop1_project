@@ -105,8 +105,7 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                 case PLAY: {
                     if(!canPlay)
                         break;
-                    m_menuWindow.clear(sf::Color(10, 0, 12, 200));
-                    m_menuWindow.display();
+                    ResourcesManager::instance().playSound(START_SOUND);
                     auto controller = GameController(m_menuWindow);
                     controller.run();
                 }
