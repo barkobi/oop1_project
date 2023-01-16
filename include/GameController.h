@@ -65,5 +65,4 @@ private:
     bool freezed = false;
     bool super = false;
     bool paused = false;
-    bool isGameOver = false;
 };

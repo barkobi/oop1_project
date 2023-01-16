@@ -22,7 +22,7 @@ GameController::GameController(sf::RenderWindow &window)
 void GameController::run(){
     print();
     std::vector<std::vector<int>> bfsRes;
-    while(m_window.isOpen() && !backToMenu){
+    while(m_window.isOpen()){
         if(!paused)
             stats[isStopped] = 0;
         if(auto event = sf::Event{}; m_window.pollEvent(event)) {
@@ -269,7 +269,7 @@ void GameController::openDoor() {
             index = i;
         }
     }
-    if(index != -1)
+    if(index != -1 && min!=WINDOW_WIDTH)
         dynamic_cast<Door*>(m_staticObj[index].get())->openDoor();
 
 }
