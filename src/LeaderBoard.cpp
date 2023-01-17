@@ -5,10 +5,6 @@
  */
 LeaderBoard::LeaderBoard(sf::RenderWindow &window) :m_window(window){
     m_file.open("leaderBoard.txt");
-    if(!m_file.is_open()){
-        std::cerr << "Cannot open leader board file\n";
-        exit(EXIT_FAILURE);
-    }
     m_backGround.setSize(sf::Vector2f (WINDOW_WIDTH,WINDOW_HEIGHT));
     m_backGround.setTexture(ResourcesManager::instance().getBackground());
     m_title.setFont(ResourcesManager::instance().getFont());
@@ -19,7 +15,10 @@ LeaderBoard::LeaderBoard(sf::RenderWindow &window) :m_window(window){
         m_leaderNames[i].setFont(ResourcesManager::instance().getFont());
         m_leaderScores[i].setFont(ResourcesManager::instance().getFont());
     }
+
     load();
+
+    loadDataToString();
 }
 
 /**
@@ -47,7 +46,6 @@ void LeaderBoard::load() {
             m_leaders[j].score = 0;
         }
     }
-    loadDataToString();
 }
 
 /**
@@ -79,7 +77,6 @@ void LeaderBoard::print() {
  */
 
 void LeaderBoard::addScore(int score){
-
     int pos = 0;
     for(int i=0 ; i<10 && m_leaders[i].score>=score ; i++, pos++);
 
@@ -92,6 +89,8 @@ void LeaderBoard::addScore(int score){
 
     for(int i=9 ; i>pos ; i--){
         m_leaders[i] = m_leaders[i-1];
+        m_leaderNames[i] = m_leaderNames[i-1];
+        m_leaderScores[i] = m_leaderScores[i-1];
     }
     m_leaders[pos] = newLeader;
 
@@ -101,25 +100,20 @@ void LeaderBoard::addScore(int score){
     while(m_window.isOpen()){
         auto eventwait = sf::Event{};
         m_window.waitEvent(eventwait);
-        if(eventwait.type == eventwait.KeyPressed)
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-                break;
-
         if(eventwait.type == sf::Event::TextEntered)
         {
             m_leaders[pos].name += eventwait.text.unicode;
-
-            m_leaderNames[pos].setString(m_leaders[pos].name);
-            printWhileEnterName();
-
         }
+        if(eventwait.type == sf::Event::KeyPressed)
+            if(eventwait.key.code == sf::Keyboard::Return)
+                break;
         if(eventwait.type == sf::Event::KeyPressed)
             if(eventwait.key.code == sf::Keyboard::BackSpace)
                 if (!m_leaders[pos].name.empty())
                     m_leaders[pos].name.pop_back();
 
+        m_leaderNames[pos].setString(m_leaders[pos].name);
+        printWhileEnterName();
     }
     updateFile();
 }
@@ -136,6 +130,7 @@ void LeaderBoard::updateFile() {
 }
 
 void LeaderBoard::loadDataToString() {
+    std::cout << "in load\n";
     std::stringstream stringtonum;
     float prevloc = 50;
     for(int i = 1;i< 10;i++)

@@ -42,6 +42,4 @@ private:
     void load();
     void updateFile();
     void loadDataToString();
-    void enterName(int loc);
-
 };
