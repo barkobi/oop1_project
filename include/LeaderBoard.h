@@ -17,7 +17,7 @@ struct Leader{
 class LeaderBoard {
 public:
     // constructor / destructor:
-    LeaderBoard(sf::RenderWindow &window);
+    LeaderBoard(sf::RenderWindow &window, bool editMode = false);
     ~LeaderBoard();
 
 
@@ -35,11 +35,14 @@ private:
     sf::Text m_title;
     sf::Text m_leaderNames[10];
     sf::Text m_leaderScores[10];
-    sf::Font m_font;
     std::string m_string;
 
     //functions:
+    void initComponents();
     void load();
     void updateFile();
     void loadDataToString();
+    void enterName(int loc);
+    void eventHandler();
+    void addScoreEventHandler(const int pos);
 };

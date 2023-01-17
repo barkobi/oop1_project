@@ -26,6 +26,7 @@ public:
     void updateSounds();
     void pauseBackgroundMusic();
     bool isBGMusicPlaying();
+    void stopSound(const int index);
 
 private:
     ResourcesManager();

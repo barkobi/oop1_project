@@ -3,6 +3,6 @@
 
 int main()
 {
-    auto menu = Menu();
+    Menu();
     return EXIT_SUCCESS;
 }
