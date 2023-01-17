@@ -19,6 +19,7 @@
 #include "SmartGhost.h"
 #include "Brain.h"
 #include "GameBar.h"
+#include "LeaderBoard.h"
 
 enum Clocks_t{
     ANIMATIONCLOCK,

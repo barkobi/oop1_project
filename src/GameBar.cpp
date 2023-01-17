@@ -51,8 +51,8 @@ void GameBar::updateGameBar(int stats[]){
 
 }
 
-void GameBar::resetClock() {
-    m_gametime = 60;
+void GameBar::resetClock(int time) {
+    m_gametime = time;
 }
 
 void GameBar::addTime() {

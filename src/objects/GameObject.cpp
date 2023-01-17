@@ -5,7 +5,7 @@ GameObject::GameObject(sf::Texture *texture, sf::Vector2f position, float scaleF
     m_sprite.setTextureRect(sf::IntRect (0,0,IMAGE_DIMENSIONS,IMAGE_DIMENSIONS));
     m_sprite.setPosition(position);
     m_sprite.setOrigin(m_sprite.getGlobalBounds().width * 0.5,m_sprite.getGlobalBounds().height * 0.5);
-    m_sprite.setScale((tileSize/IMAGE_DIMENSIONS)*scaleFactor,(tileSize/IMAGE_DIMENSIONS)*scaleFactor);
+    m_sprite.setScale((tileSize*scaleFactor/IMAGE_DIMENSIONS),(tileSize*scaleFactor/IMAGE_DIMENSIONS));
 }
 
 sf::Sprite &GameObject::getSprite() {return m_sprite;}

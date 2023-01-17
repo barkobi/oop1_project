@@ -6,6 +6,7 @@
 #include "SoundFlip.h"
 #include "../include/ResourcesManager.h"
 #include "signal.h"
+#include "LeaderBoard.h"
 
 const int MENU_BUTTON_WIDTH_ORIGINAL = 500;
 const int MENU_BUTTON_HEIGHT_ORIGINAL = 130;

@@ -128,6 +128,8 @@ void GameController::handleEvent() {
                 ResourcesManager::instance().playSound(GAME_DONE);
                 std::string msg[2] = {"Game Done!", "You Are The Winner"};
                 gameOverOrDone(msg);
+                auto leader = LeaderBoard(m_window);
+                leader.addScore(stats[1]);
                 break;
             }
             case TimeOver:
@@ -264,7 +266,7 @@ void GameController::nextLevel() {
     }
     m_board.loadNextLevel();
     modifyBoard();
-    m_gameBar.resetClock();
+    m_gameBar.resetClock((((m_board.getLevel().getWidth() + m_board.getLevel().getHeight())/2) * stats[Cookies]) / 15);
 }
 
 void GameController::openDoor() {

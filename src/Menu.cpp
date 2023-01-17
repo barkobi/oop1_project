@@ -110,7 +110,11 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                     controller.run();
                 }
                     break;
-                case LEADERBOARD:
+                case LEADERBOARD:{
+                    auto leader = LeaderBoard(m_menuWindow);
+                    leader.print();
+                    break;
+                }
                     break;
                 case ADDSTAGE: {
                     m_lastClick = i;
@@ -192,8 +196,9 @@ void Menu::HelpScreenPrint() {
     while(m_menuWindow.isOpen()){
         auto event = sf::Event{};
         m_menuWindow.waitEvent(event);
-        if(event.type == event.KeyPressed)
-            break;
+        if(event.type == event.KeyReleased)
+            return;
     }
 
 }
+

@@ -10,7 +10,7 @@ public:
     GameBar();
     void updateGameBar(int stats[]);
     void drawStats(sf::RenderWindow &window);
-    void resetClock();
+    void resetClock(int time);
     void addTime();
 private:
     sf::Clock m_gameTimer;
