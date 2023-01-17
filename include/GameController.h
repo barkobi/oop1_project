@@ -58,7 +58,7 @@ private:
     sf::RenderWindow &m_window;
     sf::Clock clocks[4];
     sf::Text gameTexts[4];
-    std::string gameStrings[4] = {"Paused","Press Space To Continue","Get Ready For the next Level","Good LUCK!"};
+    std::string gameStrings[4] = {"Paused","Press Space To Continue","Get Ready For the next Level","GOOD LUCK!"};
     GameBoard m_board;
     int stats[4];
     GameBar m_gameBar;

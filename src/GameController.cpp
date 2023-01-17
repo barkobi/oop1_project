@@ -36,6 +36,8 @@ void GameController::run(){
                     if(isGameOver){
                         if(!ResourcesManager::instance().isBGMusicPlaying())
                             ResourcesManager::instance().playBackgroundMusic();
+                        auto leader = LeaderBoard(m_window, true);
+                        leader.addScore(stats[1]);
                         return;
                     }
                     paused = !paused;
@@ -128,8 +130,6 @@ void GameController::handleEvent() {
                 ResourcesManager::instance().playSound(GAME_DONE);
                 std::string msg[2] = {"Game Done!", "You Are The Winner"};
                 gameOverOrDone(msg);
-                auto leader = LeaderBoard(m_window);
-                leader.addScore(stats[1]);
                 break;
             }
             case TimeOver:

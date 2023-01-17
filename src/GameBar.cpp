@@ -46,8 +46,8 @@ void GameBar::updateGameBar(int stats[]){
     stringtonum << m_gametime;
     m_Texts[3].setString(texts[3] + stringtonum.str().c_str());
 
-    if(m_gametime == 0)
-        EventLoop::instance().addEvent(Event(TimeOver));
+//    if(m_gametime == 0)
+//        EventLoop::instance().addEvent(Event(TimeOver));
 
 }
 
