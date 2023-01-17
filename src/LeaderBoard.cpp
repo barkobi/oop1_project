@@ -143,7 +143,7 @@ void LeaderBoard::eventHandler() {
     while(m_window.isOpen()){
         auto event = sf::Event{};
         m_window.pollEvent(event);
-            if(event.type == event.KeyPressed && event.key.code == sf::Keyboard::Escape)
+            if(event.type == event.KeyPressed && event.key.code == sf::Keyboard::Escape ||event.key.code == sf::Keyboard::Enter)
                 break;
     }
 }

@@ -98,3 +98,7 @@ bool ResourcesManager::isBGMusicPlaying() {
 sf::Texture *ResourcesManager::getHelpScreen() {
     return &m_helpScreen;
 }
+
+void ResourcesManager::stopSound(const int index) {
+    m_sounds[index].stop();
+}
