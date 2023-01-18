@@ -152,5 +152,6 @@ void SettingsScreen::printScreen() {
 }
 
 SettingsScreen::~SettingsScreen() {
+    std::cout << "in D-tor\n";
     SettingsManager::instance().save_settings();
 }

@@ -3,7 +3,7 @@
 /**
  * open the leaderBoard file and load the leaders
  */
-LeaderBoard::LeaderBoard(sf::RenderWindow &window, bool editMode) :m_window(window){
+LeaderBoard::LeaderBoard(sf::RenderWindow &window, bool editMode) :m_window(window), editMode(editMode){
     initComponents();
     load();
     print();
@@ -19,6 +19,8 @@ void LeaderBoard::initComponents() {
     m_title.setString("Leader Board :");
     m_title.setPosition(sf::Vector2f(WINDOW_WIDTH/2,WINDOW_HEIGHT*0.1));
     m_title.setOrigin(m_title.getGlobalBounds().width/2,m_title.getGlobalBounds().height/2);
+    m_arrow.setString("->");
+    m_arrow.setFont(ResourcesManager::instance().getFont());
     for(int i = 0;i < 10;i++){
         m_leaderNames[i].setFont(ResourcesManager::instance().getFont());
         m_leaderScores[i].setFont(ResourcesManager::instance().getFont());
@@ -69,6 +71,10 @@ void LeaderBoard::print() {
         m_window.draw(m_leaderNames[i]);
         m_window.draw(m_leaderScores[i]);
     }
+    if(editMode)
+        m_window.draw(m_arrow);
+//        if(m_arrowClock.getElapsedTime().asSeconds() > 0.3){
+//            m_arrowClock.restart();
     m_window.display();
 }
 
@@ -95,6 +101,7 @@ void LeaderBoard::addScore(int score){
     m_leaders[pos] = newLeader;
 
     loadDataToString();
+    m_arrow.setPosition(m_leaderNames[pos].getPosition().x- m_arrow.getGlobalBounds().width-20, m_leaderNames[pos].getPosition().y);
 
     print();
     addScoreEventHandler(pos);
@@ -115,10 +122,10 @@ void LeaderBoard::loadDataToString() {
     std::stringstream stringtonum;
     float prevloc = m_title.getPosition().y + (m_title.getGlobalBounds().height)*2.5;
     for(int i = 0;i< 10;i++){
-        m_string = m_leaders[i].name;
+        std::string str = m_leaders[i].name;
         stringtonum.str("");
         stringtonum << m_leaders[i].score;
-        m_leaderNames[i].setString(m_string);
+        m_leaderNames[i].setString(str);
         m_leaderNames[i].setPosition(sf::Vector2f(WINDOW_WIDTH*0.25, prevloc));
 
         m_leaderScores[i].setString(stringtonum.str().c_str());
@@ -127,28 +134,19 @@ void LeaderBoard::loadDataToString() {
     }
 }
 
-void LeaderBoard::printWhileEnterName() {
-    m_window.clear();
-    m_window.draw(m_backGround);
-    m_window.draw(m_title);
-    for(int i = 0;i < 10;i++){
-        m_window.draw(m_leaderNames[i]);
-        m_window.draw(m_leaderScores[i]);
-    }
-
-    m_window.display();
-}
-
 void LeaderBoard::eventHandler() {
     while(m_window.isOpen()){
         auto event = sf::Event{};
         m_window.pollEvent(event);
-        if(event.type == event.KeyPressed && event.key.code == sf::Keyboard::Escape ||event.key.code == sf::Keyboard::Enter)
-            break;
+        if(event.type == event.KeyPressed){
+            if(event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter)
+                break;
+        }
     }
 }
 
 void LeaderBoard::addScoreEventHandler(const int pos){
+    m_arrowClock.restart().asSeconds();
     print();
     while(m_window.isOpen()){
         auto event = sf::Event{};
@@ -167,6 +165,7 @@ void LeaderBoard::addScoreEventHandler(const int pos){
             continue;
         }
         if(event.type == event.KeyPressed && event.key.code == sf::Keyboard::Enter){
+            editMode=false;
             updateFile();
             print();
             eventHandler();

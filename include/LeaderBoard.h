@@ -24,7 +24,6 @@ public:
     // functions:
     void print();
     void addScore(int score);
-    void printWhileEnterName();
 
 private:
     // members:
@@ -35,7 +34,9 @@ private:
     sf::Text m_title;
     sf::Text m_leaderNames[10];
     sf::Text m_leaderScores[10];
-    std::string m_string;
+    sf::Text m_arrow;
+    bool editMode;
+    sf::Clock m_arrowClock;
 
     //functions:
     void initComponents();

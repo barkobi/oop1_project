@@ -5,7 +5,6 @@
 class DynamicObject : public GameObject{
 public:
     DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize);
-//    virtual ~DynamicObject() = default;
 
     void goToInitialPosition();
 
