@@ -21,10 +21,14 @@ void LeaderBoard::initComponents() {
     m_title.setOrigin(m_title.getGlobalBounds().width/2,m_title.getGlobalBounds().height/2);
     m_arrow.setString("->");
     m_arrow.setFont(ResourcesManager::instance().getFont());
+
     for(int i = 0;i < 10;i++){
         m_leaderNames[i].setFont(ResourcesManager::instance().getFont());
         m_leaderScores[i].setFont(ResourcesManager::instance().getFont());
     }
+    pt_text.setFont(ResourcesManager::instance().getFont());
+    pt_text.setString("pt");
+    pt_text.setCharacterSize(m_leaderScores[0].getCharacterSize()*0.7);
 }
 
 /**
@@ -67,9 +71,13 @@ void LeaderBoard::print() {
     m_window.clear();
     m_window.draw(m_backGround);
     m_window.draw(m_title);
+
     for(int i = 0;i < 10;i++){
         m_window.draw(m_leaderNames[i]);
         m_window.draw(m_leaderScores[i]);
+        auto add = sf::Vector2f(m_leaderScores[i].getGlobalBounds().width+10,m_leaderScores[i].getGlobalBounds().height-pt_text.getGlobalBounds().height);
+        pt_text.setPosition(m_leaderScores[i].getPosition() + add);
+        m_window.draw(pt_text);
     }
     if(editMode)
         m_window.draw(m_arrow);
@@ -174,7 +182,8 @@ void LeaderBoard::addScoreEventHandler(const int pos){
         if(event.type == sf::Event::TextEntered){
             if(event.text.unicode == ' ' ||event.text.unicode == '\b')
                 continue;
-            m_leaders[pos].name += event.text.unicode;
+            if(m_leaders[pos].name.size() < 10)
+                m_leaders[pos].name += event.text.unicode;
             m_leaderNames[pos].setString(m_leaders[pos].name);
             print();
         }
