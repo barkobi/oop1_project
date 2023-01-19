@@ -46,8 +46,10 @@ void GameController::run(){
                             ResourcesManager::instance().stopSound(GAME_DONE);
                             ResourcesManager::instance().playBackgroundMusic();
                         }
-                        auto leader = LeaderBoard(m_window, true);
-                        leader.addScore(stats[1]);
+                        if(stats[Life]!=0){
+                            auto leader = LeaderBoard(m_window, true);
+                            leader.addScore(stats[1]);
+                        }
                         return;
                     }
                     paused = !paused;
@@ -190,7 +192,7 @@ void GameController::modifyBoard() {
         for(int col = 0;col < map[row].length();col++){
             if (map[row][col] != ' '){
                 charHandler(map[row][col], row, col);
-                if(map[row][col]!= WALL_S)
+                if(map[row][col]!= WALL_S ||map[row][col]!= DOOR_S)
                     m_board.getLevel().removeChar(row,col);
             }
         }
@@ -300,9 +302,13 @@ void GameController::openDoor() {
             index = i;
         }
     }
-    if(index != -1 && min != WINDOW_WIDTH)
+    if(index != -1 && min != WINDOW_WIDTH){
         dynamic_cast<Door*>(m_staticObj[index].get())->openDoor();
-
+        auto loc = Brain::calcMyTile(dynamic_cast<Door*>(m_staticObj[index].get())->getSprite().getPosition(),
+                                     m_board.getBoardBounds(),
+                                     dynamic_cast<Door*>(m_staticObj[index].get())->getSprite().getGlobalBounds().width);
+        m_board.getLevel().removeChar(loc.y,loc.x);
+    }
 }
 
 void GameController::resetLevel() {
