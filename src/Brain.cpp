@@ -3,6 +3,7 @@
 
 namespace Brain{
     std::vector<std::vector<int>> Brain::calculateBFS(std::vector<std::string> map) {
+
         //init result vector
         std::vector<std::vector<int>> result(map.size());
         for(int i=0 ; i<map.size() ; i++)
@@ -73,6 +74,6 @@ namespace Brain{
     sf::Vector2i calcMyTile(sf::Vector2f location, Bounds bounds,float size){
         auto topLeft = sf::Vector2f(bounds.topLeftX,bounds.topLeftY);
         location = location - topLeft + sf::Vector2f(size/2,size/2);
-        return sf::Vector2i((int)(location.y/bounds.tile),(int)(location.x/bounds.tile));
+        return sf::Vector2i((int)(location.x/bounds.tile),(int)(location.y/bounds.tile));
     }
 }

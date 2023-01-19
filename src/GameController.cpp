@@ -192,7 +192,7 @@ void GameController::modifyBoard() {
         for(int col = 0;col < map[row].length();col++){
             if (map[row][col] != ' '){
                 charHandler(map[row][col], row, col);
-                if(map[row][col]!= WALL_S ||map[row][col]!= DOOR_S)
+                if(map[row][col]!= WALL_S && map[row][col]!= DOOR_S)
                     m_board.getLevel().removeChar(row,col);
             }
         }
