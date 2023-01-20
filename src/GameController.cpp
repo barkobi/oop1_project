@@ -124,6 +124,7 @@ void GameController::handleEvent() {
                 break;
             }
             case TimeOver:
+                ResourcesManager::instance().playSound(TIME_UP);
                 reloadLevel();
                 break;
         }

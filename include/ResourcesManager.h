@@ -46,5 +46,5 @@ private:
                                                       "HelpButton", "SettingsButton", "QuitButton"};
     std::string m_soundstring[2] = {"MusicButton","FXButton"};
     sf::Texture m_soundButton[2];
-    std::string m_sound_file_names[NUMBER_OF_SOUNDS] = {"menu_hover.wav", "start_game.wav","cookieEat.wav", "openDoor.wav", "gotGift.wav", "gameOver.wav", "collapseWithGhost.wav", "gameDone.wav"};
+    std::string m_sound_file_names[NUMBER_OF_SOUNDS] = {"menu_hover.wav", "start_game.wav","cookieEat.wav", "openDoor.wav", "gotGift.wav", "gameOver.wav", "collapseWithGhost.wav", "gameDone.wav", "timeUp.wav"};
 };
