@@ -67,8 +67,7 @@ void GameController::handleEvent() {
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
         switch (event.getEventType()){
-            case CollapseWithGhost:
-            {
+            case CollapseWithGhost:{
                 ResourcesManager::instance().playSound(COLLAPSE_WITH_GHOST);
                 stats[Life]--;
                 if(stats[Life] == 0)
@@ -106,6 +105,7 @@ void GameController::handleEvent() {
             }
             case GameOver:{
                 printf("Game Over!\n");
+                ResourcesManager::instance().pauseBackgroundMusic();
                 ResourcesManager::instance().playSound(GAME_OVER);
                 std::string msg[2] = {"Game Over!", "Better Luck Next Time"};
                 gameOverOrDone(msg);
@@ -361,6 +361,7 @@ void GameController::pressedSpaceHandler() {
     if(isGameOver){
         if(!ResourcesManager::instance().isBGMusicPlaying()){
             ResourcesManager::instance().stopSound(GAME_DONE);
+            ResourcesManager::instance().stopSound(GAME_OVER);
             ResourcesManager::instance().playBackgroundMusic();
         }
         if(stats[Life]!=0){
