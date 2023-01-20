@@ -36,8 +36,8 @@ private:
     sf::Text m_leaderScores[10];
     sf::Text m_arrow;
     sf::Text pt_text;
+    sf::Text pressToExit;
     bool editMode;
-    sf::Clock m_arrowClock;
 
     //functions:
     void initComponents();

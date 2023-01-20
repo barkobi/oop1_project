@@ -29,6 +29,10 @@ void LeaderBoard::initComponents() {
     pt_text.setFont(ResourcesManager::instance().getFont());
     pt_text.setString("pt");
     pt_text.setCharacterSize(m_leaderScores[0].getCharacterSize()*0.7);
+
+    pressToExit.setFont(ResourcesManager::instance().getFont());
+    pressToExit.setString("Press Any Key To Exit!");
+    pressToExit.setCharacterSize(40);
 }
 
 /**
@@ -81,8 +85,9 @@ void LeaderBoard::print() {
     }
     if(editMode)
         m_window.draw(m_arrow);
-//        if(m_arrowClock.getElapsedTime().asSeconds() > 0.3){
-//            m_arrowClock.restart();
+    if(!editMode)
+        m_window.draw(pressToExit);
+
     m_window.display();
 }
 
@@ -140,21 +145,20 @@ void LeaderBoard::loadDataToString() {
         m_leaderScores[i].setPosition(sf::Vector2f(WINDOW_WIDTH*0.75, prevloc));
         prevloc += m_leaderScores[i].getGlobalBounds().height*2.5;
     }
+    pressToExit.setPosition(WINDOW_WIDTH/2, prevloc+m_leaderScores[9].getGlobalBounds().height*3);
+    pressToExit.setOrigin(pressToExit.getGlobalBounds().width/2,pressToExit.getGlobalBounds().height/2);
 }
 
 void LeaderBoard::eventHandler() {
     while(m_window.isOpen()){
         auto event = sf::Event{};
-        m_window.pollEvent(event);
-        if(event.type == event.KeyPressed){
-            if(event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter)
-                break;
-        }
+        m_window.waitEvent(event);
+        if(event.type == event.KeyReleased)
+            return;
     }
 }
 
 void LeaderBoard::addScoreEventHandler(const int pos){
-    m_arrowClock.restart().asSeconds();
     print();
     while(m_window.isOpen()){
         auto event = sf::Event{};
