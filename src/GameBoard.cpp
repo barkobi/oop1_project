@@ -108,3 +108,7 @@ bool GameBoard::checkFinishGame() {
 std::vector<std::vector<sf::RectangleShape>> GameBoard::getMatrix() {
     return m_matrix;
 }
+
+void GameBoard::reloadCurrentLevel() {
+    m_level.setMapToStartOfLevel();
+}

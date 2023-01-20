@@ -50,15 +50,17 @@ private:
     void resetLevel();
     void handleAnimations();
     void gameOverOrDone(std::string msg[2]);
-
+    void reloadLevel();
+    void pressedSpaceHandler();
+    void setMassageTexts(std::string messages[2]);
 
     // members
     std::vector<std::unique_ptr<StaticObject>> m_staticObj;
     std::vector<std::unique_ptr<DynamicObject>> m_dynamicObj;
     sf::RenderWindow &m_window;
     sf::Clock clocks[4];
-    sf::Text gameTexts[4];
-    std::string gameStrings[4] = {"Paused","Press Space To Continue","Get Ready For the next Level","GOOD LUCK!"};
+    sf::Text msgTexts[2];
+    std::string gameStrings[4] = {"Paused","Press Space To Continue",};
     GameBoard m_board;
     int stats[4];
     GameBar m_gameBar;

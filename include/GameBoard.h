@@ -32,6 +32,7 @@ public:
     Bounds &getBoardBounds();
     bool checkFinishGame();
     std::vector<std::vector<sf::RectangleShape>> getMatrix();
+    void reloadCurrentLevel();
 
 private:
     // members

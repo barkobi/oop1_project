@@ -4,23 +4,15 @@
 
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
-    int nextY = 0;
-    gameTexts[0].setCharacterSize(80);
-    gameTexts[1].setCharacterSize(50);
-    gameTexts[2].setCharacterSize(80);
-    gameTexts[3].setCharacterSize(50);
 
-    for(int i = 0;i < 2;i++){
-        gameTexts[i].setFont(ResourcesManager::instance().getFont());
-        gameTexts[i+2].setFont(ResourcesManager::instance().getFont());
-        gameTexts[i].setString(gameStrings[i]);
-        gameTexts[i+2].setString(gameStrings[i+2]);
-        gameTexts[i].setPosition(WINDOW_WIDTH/2,WINDOW_HEIGHT/2 + nextY*1.5);
-        gameTexts[i+2].setPosition(WINDOW_WIDTH/2,WINDOW_HEIGHT/2 + nextY*1.5);
-        gameTexts[i].setOrigin(gameTexts[i].getGlobalBounds().width/2,gameTexts[i].getGlobalBounds().height/2);
-        gameTexts[i+2].setOrigin(gameTexts[i+2].getGlobalBounds().width/2,gameTexts[i+2].getGlobalBounds().height/2);
-        nextY = gameTexts[i].getGlobalBounds().height;
-    }
+    msgTexts[0].setCharacterSize(80);
+    msgTexts[1].setCharacterSize(50);
+    msgTexts[0].setFont(ResourcesManager::instance().getFont());
+    msgTexts[1].setFont(ResourcesManager::instance().getFont());
+    msgTexts[0].setPosition(WINDOW_WIDTH/2,WINDOW_HEIGHT/2);
+    msgTexts[1].setPosition(WINDOW_WIDTH/2,WINDOW_HEIGHT/2 + 120);
+    msgTexts[0].setOrigin(msgTexts[0].getGlobalBounds().width/2,msgTexts[0].getGlobalBounds().height/2);
+    msgTexts[1].setOrigin(msgTexts[1].getGlobalBounds().width/2,msgTexts[1].getGlobalBounds().height/2);
 
     stats[Life] = 3;
     stats[Points] = 0;
@@ -39,25 +31,12 @@ void GameController::run(){
                 return;
             if (event.type == sf::Event::MouseButtonReleased)
                 SoundFlip::instance().checkIfContains(event.mouseButton);
-            if (event.type == sf::Event::KeyPressed) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-                    if(isGameOver){
-                        if(!ResourcesManager::instance().isBGMusicPlaying()){
-                            ResourcesManager::instance().stopSound(GAME_DONE);
-                            ResourcesManager::instance().playBackgroundMusic();
-                        }
-                        if(stats[Life]!=0){
-                            auto leader = LeaderBoard(m_window, true);
-                            leader.addScore(stats[1]);
-                        }
+            if (event.type == sf::Event::KeyPressed)
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+                    pressedSpaceHandler();
+                    if(isGameOver)
                         return;
-                    }
-                    paused = !paused;
-                    if (paused) {
-                        stats[isStopped] = 1;
-                    }
                 }
-            }
         }
         bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(m_dynamicObj[0]->getSprite().getPosition(), m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height ,
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
@@ -145,9 +124,7 @@ void GameController::handleEvent() {
                 break;
             }
             case TimeOver:
-                if(!paused)
-                    EventLoop::instance().addEvent(Event(GameOver));
-                else;
+                reloadLevel();
                 break;
         }
         stats[Points]+=event.getPoints();
@@ -179,7 +156,7 @@ void GameController::print() {
         m_window.draw(fadedBackground);
 
         for(int i = 0;i < 2;i++)
-            m_window.draw(gameTexts[i]);
+            m_window.draw(msgTexts[i]);
     }
     m_window.display();
 }
@@ -280,9 +257,14 @@ void GameController::nextLevel() {
     fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
     fadedBackground.setFillColor(sf::Color(0, 0, 0, 90));
 
+    msgTexts[0].setString("Get Ready For the next Level");
+    msgTexts[1].setString("GOOD LUCK!");
+    msgTexts[0].setOrigin(msgTexts[0].getGlobalBounds().width / 2, msgTexts[0].getGlobalBounds().height / 2);
+    msgTexts[1].setOrigin(msgTexts[1].getGlobalBounds().width / 2, msgTexts[1].getGlobalBounds().height / 2);
+
     m_window.draw(fadedBackground);
-    m_window.draw(gameTexts[2]);
-    m_window.draw(gameTexts[3]);
+    m_window.draw(msgTexts[0]);
+    m_window.draw(msgTexts[1]);
     m_window.display();
     while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
 
@@ -338,18 +320,66 @@ void GameController::gameOverOrDone(std::string msg[2]) {
 
     m_window.draw(fadedBackground);
 
-    gameTexts[0].setString(msg[0]);
-    gameTexts[0].setOrigin(gameTexts[0].getGlobalBounds().width / 2, gameTexts[0].getGlobalBounds().height / 2);
+    std::string tmp = "Press Space To Continue";
     std::string spaces = "";
-    for (int i = 0; i < (gameTexts[1].getString().getSize() - msg[1].size()) / 2; i++)
+    for(int i=0; i<(tmp.size()-msg[1].size()) / 2; i++)
         spaces += ' ';
-    gameTexts[1].setString(spaces + msg[1] + "\n\n" + gameTexts[1].getString());
-    gameTexts[1].setOrigin(gameTexts[1].getGlobalBounds().width / 2, 0);
+    msg[1] = "\n" + spaces + msg[1] + "\n\n" + tmp;
 
-    for (int i = 0; i < 2; i++)
-        m_window.draw(gameTexts[i]);
+    setMassageTexts(msg);
+
+    m_window.draw(msgTexts[0]);
+    m_window.draw(msgTexts[1]);
+
     m_window.display();
     paused = true;
     stats[isStopped] = 1;
     isGameOver = true;
+}
+
+void GameController::reloadLevel() {
+    sf::RectangleShape fadedBackground;
+    fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    fadedBackground.setFillColor(sf::Color(0, 0, 0, 90));
+    m_window.draw(fadedBackground);
+    std::string msg[2] = {"Time Up", "Press Space To Start Over"};
+    setMassageTexts(msg);
+    m_window.draw(msgTexts[0]);
+    m_window.draw(msgTexts[1]);
+
+    m_window.display();
+    while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+    paused = true;
+
+    m_board.reloadCurrentLevel();
+    modifyBoard();
+    //m_gameBar.resetClock((((m_board.getLevel().getWidth() + m_board.getLevel().getHeight())/2) * stats[Cookies]) / 15);
+    m_gameBar.resetClock(60);
+}
+
+void GameController::pressedSpaceHandler() {
+    if(isGameOver){
+        if(!ResourcesManager::instance().isBGMusicPlaying()){
+            ResourcesManager::instance().stopSound(GAME_DONE);
+            ResourcesManager::instance().playBackgroundMusic();
+        }
+        if(stats[Life]!=0){
+            auto leader = LeaderBoard(m_window, true);
+            leader.addScore(stats[1]);
+        }
+        return;
+    }
+    paused = !paused;
+    if (paused){
+        stats[isStopped] = 1;
+        std::string msg[2] = {"Paused", "Press Space To Continue"};
+        setMassageTexts(msg);
+    }
+}
+
+void GameController::setMassageTexts(std::string messages[2]) {
+    msgTexts[0].setString(messages[0]);
+    msgTexts[1].setString(messages[1]);
+    msgTexts[0].setOrigin(msgTexts[0].getGlobalBounds().width/2,msgTexts[0].getGlobalBounds().height/2);
+    msgTexts[1].setOrigin(msgTexts[1].getGlobalBounds().width/2,msgTexts[1].getGlobalBounds().height/2);
 }

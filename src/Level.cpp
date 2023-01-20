@@ -41,6 +41,7 @@ bool Level::load_level(int current_level) {
             exit(EXIT_FAILURE);
         }
         m_map.push_back(new_row);
+        m_mapCopy.push_back(new_row);
         new_row.clear();
     }
     file.close();
@@ -87,4 +88,10 @@ bool Level::validateLevel(){
 
 void Level::removeChar(int row, int col) {
     m_map[row][col] = ' ';
+}
+
+void Level::setMapToStartOfLevel() {
+    for(int i=0 ; i<m_height ; i++){
+        m_map[i] = m_mapCopy[i];
+    }
 }
