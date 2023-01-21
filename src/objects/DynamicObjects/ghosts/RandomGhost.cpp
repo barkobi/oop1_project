@@ -8,7 +8,7 @@ RandomGhost::RandomGhost(sf::Vector2f position, float scaleFactor,float tileSize
 void RandomGhost::move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes){
     static float timeToSwitchDirection = 0;
     timeToSwitchDirection+=deltaTime;
-    if(timeToSwitchDirection> 0.7){
+    if(timeToSwitchDirection> 0.4){
         int tmp;
         do{tmp =rand() % 4;}while(tmp ==m_lastDirection);
 

@@ -1,6 +1,6 @@
 #include "GameBar.h"
 
-GameBar::GameBar() : m_gametime(3){
+GameBar::GameBar() : m_gametime(0){
     int prevloc = 0;
     for(int i = 0;i < 4;i++){
         m_Texts[i].setFillColor(sf::Color::White);
