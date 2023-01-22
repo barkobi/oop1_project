@@ -2,6 +2,7 @@
 #include "pacmanState.h"
 #include "DynamicObject.h"
 #include "eventLoop.h"
+#include "../../../values/Points.h"
 
 class Pacman : public DynamicObject{
 public:

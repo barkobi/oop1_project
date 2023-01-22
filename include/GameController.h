@@ -20,6 +20,7 @@
 #include "Brain.h"
 #include "GameBar.h"
 #include "LeaderBoard.h"
+#include "../values/Points.h"
 
 enum Clocks_t{
     ANIMATIONCLOCK,

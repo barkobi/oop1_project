@@ -2,6 +2,7 @@
 #include "SoundFlip.h"
 #include "cmath"
 
+
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
 
@@ -250,6 +251,8 @@ void GameController::handleCollision() {
 }
 
 void GameController::nextLevel() {
+    stats[Points] += END_LEVEL_P;
+    stats[Points] += GHOST_P*(m_dynamicObj.size()-1);
     if(m_board.checkFinishGame()){
         EventLoop::instance().addEvent(Event(GameDone));
         return;
@@ -339,6 +342,7 @@ void GameController::gameOverOrDone(std::string msg[2]) {
 }
 
 void GameController::reloadLevel() {
+
     sf::RectangleShape fadedBackground;
     fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
     fadedBackground.setFillColor(sf::Color(0, 0, 0, 90));
@@ -350,6 +354,11 @@ void GameController::reloadLevel() {
 
     m_window.display();
     while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+
+    stats[Life]--;
+    if(stats[Life] == 0)
+        EventLoop::instance().addEvent(Event(GameOver));
+
     paused = true;
 
     m_board.reloadCurrentLevel();

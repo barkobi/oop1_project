@@ -6,7 +6,6 @@
 #include "TimeAddGift.h"
 #include "SuperPacGift.h"
 #include "Door.h"
-#include "limits"
 
 Pacman::Pacman(sf::Vector2f position, float scaleFactor,float tileSize)
     : DynamicObject(ResourcesManager::instance().getObjectTexture(PACMAN), position,scaleFactor,tileSize),
@@ -59,7 +58,7 @@ void Pacman::handleCollision(Ghost & ghost) {
 }
 
 void Pacman::handleCollision(Key & key) {
-    Event event(GotKey ,7);
+    Event event(GotKey ,KEY_P);
     EventLoop::instance().addEvent(event);
     key.deleteObject();
 }
@@ -71,7 +70,7 @@ void Pacman::handleCollision(Door & door) {
 void Pacman::handleCollision(Cookie & cookie) {
     if(!cookie.getHitten()){
         cookie.setHitten();
-        Event event(EatCookie ,2);
+        Event event(EatCookie ,COOKIE_P);
         EventLoop::instance().addEvent(event);
     }
 
@@ -95,7 +94,7 @@ void Pacman::updateAnimation() {
 void Pacman::handleCollision(GhostFreezeGift & gift) {
     if(!gift.isOpen()){
         gift.openGift();
-        Event event(GotGhostFreezeGift ,5);
+        Event event(GotGhostFreezeGift ,GIFT_P);
         EventLoop::instance().addEvent(event);
     }
 }
@@ -103,7 +102,7 @@ void Pacman::handleCollision(GhostFreezeGift & gift) {
 void Pacman::handleCollision(LifeIncGift & gift) {
     if(!gift.isOpen()){
         gift.openGift();
-        Event event(GotLifeGift ,5);
+        Event event(GotLifeGift ,GIFT_P);
         EventLoop::instance().addEvent(event);
     }
 }
@@ -111,7 +110,7 @@ void Pacman::handleCollision(LifeIncGift & gift) {
 void Pacman::handleCollision(SuperPacGift &gift) {
     if(!gift.isOpen()){
         gift.openGift();
-        Event event(GotSuperGift ,5);
+        Event event(GotSuperGift ,GIFT_P);
         EventLoop::instance().addEvent(event);
     }
     upgradeToSuper();
@@ -123,7 +122,7 @@ void Pacman::handleCollision(TimeAddGift & gift) {
     if(!gift.isOpen())
     {
         gift.openGift();
-        Event event(GotTimeAddGift ,5);
+        Event event(GotTimeAddGift ,GIFT_P);
         EventLoop::instance().addEvent(event);
     }
 }
