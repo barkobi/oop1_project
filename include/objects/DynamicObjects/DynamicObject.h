@@ -2,15 +2,18 @@
 #include "objects/GameObject.h"
 #include "GameBoard.h"
 
+
+/**
+ * class of the objects that moves during the game
+ * heiress from GameObject class
+ */
 class DynamicObject : public GameObject{
 public:
     DynamicObject(sf::Texture *texture, sf::Vector2f position, float scaleFactor,float tileSize);
 
-    void goToInitialPosition();
 
+    // virtual functions
     virtual void move(float deltaTime, Bounds boardBounds,std::vector<std::vector<int>> bfsRes) = 0;
-
-    void handleCollision(Wall& wall);
     virtual void handleCollision(GameObject&) = 0;
     virtual void handleCollision(Pacman&) = 0;
     virtual void handleCollision(Ghost&) = 0;
@@ -24,13 +27,17 @@ public:
     virtual void handleCollision(Gift&) = 0;
     virtual void updateAnimation() = 0;
 
+    // public functions
     void setTextureRegular();
     void setTexture(sf::Texture *texture);
-
+    void goToInitialPosition();
+    void handleCollision(Wall& wall);
     void setIntRectPacman(int rect);
     void setIntRectGhost(int rect);
     void cancelMove();
+
 protected:
+    // protected functions.
     void rotateObject(float rotateBy);
     sf::Vector2f getPosition();
     sf::Rect<float> getGlobalBounds();
@@ -38,6 +45,7 @@ protected:
     void setPosition(sf::Vector2f position);
     sf::Vector2f m_origianlScale;
 private:
+    // private members
     sf::Vector2f m_statPosition;
     sf::Vector2f m_previousPosition;
     sf::Texture *originalTexture;

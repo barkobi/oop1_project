@@ -23,6 +23,7 @@ GameController::GameController(sf::RenderWindow &window)
 
 void GameController::run(){
     print();
+    m_gameBar.resetClock(((stats[Cookies] * 5) + m_board.getBoardBounds().speed ) / 2);
     std::vector<std::vector<int>> bfsRes;
     while(m_window.isOpen()){
         if(!paused)
@@ -43,7 +44,7 @@ void GameController::run(){
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         for(int i=0 ; i<m_dynamicObj.size() ; i++){
-            if((i > 0 && freezed) || paused)
+            if((i > 0 && freezed) || paused || (super && i > 0))
                 break;
             m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
         }
@@ -271,12 +272,10 @@ void GameController::nextLevel() {
     m_window.draw(msgTexts[1]);
     m_window.display();
     while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
-
     m_board.loadNextLevel();
     modifyBoard();
-    //m_gameBar.resetClock((((m_board.getLevel().getWidth() + m_board.getLevel().getHeight())/2) * stats[Cookies]) / 15);
-    m_gameBar.resetClock(60);
-}
+    m_gameBar.resetClock(((stats[Cookies] * 5) + m_board.getBoardBounds().speed ) / 2);
+ }
 
 void GameController::openDoor() {
     int min = WINDOW_WIDTH;
