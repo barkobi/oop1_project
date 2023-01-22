@@ -186,7 +186,7 @@ void LeaderBoard::addScoreEventHandler(const int pos){
         if(event.type == sf::Event::TextEntered){
             if(event.text.unicode == ' ' ||event.text.unicode == '\b')
                 continue;
-            if(m_leaders[pos].name.size() < 10)
+            if(m_leaders[pos].name.size() < 20)
                 m_leaders[pos].name += event.text.unicode;
             m_leaderNames[pos].setString(m_leaders[pos].name);
             print();

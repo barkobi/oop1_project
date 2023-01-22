@@ -44,7 +44,7 @@ void GameController::run(){
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
         for(int i=0 ; i<m_dynamicObj.size() ; i++){
-            if((i > 0 && freezed) || paused || (super && i > 0))
+            if((i > 0 && (freezed || super)) || paused)
                 break;
             m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
         }
