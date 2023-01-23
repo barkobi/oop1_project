@@ -5,11 +5,18 @@ SettingsManager::SettingsManager() {
     load_settings();
 }
 
+/**
+ * get instance of the settings manager.
+ * @return instance of settingsManager
+ */
 SettingsManager& SettingsManager::instance(){
     static SettingsManager settings;
     return settings;
 }
 
+/**
+ * load the saved settings from the file.
+ */
 void SettingsManager::load_settings() {
     if(!std::filesystem::exists("settings.txt")){
         m_fxsound = true;
@@ -35,6 +42,9 @@ void SettingsManager::load_settings() {
     settings_file.close();
 }
 
+/**
+ * save the settings to the file.
+ */
 void SettingsManager::save_settings(){
     std::ofstream settings_file;
 
@@ -52,12 +62,12 @@ void SettingsManager::save_settings(){
     settings_file.close();
 }
 
+
 const bool SettingsManager::getMusicSwitch() const {return m_music;}
 
 const int SettingsManager::getVolume() const {return m_volume;}
 
 const int SettingsManager::getBGMVolume() const {return m_BGMVolume;}
-
 
 const bool SettingsManager::getFXSwitch() const {return m_fxsound;}
 

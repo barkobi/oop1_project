@@ -1,5 +1,9 @@
 #include "GameBoard.h"
 #include "cmath"
+
+/**
+ * create new gameBoard
+ */
 GameBoard::GameBoard() : m_total_levels(0){
     load_levels_files();
     if(m_total_levels>0){
@@ -12,14 +16,10 @@ Level &GameBoard::getLevel() { return m_level; }
 
 sf::RectangleShape GameBoard::getTile(int row, int col) const { return m_matrix[row][col]; }
 
-bool GameBoard::restartGame() {
-    m_current_level = 1;
-    if(!m_level.load_level(m_current_level))
-        return false;
-    createBoard();
-    return true;
-}
-
+/**
+ * load next level. and initialize the board.
+ * @return is the load went successfully.
+ */
 bool GameBoard::loadNextLevel() {
     m_current_level++;
     if (!m_level.load_level(m_current_level))
@@ -28,6 +28,10 @@ bool GameBoard::loadNextLevel() {
     return true;
 }
 
+/**
+ * draw the board to the screen.
+ * @param window the window the draw on.
+ */
 void GameBoard::draw(sf::RenderWindow &window) const {
     for(int row=0 ; row<m_level.getHeight() ; row++){
         for(int col=0 ; col<m_level.getWidth() ; col++){
@@ -36,6 +40,9 @@ void GameBoard::draw(sf::RenderWindow &window) const {
     }
 }
 
+/**
+ * create new board, calculate tile size, locations, and init the matrix.
+ */
 void GameBoard::createBoard() {
     m_matrix.clear();
     float tileSize = (std::min(WINDOW_WIDTH,WINDOW_HEIGHT) / ((m_level.getWidth() + m_level.getHeight()) / 2));
@@ -68,6 +75,9 @@ void GameBoard::createBoard() {
 
 }
 
+/**
+ * load all the level files, count how much levels there is.
+ */
 void GameBoard::load_levels_files(){
     auto str = read_files("find . -name \"lvl_*.txt\"");
     char *cstr = new char[str.length() + 1];
@@ -79,6 +89,11 @@ void GameBoard::load_levels_files(){
     }
 }
 
+/**
+ * get all the level files names.
+ * @param command the command to run.
+ * @return all the level files names.
+ */
 std::string GameBoard::read_files(std::string command) {
     char buffer[128];
     std::string result = "";
@@ -101,6 +116,10 @@ std::string GameBoard::read_files(std::string command) {
 
 Bounds &GameBoard::getBoardBounds() {return m_bounds;}
 
+/**
+ * check if the game is finish (all the level were played)
+ * @return is the game finished
+ */
 bool GameBoard::checkFinishGame() {
     return m_total_levels == m_current_level;
 }
@@ -109,6 +128,9 @@ std::vector<std::vector<sf::RectangleShape>> GameBoard::getMatrix() {
     return m_matrix;
 }
 
+/**
+ * restart the current level.
+ */
 void GameBoard::reloadCurrentLevel() {
     m_level.setMapToStartOfLevel();
 }

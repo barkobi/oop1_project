@@ -1,5 +1,6 @@
 #include "LeaderBoard.h"
 #include "sstream"
+
 /**
  * open the leaderBoard file and load the leaders
  */
@@ -11,6 +12,9 @@ LeaderBoard::LeaderBoard(sf::RenderWindow &window, bool editMode) :m_window(wind
         eventHandler();
 }
 
+/**
+ * initial all the components on the screen
+ */
 void LeaderBoard::initComponents() {
     m_backGround.setSize(sf::Vector2f (WINDOW_WIDTH,WINDOW_HEIGHT));
     m_backGround.setTexture(ResourcesManager::instance().getBackground());
@@ -92,7 +96,7 @@ void LeaderBoard::print() {
 }
 
 /**
- * add new score to the leaderboard, will added only if in top 10.
+ * add new score to the leaderboard, will be added only if in top 10.
  * @param score the new score to add.
  */
 
@@ -131,6 +135,9 @@ void LeaderBoard::updateFile() {
 
 }
 
+/**
+ * load all the names and scores to the text components
+ */
 void LeaderBoard::loadDataToString() {
     std::stringstream stringtonum;
     float prevloc = m_title.getPosition().y + (m_title.getGlobalBounds().height)*2.5;
@@ -149,6 +156,9 @@ void LeaderBoard::loadDataToString() {
     pressToExit.setOrigin(pressToExit.getGlobalBounds().width/2,pressToExit.getGlobalBounds().height/2);
 }
 
+/**
+ * event handler to regular view (not in edit mode)
+ */
 void LeaderBoard::eventHandler() {
     while(m_window.isOpen()){
         auto event = sf::Event{};
@@ -158,6 +168,11 @@ void LeaderBoard::eventHandler() {
     }
 }
 
+/**
+ * event handler for edit mode,
+ * handle typing text, save in enter, detach in escape
+ * @param pos
+ */
 void LeaderBoard::addScoreEventHandler(const int pos){
     print();
     while(m_window.isOpen()){

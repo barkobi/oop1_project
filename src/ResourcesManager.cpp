@@ -1,5 +1,8 @@
 #include "../include/ResourcesManager.h"
 
+/**
+ * initial all the members, read all the files, load all the sounds and textures.
+ */
 ResourcesManager::ResourcesManager() {
     m_backgroundMusic.openFromFile("pacmanBackground.wav");
     for (int i = 0; i < MENU_BUTTONS; i++) {
@@ -24,19 +27,28 @@ ResourcesManager::ResourcesManager() {
     m_font.loadFromFile("PressStart2P.ttf");
 }
 
-sf::Font& ResourcesManager::getFont() {
-    return m_font;
-}
-
 ResourcesManager &ResourcesManager::instance() {
     static ResourcesManager inst;
     return inst;
 }
 
+sf::Font& ResourcesManager::getFont() {
+    return m_font;
+}
+
+/**
+ * get menu button
+ * @param loc what button to get.
+ * @return button
+ */
 sf::Texture *ResourcesManager::getMenuTexture(const int loc) {
     return &m_menuButtonTxt[loc];
 }
 
+/**
+ * play sound, will be played if the user set the flip to play.
+ * @param index what sound to play
+ */
 void ResourcesManager::playSound(const int index) {
     if(!SettingsManager::instance().getFXSwitch())
         return;
@@ -46,10 +58,18 @@ void ResourcesManager::playSound(const int index) {
     m_sounds[index].play();
 }
 
+/**
+ * get texture.
+ * @param loc what texture to get.
+ * @return texture
+ */
 sf::Texture *ResourcesManager::getObjectTexture(const int loc) {
     return &m_pictures[loc];
 }
 
+/**
+ * play background music, play only if sound flip is on.
+ */
 void ResourcesManager::playBackgroundMusic() {
     if(!SettingsManager::instance().getMusicSwitch())
         return;
@@ -59,6 +79,9 @@ void ResourcesManager::playBackgroundMusic() {
     m_backgroundMusic.play();
 }
 
+/**
+ * update/stop background music and volume.
+ */
 void ResourcesManager::updateSounds() {
     if(!SettingsManager::instance().getMusicSwitch()){
         m_backgroundMusic.stop();
@@ -73,32 +96,56 @@ void ResourcesManager::updateSounds() {
 
 }
 
-
-
+/**
+ * get the background texture.
+ * @return background.
+ */
 sf::Texture *ResourcesManager::getBackground() {
     return &m_backGround;
 }
 
+/**
+ * get the title texture.
+ * @return title.
+ */
 sf::Texture *ResourcesManager::getTitle() {
     return &m_title;
 }
 
+/**
+ * get the sound button texture.
+ * @return sound button.
+ */
 sf::Texture *ResourcesManager::getSoundButton(const int loc) {
     return &m_soundButton[loc];
 }
 
+/**
+ * pause the background music.
+ */
 void ResourcesManager::pauseBackgroundMusic() {
     m_backgroundMusic.pause();
 }
 
+/**
+ * is the background music currently playing.
+ */
 bool ResourcesManager::isBGMusicPlaying() {
     return m_backgroundMusic.getStatus() == sf::Music::Playing;
 }
 
+/**
+ * get the help screen image.
+ * @return help screen.
+ */
 sf::Texture *ResourcesManager::getHelpScreen() {
     return &m_helpScreen;
 }
 
+/**
+ * stop playing sound
+ * @param index the sound to stop.
+ */
 void ResourcesManager::stopSound(const int index) {
     m_sounds[index].stop();
 }

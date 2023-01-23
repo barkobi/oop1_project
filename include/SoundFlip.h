@@ -14,7 +14,7 @@ class SoundFlip {
 public:
     // Functions
     static SoundFlip& instance();
-    void draw(sf::RenderWindow &m_window);
+    void draw(sf::RenderWindow &window);
     void checkIfContains(const sf::Event::MouseButtonEvent& event);
 private:
     // private C-Tor

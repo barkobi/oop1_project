@@ -2,7 +2,12 @@
 #include "SoundFlip.h"
 #include "cmath"
 
-
+/**
+ * create new controller, init all text positions,
+ * init the game stats, modify the board and create all the objects
+ * from the map
+ * @param window the window to run the game on.
+ */
 GameController::GameController(sf::RenderWindow &window)
     : m_window(window), m_board(GameBoard()){
 
@@ -21,13 +26,20 @@ GameController::GameController(sf::RenderWindow &window)
     modifyBoard();
 }
 
+/**
+ * run the game main loop
+ */
 void GameController::run(){
     print();
+    // initialize the game clock according to the level difficulty.
     m_gameBar.resetClock(((stats[Cookies] * 5) + m_board.getBoardBounds().speed ) / 2);
     std::vector<std::vector<int>> bfsRes;
+
+    // run the game till the window is open.
     while(m_window.isOpen()){
         if(!paused)
             stats[isStopped] = 0;
+        // check the events from the window.
         if(auto event = sf::Event{}; m_window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 return;
@@ -40,23 +52,35 @@ void GameController::run(){
                         return;
                 }
         }
+        // calculate the bfs result to passed to the ghosts.
         bfsRes = Brain::calculateBFS(Brain::addObjectsToMap(m_dynamicObj[0]->getSprite().getPosition(), m_board.getLevel().getMap(), m_board.getTile(0,0).getGlobalBounds().height ,
                                                                  m_board.getTile(0,0).getPosition(),m_dynamicObj[0]->getSprite().getGlobalBounds().width));
+
         float deltaTime = clocks[MOVECLOCK].restart().asSeconds();
+        // move all the dynamic objects
         for(int i=0 ; i<m_dynamicObj.size() ; i++){
             if((i > 0 && (freezed || super)) || paused)
                 break;
             m_dynamicObj[i]->move(deltaTime,m_board.getBoardBounds(), bfsRes);
         }
+        // check collisions
         handleCollision();
+        // check event loop
         handleEvent();
+        // update animation
         handleAnimations();
+        // update the game bar stats
         m_gameBar.updateGameBar(stats);
+        // print to the window.
         print();
     }
 }
 
+/**
+ * handle the events in the event loop
+ */
 void GameController::handleEvent() {
+    // check if timed gift is over.
     if(clocks[GIFTCLOCK].getElapsedTime().asSeconds() > 5){
         freezed = false;
         if(super){
@@ -66,6 +90,7 @@ void GameController::handleEvent() {
         }
     }
 
+    // handle events till there is event wait in the queue
     while(EventLoop::instance().hasEvent()){
         auto event = EventLoop::instance().popEvent();
         switch (event.getEventType()){
@@ -106,7 +131,6 @@ void GameController::handleEvent() {
                 break;
             }
             case GameOver:{
-                printf("Game Over!\n");
                 ResourcesManager::instance().pauseBackgroundMusic();
                 ResourcesManager::instance().playSound(GAME_OVER);
                 std::string msg[2] = {"Game Over!", "Better Luck Next Time"};
@@ -118,7 +142,6 @@ void GameController::handleEvent() {
                 break;
             }
             case GameDone:{
-                printf("Game Done!\n");
                 ResourcesManager::instance().pauseBackgroundMusic();
                 ResourcesManager::instance().playSound(GAME_DONE);
                 std::string msg[2] = {"Game Done!", "You Are The Winner"};
@@ -134,6 +157,9 @@ void GameController::handleEvent() {
     }
 }
 
+/**
+ * display the game to the user
+ */
 void GameController::print() {
     m_window.clear();
     auto background = sf::RectangleShape();
@@ -164,6 +190,11 @@ void GameController::print() {
     m_window.display();
 }
 
+/**
+ * modify the board from chars to objects,
+ * remove all the chars from the map,
+ * keep in map walls and doors for BFS usage.
+ */
 void GameController::modifyBoard() {
     m_dynamicObj.clear();
     m_staticObj.clear();
@@ -179,15 +210,23 @@ void GameController::modifyBoard() {
     }
 }
 
+/**
+ * create an object according to char from the map.
+ * @param type the char found in the map
+ * @param row found in row number
+ * @param col found in col number
+ */
 void GameController::charHandler(char type,int row,int col){
     auto tile = m_board.getTile(row,col);
     switch (type) {
         case PACMAN_S:{
+            // create a pacman, place in head of the vector
             m_dynamicObj.push_back(std::make_unique<Pacman>(tile.getPosition(),0.7,tile.getGlobalBounds().width));
             std::swap(m_dynamicObj.front(),m_dynamicObj.back());
             break;
         }
         case GHOST_S:{
+            // create a ghost, ratio 1:1 smart/random
             static bool ghost = false;
             if(ghost)
                 m_dynamicObj.push_back(std::make_unique<RandomGhost>(tile.getPosition(),0.75,tile.getGlobalBounds().width));
@@ -209,6 +248,7 @@ void GameController::charHandler(char type,int row,int col){
             break;
         }
         case GIFT_S:{
+            // create random gift.
             static int gift = -1;
             int tmp;
             do{tmp = rand()%4;} while (tmp==gift);
@@ -237,20 +277,32 @@ void GameController::charHandler(char type,int row,int col){
     }
 }
 
+/**
+ * check collisions between all the objects in the game, if collide, handle the collision.
+ */
 void GameController::handleCollision() {
+    // run for all the dynamic objects
     for(int dynamicObj=0 ; dynamicObj<m_dynamicObj.size() ; dynamicObj++){
+        // check collision dynamic->dynamic
         for(int otherDynamic=0 ; otherDynamic<m_dynamicObj.size() ; otherDynamic++){
             if(m_dynamicObj[dynamicObj]->checkCollision(*(m_dynamicObj[otherDynamic])))
                 m_dynamicObj[dynamicObj]->handleCollision(*(m_dynamicObj[otherDynamic]));
         }
+        // check collision dynamic->static
         for(int staticObj=0 ; staticObj<m_staticObj.size() ; staticObj++){
             if(m_dynamicObj[dynamicObj]->checkCollision(*(m_staticObj[staticObj])))
                 m_dynamicObj[dynamicObj]->handleCollision(*(m_staticObj[staticObj]));
         }
     }
+    // check if object need to be erased.
     std::erase_if(m_staticObj, [](const auto& obj) { return obj->needToDelete();});
 }
 
+/**
+ * load next level,
+ * update the score,
+ * show level up msg till get space pressed
+ */
 void GameController::nextLevel() {
     stats[Points] += END_LEVEL_P;
     stats[Points] += GHOST_P*(m_dynamicObj.size()-1);
@@ -275,11 +327,15 @@ void GameController::nextLevel() {
     m_board.loadNextLevel();
     modifyBoard();
     m_gameBar.resetClock(((stats[Cookies] * 5) + m_board.getBoardBounds().speed ) / 2);
- }
+}
 
+/**
+ * open the closest door to the pacman after pickup a key.
+ */
 void GameController::openDoor() {
     int min = WINDOW_WIDTH;
     int index = -1;
+    // found the closest door.
     for(int i = 0;i < m_staticObj.size();i++){
         float distance = m_staticObj[i]->checkDistance(m_dynamicObj[0]->getSprite().getPosition());
         if(distance < min){
@@ -287,6 +343,7 @@ void GameController::openDoor() {
             index = i;
         }
     }
+    // open the door and remove the char from the map.
     if(index != -1 && min != WINDOW_WIDTH){
         dynamic_cast<Door*>(m_staticObj[index].get())->openDoor();
         auto loc = Brain::calcMyTile(dynamic_cast<Door*>(m_staticObj[index].get())->getSprite().getPosition(),
@@ -296,12 +353,20 @@ void GameController::openDoor() {
     }
 }
 
+/**
+ * reset the level, move all the dynamic object to initial position.
+ */
 void GameController::resetLevel() {
     for(int i=0 ; i<m_dynamicObj.size() ; i++)
         m_dynamicObj[i]->goToInitialPosition();
 
 }
 
+/**
+ * update the animation for all the objects
+ * dynamic -> each 0.15 seconds
+ * static -> each 0.13 seconds
+ */
 void GameController::handleAnimations() {
     auto time = clocks[ANIMATIONCLOCK].getElapsedTime().asSeconds();
     if(time > 0.15){
@@ -316,6 +381,12 @@ void GameController::handleAnimations() {
     }
 }
 
+/**
+ * game over / game done
+ * show relevant message,
+ * wait for space to be pressed
+ * @param msg the message to show
+ */
 void GameController::gameOverOrDone(std::string msg[2]) {
     sf::RectangleShape fadedBackground;
     fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -340,6 +411,9 @@ void GameController::gameOverOrDone(std::string msg[2]) {
     isGameOver = true;
 }
 
+/**
+ * reload the level, start current level from the start
+ */
 void GameController::reloadLevel() {
 
     sf::RectangleShape fadedBackground;
@@ -366,6 +440,10 @@ void GameController::reloadLevel() {
     m_gameBar.resetClock(60);
 }
 
+/**
+ * wait foe space to be pressed,
+ * called if game over/done
+ */
 void GameController::pressedSpaceHandler() {
     if(isGameOver){
         if(!ResourcesManager::instance().isBGMusicPlaying()){
@@ -387,6 +465,10 @@ void GameController::pressedSpaceHandler() {
     }
 }
 
+/**
+ * print the messages to the screen.
+ * @param messages the messages to show
+ */
 void GameController::setMassageTexts(std::string messages[2]) {
     msgTexts[0].setString(messages[0]);
     msgTexts[1].setString(messages[1]);

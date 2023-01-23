@@ -1,5 +1,8 @@
 #include "SoundFlip.h"
 
+/**
+ * create sound flip for music and sounds.
+ */
 SoundFlip::SoundFlip() {
     int prevloc = 0;
     for(int i = 0;i < 2;i++){
@@ -14,12 +17,20 @@ SoundFlip::SoundFlip() {
     m_musicClicked = SettingsManager::instance().getMusicSwitch();
 }
 
+/**
+ * get instance of the sound flip.
+ * @return instance of SoundFlip.
+ */
 SoundFlip &SoundFlip::instance() {
     static SoundFlip inst;
     return inst;
 }
 
-void SoundFlip::draw(sf::RenderWindow &m_window) {
+/**
+ * draw the buttons to the screen.
+ * @param window  the window to draw on.
+ */
+void SoundFlip::draw(sf::RenderWindow &window) {
 
     for(int i = 0;i<2;i++){
         if(i == MUSIC)
@@ -32,10 +43,14 @@ void SoundFlip::draw(sf::RenderWindow &m_window) {
                 m_soundButtons[SOUND].setTextureRect(sf::IntRect(0,0,512,512));
             else
                 m_soundButtons[SOUND].setTextureRect(sf::IntRect(512,0,512,512));
-        m_window.draw(m_soundButtons[i]);
+        window.draw(m_soundButtons[i]);
     }
 }
 
+/**
+ * check if one of the button got pressed, update the settings if needed.
+ * @param event click event.
+ */
 void SoundFlip::checkIfContains(const sf::Event::MouseButtonEvent &event) {
     for (int i = 0; i < 2; i++) {
         if (m_soundButtons[i].getGlobalBounds().contains(event.x, event.y)) {

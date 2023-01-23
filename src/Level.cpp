@@ -86,10 +86,18 @@ bool Level::validateLevel(){
     return true;
 }
 
+/**
+ * remove char from the map, place space between.
+ * @param row the row where the char is.
+ * @param col the col where the char is.
+ */
 void Level::removeChar(int row, int col) {
     m_map[row][col] = ' ';
 }
 
+/**
+ * replace the map to the original level map.
+ */
 void Level::setMapToStartOfLevel() {
     for(int i=0 ; i<m_height ; i++){
         m_map[i] = m_mapCopy[i];

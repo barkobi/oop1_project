@@ -1,5 +1,8 @@
 #include "GameBar.h"
 
+/**
+ * create gameBar, calculate each text position.
+ */
 GameBar::GameBar(){
     int prevloc = 0;
     for(int i = 0;i < 4;i++){
@@ -20,11 +23,19 @@ GameBar::GameBar(){
     m_gameTimer.restart().asSeconds();
 }
 
+/**
+ * draw the game bar
+ * @param window the window to draw on
+ */
 void GameBar::drawStats(sf::RenderWindow &window){
     for(int i = 0;i < 4;i++)
         window.draw(m_Texts[i]);
 }
 
+/**
+ * update the texts with a given stats
+ * @param stats
+ */
 void GameBar::updateGameBar(int stats[]){
     std::stringstream stringtonum;
     for(int i = 0;i < 3;i++)

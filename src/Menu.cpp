@@ -7,6 +7,11 @@
 int Menu::m_lastClick = -1;
 bool Menu::canPlay;
 
+/**
+ * create menu and run.
+ * init all the components on the screen.
+ * show the menu to the screen.
+ */
 Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
                             "Pacman", sf::Style::Close | sf::Style::Titlebar) {
     m_menuWindow.setFramerateLimit(60);
@@ -45,6 +50,9 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
     eventGetter();
 }
 
+/**
+ * print the menu to the screen.
+ */
 void Menu::printWindow() {
 
     m_menuWindow.clear();
@@ -64,6 +72,12 @@ void Menu::printWindow() {
     m_menuWindow.display();
 }
 
+/**
+ * event handler,
+ * zoom buttons when hovered,
+ * click handler,
+ * close the window.
+ */
 void Menu::eventGetter() {
     printWindow();
     while (m_menuWindow.isOpen()) {
@@ -96,6 +110,10 @@ void Menu::eventGetter() {
     }
 }
 
+/**
+ * handle mouse click.
+ * @param clickevent event
+ */
 void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
     SoundFlip::instance().checkIfContains(clickevent);
     for (int i = 0; i < MENU_BUTTONS; i++) {
@@ -148,6 +166,10 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
     }
 }
 
+/**
+ * handle mouse movement.
+ * @param moveevent event
+ */
 void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent) {
     static int btn_sound = -1;
     static int lastHovered = 0;
@@ -171,23 +193,37 @@ void Menu::handleMove(const sf::Event::MouseMoveEvent &moveevent) {
         btn_sound = -1;
 }
 
+/**
+ * set signal handlers for communication with the level editor
+ */
 void Menu::setSignal() {
     signal(SIGUSR1, Menu::myHandlersigusr1);
     signal(SIGUSR2, Menu::myHandlersigusr2);
 }
 
+/**
+ * signal handler for SIGUSR1, use to know when the level editor closed.
+ * @param signum signal code
+ */
 void Menu::myHandlersigusr1(int signum) {
     signal(SIGUSR1, Menu::myHandlersigusr1);
     m_lastClick = -1;
     canPlay = std::filesystem::exists("lvl_1.txt");
 }
 
+/**
+ * signal handler for SIGUSR2, use to know if the level editor flip the sound switch.
+ * @param signum signal code
+ */
 void Menu::myHandlersigusr2(int signum) {
     signal(SIGUSR2, Menu::myHandlersigusr2);
     SettingsManager::instance().flipMusicSwitch();
     ResourcesManager::instance().updateSounds();
 }
 
+/**
+ * print the help screen to the window.
+ */
 void Menu::HelpScreenPrint() {
     m_menuWindow.clear();
     m_helpRect.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));

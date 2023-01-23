@@ -1,6 +1,10 @@
 #include "SettingsScreen.h"
 #include "SoundFlip.h"
 
+/**
+ * create setting screen and init all the components on the screen.
+ * @param window the window to show the screen in.
+ */
 SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
 
     auto volume = SettingsManager::instance().getVolume();
@@ -49,6 +53,9 @@ SettingsScreen::SettingsScreen(sf::RenderWindow &window) : m_window(window) {
     run();
 }
 
+/**
+ * run the event loop of the screen.
+ */
 void SettingsScreen::run() {
     bool exit = false;
     while (m_window.isOpen() && !exit){
@@ -57,6 +64,11 @@ void SettingsScreen::run() {
     }
 }
 
+/**
+ * handle mouse click
+ * @param clickevent event
+ * @return screen need to be closed.
+ */
 bool SettingsScreen::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
     if (m_volume_clicked) {
         m_volume_clicked = false;
@@ -72,6 +84,10 @@ bool SettingsScreen::handleClick(const sf::Event::MouseButtonEvent &clickevent) 
     return true;
 }
 
+/**
+ * handle mouse movement
+ * @param moveevent event
+ */
 void SettingsScreen::handleMouseMove(const sf::Event::MouseMoveEvent &moveevent) {
     if(m_volume_clicked){
         m_volume_drag.setPosition(moveevent.x, m_volume_drag.getPosition().y);
@@ -94,10 +110,12 @@ void SettingsScreen::handleMouseMove(const sf::Event::MouseMoveEvent &moveevent)
         SettingsManager::instance().setBGMusicVolume(vol);
         ResourcesManager::instance().updateSounds();
     }
-
-
 }
 
+/**
+ * main event handler.
+ * @param exit update if need to exit the screen.
+ */
 void SettingsScreen::eventHandler(bool &exit) {
     if (auto event = sf::Event{}; m_window.pollEvent(event)) {
         switch (event.type) {
@@ -121,6 +139,9 @@ void SettingsScreen::eventHandler(bool &exit) {
     }
 }
 
+/**
+ * print the screen to the window.
+ */
 void SettingsScreen::printScreen() {
     m_window.clear();
     auto background = sf::RectangleShape();
@@ -151,7 +172,9 @@ void SettingsScreen::printScreen() {
 
 }
 
+/**
+ * save the settings when go out from the screen.
+ */
 SettingsScreen::~SettingsScreen() {
-    std::cout << "in D-tor\n";
     SettingsManager::instance().save_settings();
 }
