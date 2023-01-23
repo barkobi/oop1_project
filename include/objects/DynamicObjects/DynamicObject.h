@@ -32,8 +32,7 @@ public:
     void setTexture(sf::Texture *texture);
     void goToInitialPosition();
     void handleCollision(Wall& wall);
-    void setIntRectPacman(int rect);
-    void setIntRectGhost(int rect);
+    void setIntRect(sf::IntRect rect);
     void cancelMove();
 
 protected:

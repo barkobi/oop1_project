@@ -3,6 +3,11 @@
 #include "Door.h"
 #include "Ghost.h"
 
+//-------------- handle collisions with all the objects ----------------
+// collide with door -> if super open the door, if normal cancel move.
+// collide with ghost -> if super, move ghost to initial position,
+//                       if normal, add event to event loop
+
 void SuperPacmanState::handleWallCollision(Door &door, Pacman &pacman) {
     if(!door.isOpen())
         door.openDoor();

@@ -4,6 +4,10 @@
 Cookie::Cookie(sf::Vector2f position, float scaleFactor,float tileSize)
     : StaticObject(ResourcesManager::instance().getObjectTexture(COOKIE), position,scaleFactor,tileSize) {}
 
+/**
+ * if the cookie is hitten, update the animation,
+ * give a sense like popping coin.
+ */
 void Cookie::animation() {
     if(isHitten){
         if(m_count == 9)
@@ -20,9 +24,9 @@ void Cookie::animation() {
     }
 }
 
+
 void Cookie::setHitten() {
     isHitten = true;
-
 }
 
 bool Cookie::getHitten() {

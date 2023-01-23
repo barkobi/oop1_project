@@ -4,11 +4,20 @@
 Door::Door(sf::Vector2f position, float scaleFactor,float tileSize)
     : StaticObject(ResourcesManager::instance().getObjectTexture(DOOR), position, scaleFactor,tileSize){}
 
+/**
+ * calculate distance from given position
+ * @param pos the position to calculate distance from
+ * @return the calculated distance
+ */
 float Door::checkDistance(const sf::Vector2f &pos) {
     auto dorpos = getSprite().getPosition();
     return sqrt(pow(pos.x - dorpos.x, 2) + pow(pos.y - dorpos.y, 2));
 }
 
+/**
+ * if the door is opened, update the animation,
+ * give a sense like open door.
+ */
 void Door::animation() {
     if(m_isOpen){
         if(m_count == 4)
@@ -20,6 +29,9 @@ void Door::animation() {
     }
 }
 
+/**
+ * open a door, play open door sound
+ */
 void Door::openDoor() {
     if(m_isOpen)
         return;
