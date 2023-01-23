@@ -7,6 +7,7 @@
 #include "objects/GameObject.h"
 #include "Level.h"
 
+// board information class
 struct Bounds{
     float topLeftX;
     float topLeftY;
@@ -16,17 +17,18 @@ struct Bounds{
     float speed;
 };
 
+/**
+ * Board class that responsible for handling the Board creation and managment
+ */
 class GameBoard {
 public:
+    // C-Tor
     GameBoard();
 
-    Level &getLevel();
-
-    sf::RectangleShape getTile(int row, int col) const;
-
-    void draw(sf::RenderWindow &window) const;
-
     // functions:
+    Level &getLevel();
+    sf::RectangleShape getTile(int row, int col) const;
+    void draw(sf::RenderWindow &window) const;
     bool loadNextLevel();
     bool restartGame();
     Bounds &getBoardBounds();

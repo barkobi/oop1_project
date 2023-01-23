@@ -14,6 +14,9 @@ struct Leader{
     int score;
 };
 
+/**
+ * Leader board class that responsible for managing the records data
+ */
 class LeaderBoard {
 public:
     // constructor / destructor:

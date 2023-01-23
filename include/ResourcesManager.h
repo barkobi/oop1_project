@@ -6,13 +6,16 @@
 #include <string.h>
 #include "SettingsManager.h"
 
-
+/**
+ * singleto class Resources class that responsible for
+ * loading all the textures sounds and images
+ */
 class ResourcesManager {
 public:
     static ResourcesManager &instance();
 
+    // functions
     sf::Font &getFont();
-
     sf::Texture *getMenuTexture(const int loc);
     sf::Texture *getObjectTexture(const int loc);
     sf::Texture *getBackground();
@@ -20,7 +23,7 @@ public:
     sf::Texture *getSoundButton(const int loc);
     sf::Texture *getHelpScreen();
 
-
+    // functions
     void playSound(const int index);
     void playBackgroundMusic();
     void updateSounds();
@@ -29,8 +32,10 @@ public:
     void stopSound(const int index);
 
 private:
+    // private C-Tor
     ResourcesManager();
 
+    // members
     sf::Font m_font;
     sf::Sound m_sounds[NUMBER_OF_SOUNDS];
     sf::Music m_backgroundMusic;

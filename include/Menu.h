@@ -11,6 +11,7 @@
 const int MENU_BUTTON_WIDTH_ORIGINAL = 500;
 const int MENU_BUTTON_HEIGHT_ORIGINAL = 130;
 
+// enum for menu buttons
 enum Menu_buttons_t{
     PLAY,
     LEADERBOARD,
@@ -19,19 +20,26 @@ enum Menu_buttons_t{
     SETTINGS,
     QUIT
 };
+/**
+ * Menu class that responsible for loading and handling the menu screen
+ */
 class Menu {
 public:
+    // C-Tor
     Menu();
+    // Functions
     void eventGetter();
     void printWindow();
     void handleClick(const sf::Event::MouseButtonEvent &clickevent);
     void handleMove(const sf::Event::MouseMoveEvent &moveevent);
+    void HelpScreenPrint();
+    // signal handlers
     void setSignal ();
     static void myHandlersigusr1 (int signum);
     static void myHandlersigusr2 (int signum);
-    void HelpScreenPrint();
 
 private:
+    // memebres
     sf::RenderWindow m_menuWindow;
     sf::RectangleShape m_title;
     sf::RectangleShape m_helpRect;

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+// event types
 enum EventType_t{
     EatCookie,
     GameOver,
@@ -14,6 +15,9 @@ enum EventType_t{
     TimeOver,
 };
 
+/**
+ * Event class for creating events in the game
+ */
 class Event{
 public:
     Event(EventType_t type,int pointsToAdd = 0);

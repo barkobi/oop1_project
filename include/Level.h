@@ -8,6 +8,9 @@
 #include "../values/symbols.h"
 #include "fstream"
 
+/**
+ * Level class that load levels from file and checks the validation of them
+ */
 class Level {
 public:
     // constructor

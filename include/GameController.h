@@ -22,6 +22,7 @@
 #include "LeaderBoard.h"
 #include "../values/Points.h"
 
+// enums
 enum Clocks_t{
     ANIMATIONCLOCK,
     MOVECLOCK,
@@ -35,6 +36,9 @@ enum Stats_t{
     isStopped
 };
 
+/**
+ * the main class that managing the game
+ */
 class GameController{
 public:
     GameController(sf::RenderWindow &window);
