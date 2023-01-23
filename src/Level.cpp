@@ -29,6 +29,7 @@ bool Level::load_level(int current_level) {
     if(!file.is_open())
         return false;
     m_map.clear();
+    m_mapCopy.clear();
     file >> m_height >> m_width;
     file.get();
     for(int row=0 ; row<m_height ; row++){

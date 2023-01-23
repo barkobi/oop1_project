@@ -420,13 +420,13 @@ void GameController::reloadLevel() {
     fadedBackground.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
     fadedBackground.setFillColor(sf::Color(0, 0, 0, 90));
     m_window.draw(fadedBackground);
-    std::string msg[2] = {"Time Up", "Press Space To Start Over"};
+    std::string msg[2] = {"Time Up", "Press enter To Start Over"};
     setMassageTexts(msg);
     m_window.draw(msgTexts[0]);
     m_window.draw(msgTexts[1]);
 
     m_window.display();
-    while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+    while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Enter));
 
     stats[Life]--;
     if(stats[Life] == 0)

@@ -95,15 +95,9 @@ void Menu::eventGetter() {
                     handleClick(event.mouseButton);
                     break;
                 case sf::Event::KeyPressed:
-                {
-                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
-                        SettingsManager::instance().flipMusicSwitch();
-                        ResourcesManager::instance().updateSounds();
-                    }
                     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                         m_menuWindow.close();
                     break;
-                }
             }
         }
         printWindow();
