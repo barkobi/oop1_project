@@ -240,6 +240,7 @@ void Menu::enterPassword() {
 
     printInitialScreen();
     std::string tempinput;
+    std::string hidden;
     while (m_menuWindow.isOpen()) {
         auto event = sf::Event{};
         m_menuWindow.waitEvent(event);
@@ -249,9 +250,10 @@ void Menu::enterPassword() {
             return;
         if (event.type == event.KeyPressed && event.key.code == sf::Keyboard::BackSpace) {
             if (!tempinput.empty()) {
+                hidden.pop_back();
                 tempinput.pop_back();
                 std::cout << tempinput << "\n";
-                m_inputText.setString(tempinput);
+                m_inputText.setString(hidden);
                 printInitialScreen();
             }
             continue;
@@ -266,9 +268,11 @@ void Menu::enterPassword() {
         if (event.type == sf::Event::TextEntered) {
             if (event.text.unicode == ' ' || event.text.unicode == '\b')
                 continue;
-            if (tempinput.size() < 20)
+            if (tempinput.size() < 20){
                 tempinput += event.text.unicode;
-            m_inputText.setString(tempinput);
+                hidden += '*';
+            }
+            m_inputText.setString(hidden);
             printInitialScreen();
         }
     }

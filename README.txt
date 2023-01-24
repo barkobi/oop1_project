@@ -72,7 +72,9 @@ BFS Algorithm           -     Used for making demons "smart" and chase the pacma
 (Breadth First Search)
 
 Calculate Level Time    -     Used for calculating level time.
-(Cookies * 5 / 2)
+
+Calculate Key-Door Dist -     Used for finding the closest Door.
+
 --------------------------------
 Known bugs:
  			  None.

@@ -45,7 +45,6 @@ private:
     bool m_adminMod = false;
     const std::string password = "123456";
     sf::Text m_inputText;
-//    sf::Font m_font;
     sf::RenderWindow m_menuWindow;
     sf::RectangleShape m_title;
     sf::RectangleShape m_helpRect;
