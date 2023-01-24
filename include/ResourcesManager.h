@@ -22,6 +22,7 @@ public:
     sf::Texture *getTitle();
     sf::Texture *getSoundButton(const int loc);
     sf::Texture *getHelpScreen();
+    sf::Texture *getPassScreen();
 
     // functions
     void playSound(const int index);
@@ -42,6 +43,7 @@ private:
     sf::SoundBuffer m_sounds_buffs[NUMBER_OF_SOUNDS];
     sf::Texture m_menuButtonTxt[MENU_BUTTONS];
     sf::Texture m_backGround;
+    sf::Texture m_passScreen;
     sf::Texture m_helpScreen;
     sf::Texture m_title;
     sf::Texture m_pictures[OBJECTS];

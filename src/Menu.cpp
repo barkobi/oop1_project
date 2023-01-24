@@ -15,7 +15,8 @@ bool Menu::canPlay;
 Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
                             "Pacman", sf::Style::Close | sf::Style::Titlebar) {
     m_menuWindow.setFramerateLimit(60);
-
+    m_inputText.setFont(ResourcesManager::instance().getFont());
+    m_inputText.setPosition(WINDOW_WIDTH / 3,WINDOW_HEIGHT/2);
     setSignal();
     ResourcesManager::instance().playBackgroundMusic();
     canPlay = std::filesystem::exists("lvl_1.txt");
@@ -47,6 +48,7 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
         menu_top_y += btn_h + btn_h * 0.25;
     }
 
+    enterPassword();
     eventGetter();
 }
 
@@ -54,7 +56,6 @@ Menu::Menu() : m_menuWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
  * print the menu to the screen.
  */
 void Menu::printWindow() {
-
     m_menuWindow.clear();
     auto background = sf::RectangleShape();
     background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
@@ -130,18 +131,20 @@ void Menu::handleClick(const sf::Event::MouseButtonEvent &clickevent) {
                 }
                     break;
                 case ADDSTAGE: {
-                    m_lastClick = i;
-                    pid_t status;
-                    status = fork();
-                    if (status == 0) {
-                        auto str = std::to_string(SettingsManager::instance().getMusicSwitch());
-                        char * c = str.data();
-                        char *argv[1000] = {"./oop1_ex04",c,NULL};
-                        if (execvp(argv[0],argv) != 0) {
-                            perror("execvp() failed");
-                            exit(EXIT_FAILURE);
+                    if(m_adminMod){
+                        m_lastClick = i;
+                        pid_t status;
+                        status = fork();
+                        if (status == 0) {
+                            auto str = std::to_string(SettingsManager::instance().getMusicSwitch());
+                            char * c = str.data();
+                            char *argv[1000] = {"./oop1_ex04",c,NULL};
+                            if (execvp(argv[0],argv) != 0) {
+                                perror("execvp() failed");
+                                exit(EXIT_FAILURE);
+                            }
+                            exit(EXIT_SUCCESS);
                         }
-                        exit(EXIT_SUCCESS);
                     }
                     break;
                 }
@@ -231,5 +234,52 @@ void Menu::HelpScreenPrint() {
             return;
     }
 
+}
+
+void Menu::enterPassword() {
+
+    printInitialScreen();
+    std::string tempinput;
+    while (m_menuWindow.isOpen()) {
+        auto event = sf::Event{};
+        m_menuWindow.waitEvent(event);
+        if (event.type == sf::Event::Closed)
+            m_menuWindow.close();
+        if (event.type == event.KeyPressed && event.key.code == sf::Keyboard::Escape)
+            return;
+        if (event.type == event.KeyPressed && event.key.code == sf::Keyboard::BackSpace) {
+            if (!tempinput.empty()) {
+                tempinput.pop_back();
+                std::cout << tempinput << "\n";
+                m_inputText.setString(tempinput);
+                printInitialScreen();
+            }
+            continue;
+        }
+        if (event.type == event.KeyPressed && event.key.code == sf::Keyboard::Enter) {
+            const char *c = tempinput.c_str();
+            const char *d = password.c_str();
+            if (strcmp(c, d) == 0)
+                m_adminMod = true;
+            return;
+        }
+        if (event.type == sf::Event::TextEntered) {
+            if (event.text.unicode == ' ' || event.text.unicode == '\b')
+                continue;
+            if (tempinput.size() < 20)
+                tempinput += event.text.unicode;
+            m_inputText.setString(tempinput);
+            printInitialScreen();
+        }
+    }
+}
+void Menu::printInitialScreen() {
+    m_menuWindow.clear();
+    auto background = sf::RectangleShape();
+    background.setSize(sf::Vector2f(WINDOW_WIDTH,WINDOW_HEIGHT));
+    background.setTexture(ResourcesManager::instance().getPassScreen());
+    m_menuWindow.draw(background);
+    m_menuWindow.draw(m_inputText);
+    m_menuWindow.display();
 }
 

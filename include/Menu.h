@@ -30,9 +30,11 @@ public:
     // Functions
     void eventGetter();
     void printWindow();
+    void printInitialScreen();
     void handleClick(const sf::Event::MouseButtonEvent &clickevent);
     void handleMove(const sf::Event::MouseMoveEvent &moveevent);
     void HelpScreenPrint();
+    void enterPassword();
     // signal handlers
     void setSignal ();
     static void myHandlersigusr1 (int signum);
@@ -40,6 +42,10 @@ public:
 
 private:
     // memebres
+    bool m_adminMod = false;
+    const std::string password = "123456";
+    sf::Text m_inputText;
+//    sf::Font m_font;
     sf::RenderWindow m_menuWindow;
     sf::RectangleShape m_title;
     sf::RectangleShape m_helpRect;

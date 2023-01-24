@@ -4,6 +4,7 @@
  * initial all the members, read all the files, load all the sounds and textures.
  */
 ResourcesManager::ResourcesManager() {
+    m_passScreen.loadFromFile("PasswordScreen.png");
     m_backgroundMusic.openFromFile("pacmanBackground.wav");
     for (int i = 0; i < MENU_BUTTONS; i++) {
         m_menuButtonTxt[i].loadFromFile(m_buttonString[i] + ".png");
@@ -148,4 +149,8 @@ sf::Texture *ResourcesManager::getHelpScreen() {
  */
 void ResourcesManager::stopSound(const int index) {
     m_sounds[index].stop();
+}
+
+sf::Texture *ResourcesManager::getPassScreen() {
+    return &m_passScreen;
 }
