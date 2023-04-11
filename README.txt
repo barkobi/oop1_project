@@ -1,24 +1,23 @@
---------------------------------
-OOP1 Project
 
---------------------------------
-Submitted by:
-Ofek Gorgi - 209179548
-Bar Kobi - 316114206
+# OOP1 Project - Pacman
 
---------------------------------
-Exercise description:
+### Submitted by:
+Ofek Gorgi & Bar Kobi 
+
+## Exercise description:
 On this project we've been requested to create Super Pacman game with SFML library that we had
 studied for this semester. In this game you can play as the Pacman character, you move with the arrows
 on the keyboard(take a look at the help screen), and you need to collect all coins while various of
 ghosts chasing you. when the game starts, you get 3 chances to do so, you can also collect gifts on
 the way that gives you advantages. you get 3 levels, admins can add and edit stages.
 
---------------------------------
-File list:
+## File list:
 
-- Event.h / Event.cpp                          - Class that builds and manage events in the game.
-- eventLoop.h / eventLoop.cpp                  - Singleton class of event queue that saves the events.
+### Event.h / Event.cpp
+Class that builds and manage events in the game.
+
+### eventLoop.h / eventLoop.cpp
+Singleton class of event queue that saves the events.
 
 - DynamicObjects.h / DynamicObjects.cpp        - class of the objects that moves during the game, heiress from GameObject class.
 
@@ -81,3 +80,5 @@ Known bugs:
 
 --------------------------------
 Other notes:
+
+### Photos:
