@@ -12,93 +12,93 @@ the way that gives you advantages. you get 3 levels, admins can add and edit sta
 
 ## File list:
 #### Event.h / Event.cpp
-Class that builds and manage events in the game.
+- Class that builds and manage events in the game.
 
 #### eventLoop.h / eventLoop.cpp
-Singleton class of event queue that saves the events.
+- Singleton class of event queue that saves the events.
 
 #### DynamicObjects.h / DynamicObjects.cpp
-class of the objects that moves during the game, heiress from GameObject class.
+- class of the objects that moves during the game, heiress from GameObject class.
 
 #### Ghost.h / Ghost.cpp
-Ghost class heiress from dynamic object.
+- Ghost class heiress from dynamic object.
 
 #### RandomGhost.h / RandomGhost.cpp
-Random ghost class heiress from Ghost.
+- Random ghost class heiress from Ghost.
 
 #### SmartGhost.h / SmartGhost.cpp
-Smart ghost class heiress from Ghost.
+- Smart ghost class heiress from Ghost.
 
 #### Pacman.h / Pacman.cpp
-Pacman class heiress from Dynamic object class.
+- Pacman class heiress from Dynamic object class.
 
 #### pacmanState.h / pacmanState.cpp
-abstract class of pacman state, controls the current state of the pacman,
-and deals collisions according to state, has two classes heiress from it.
+- abstract class of pacman state, controls the current state of the pacman,
+  and deals collisions according to state, has two classes heiress from it.
 
 #### StaticObjects.h / StaticObjects.cpp
-Static Objects class that heiress from GameObjects class.
+- Static Objects class that heiress from GameObjects class.
 
 #### Gift.h / Gift.cpp
-Gift class heiress from static objects.
+- Gift class heiress from static objects.
 
 #### GhostFreezeGift.h / GhostFreezeGift.cpp
-GhostFreezeGift class heiress from Gift class.
+- GhostFreezeGift class heiress from Gift class.
 
 #### LifIncGift.h / LifIncGift.cpp
-LifIncGift class heiress from Gift class.
+- LifIncGift class heiress from Gift class.
 
 #### SuperPacGift.h / SuperPacGift.cpp
-SuperPacGift class heiress from Gift class.
+- SuperPacGift class heiress from Gift class.
 
 #### TimeAddGift.h / TimeAddGift.cpp
-TimeAddGift class heiress from Gift class.
+- TimeAddGift class heiress from Gift class.
 
 #### Cookie.h / Cookie.cpp
-Cookie class heiress from static objects.
+- Cookie class heiress from static objects.
 
 #### Door.h / Door.cpp
-Door class heiress from static objects.
+- Door class heiress from static objects.
 
 #### Key.h / Key.cpp
-Key class heiress from static objects.
+- Key class heiress from static objects.
 
 #### Wall.h / Wall.cpp
-Wall class heiress from static objects.
+- Wall class heiress from static objects.
 
 #### Brain.h / Brain.cpp
-namespace brain for calculating the demons path to pacman.
+- namespace brain for calculating the demons path to pacman.
 
 #### GameBar.h / GameBar.cpp
-Game bar class responsible for showing and updating stats about the game.
+- Game bar class responsible for showing and updating stats about the game.
 
 #### GameBoard.h / GameBoard.cpp
-Board class that responsible for handling the Board creation and management.
+- Board class that responsible for handling the Board creation and management.
 
 #### GameController.h / GameController.cpp
-The main class that managing the game.
+- The main class that managing the game.
 
 #### LeaderBoard.h / LeaderBoard.cpp
-Leader board class that responsible for managing the records data.
+- Leader board class that responsible for managing the records data.
 
 #### Level.h / Level.cpp
-Level class that load levels from file and checks the validation of them.
+- Level class that load levels from file and checks the validation of them.
 
 #### Menu.h / Menu.cpp
-Menu class that responsible for loading and handling the menu screen.
+- Menu class that responsible for loading and handling the menu screen.
 
 #### ResourcesManager.h / ResourcesManager.cpp
-Singleton class Resources class that responsible for loading all the textures,
-sounds and images.
+- Singleton class Resources class that responsible for loading all the textures,
+  sounds and images.
 
 #### SettingsManager.h / SettingsManager.cpp
-Singleton class that managing the settings of the game.
+- Singleton class that managing the settings of the game.
 
 #### SettingsScreen.h / SettingsScreen.cpp
-Settings class that handles the setting window display.
+- Settings class that handles the setting window display.
 
 #### SoundFlip.h / SoundFlip.cpp
-Singleton class for the sound switches.
+- Singleton class for the sound switches.
 
 ## Data structures:
 - 2D vector of Rectangles:     Holds matrix rectangles
