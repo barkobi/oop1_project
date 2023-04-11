@@ -103,15 +103,19 @@ Singleton class for the sound switches.
 
 ## Data structures:
 - 2D vector of Rectangles:     Holds matrix rectangles
+
 - Vector of UniquePtr:         Holds special pointer to Static Objects.
+
 - Vector of UniquePtr:         Holds special pointer to Dynamic Objects.
 
 ## Algorithms:
 
 - BFS Algorithm:               Used for making demons "smart" and chase the 
                                pacman more efficiently.
+
 - Calculate Level Time:        Used for calculating level time, according to the
                                level difficulty.
+
 - Calculate Key-Door Dist:     Used for finding the closest Door.
 
 
